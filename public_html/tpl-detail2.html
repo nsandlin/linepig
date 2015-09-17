@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic page needs -->
+  <meta charset="utf-8">
+  <title>LinEpig - A resource for ID of female erigonines</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- Mobile-specific metas, font, css, & favicon -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image" href="images/favicon.ico">
+  <style type="text/css">
+/* Grid */
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  box-sizing: border-box; }
+/*  */
+  html {
+  font-size: 62.5%; }
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222; }
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300; }
+  a {
+    color: #1EAEDB; }
+  a:hover {
+    color: #0FA0CE; }
+        
+        div.item {padding: 35px;}
+        div.item, table, tr, td {
+        background: #E0EBEB;
+        }
+        td {
+        font-family: Arial;
+        font-size: 80%;
+        color: #777;
+        }
+        div.one-half {
+        float:left;
+        }
+        .item .row {
+        width: 100%;
+        }
+        .item .row:after {
+        content:'';
+        display:block;
+        clear:both;
+        }
+        h1, div.one-half * {max-width:400px;}
+        div#taxofilters {margin-left:2em;}
+
+        </style>
+</head>
+<body>
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row top">
+      <div class="eleven columns" style="margin-top: 15%">
+        <h1>LinEpig: <i>{sciname}</i></h1>
+       </div><!-- 11 cols -->
+      <div class="one column">
+      </div><!-- 1 col -->
+    </div><!-- row top -->
+  </div><!-- container -->
+
+  <div class="container item">
+     <div class="row"><div class="one-half column leftcol">
+       <p>{multitle}</p>
+       <div id="imgdetail" style="float: left;">
+         <table><tr>
+         <td class="detail"><img src="{multimedia_url}"><p><i>{sciname}</i> {authorstring}<br><br>{thiscredit}</p></td>
+         </tr></table>
+       </div><!--imgdetail-->
+     </div><!-- row -->
+     
+     <div class="row"><div class="one-half column rightcol">
+      <div id="taxofilters">     
+      <h4 style="margin:30px 0 0 0;">Show all <i>{sciname}</i>:</h4>
+      <ul>
+      <li><a href="subset.php?irn={taxoirn}&amp;flag=male">males</a></li>
+      <li><a href="subset.php?irn={taxoirn}&amp;flag=female">females</a></li>
+      <li><a href="subset.php?irn={taxoirn}&amp;flag=habitus">habitus images</a></li>
+      <li><a href="subset.php?irn={taxoirn}&amp;flag=genitalia">genitalia</a></li>
+      <li><a href="subset.php?irn={taxoirn}&amp;flag=palp">palps</a></li>
+      <li><a href="subset.php?irn={taxoirn}&amp;flag=epigynum">epigyna</a></li>
+      <li><a href="subset.php?irn={taxoirn}&amp;flag=">images</a></li>
+      </ul>
+      <h4 style="margin:30px 0 0 0;">Go to:</h4>
+      <ul>
+      <li><a href="/index.php">LinEpig main page</a></li>
+      <li><a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery">About</a></li>
+      <li><a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/">Scientific American blog post</a></li>
+      <li><a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help">Contribute</a></li>
+      </ul>
+      </div><!--taxofilters-->
+     </div><!-- row -->
+  </div><!-- container -->
+  
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
