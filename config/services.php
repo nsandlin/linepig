@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model'  => App\User::class,
+        'model'  => Linepig\User::class,
         'key'    => '',
         'secret' => '',
     ],

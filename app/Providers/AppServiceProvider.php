@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Linepig\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

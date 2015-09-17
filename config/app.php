@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://linepig-dev.fieldmuseum.org',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'SomeRandomString'),
+    'key' => env('APP_KEY', 'ClE6n3DGb6S3PEPEmNLcRs5fGAFQ836d'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -140,9 +140,9 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Linepig\Providers\AppServiceProvider::class,
+        Linepig\Providers\EventServiceProvider::class,
+        Linepig\Providers\RouteServiceProvider::class,
 
     ],
 

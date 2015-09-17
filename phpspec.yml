@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: Linepig
+        psr4_prefix: Linepig
         src_path: app
