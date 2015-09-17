@@ -6,12 +6,11 @@ ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 
 // Setting up requirements.
-$lib = "imu-api-php";
-require_once $lib . '/IMu.php';
-require_once IMu::$lib . '/Session.php';
-require_once IMu::$lib . '/Module.php';
-require_once IMu::$lib . '/Terms.php';
-require_once __DIR__.'/../.env.php';
+require_once __DIR__.'/../imu-api-php/IMu.php';
+require_once __DIR__.'/../imu-api-php/Session.php';
+require_once __DIR__.'/../imu-api-php/Module.php';
+require_once __DIR__.'/../imu-api-php/Terms.php';
+require_once __DIR__.'/../.env';
 
 // Create a Session and selecting the module we want to query.
 $session = new IMuSession(EMU_IP, EMU_PORT);
