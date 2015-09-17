@@ -11,7 +11,7 @@ require_once $lib . '/IMu.php';
 require_once IMu::$lib . '/Session.php';
 require_once IMu::$lib . '/Module.php';
 require_once IMu::$lib . '/Terms.php';
-
+require_once __DIR__.'/../.env.php';
 
 // Get query string.
 $taxo_irn = filter_var($_GET['irn'], FILTER_VALIDATE_INT);
@@ -19,7 +19,7 @@ $flag = filter_var($_GET['flag'], FILTER_SANITIZE_STRING);
 
   
 /// Create a Session and selecting the module we want to query.
-$session = new IMuSession('10.20.1.71', 40107);
+$session = new IMuSession(EMU_IP, EMU_PORT);
 $module = new IMuModule('emultimedia', $session);
 
 // Adding our search terms.
