@@ -62,7 +62,7 @@ foreach ($records as $record) {
     //convert to thumb
     $multimedia_url = str_replace(".jpg",".thumb.jpg",$multimedia_url);
     
-    $imgsrc = '<td class="item"><a href="newpage.php?irn=' . $record['irn'] . '"><img src="' . $multimedia_url . '" width="140" ></a><br>' . $thisspecies . '</td>';
+    $imgsrc = '<td class="item"><a href="detail.php?irn=' . $record['irn'] . '"><img src="' . $multimedia_url . '" width="140" ></a><br>' . $thisspecies . '</td>';
     
     $rowcount++;
     if ( $rowcount == 1 ) {
