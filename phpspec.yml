@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: Linepig
-        psr4_prefix: Linepig
-        src_path: app
