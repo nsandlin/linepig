@@ -72,7 +72,7 @@ foreach ($records as $record) {
     //print "Multimedia IRN: " . $record['irn'] . "\t";
     //print $multimedia_url . PHP_EOL;
     
-    $imgsrc = '<td class="item"><a href="subset2.php?irn=' . $record['irn'] . '&amp;taxoirn=' .$taxo_irn . '"><img src="' . $multimedia_url . '" width="140" ></a><br>' . $thisspecies . '</td>';
+    $imgsrc = '<td class="item"><a href="detail2.php?irn=' . $record['irn'] . '&amp;taxoirn=' .$taxo_irn . '"><img src="' . $multimedia_url . '" width="140" ></a><br>' . $thisspecies . '</td>';
     
     $rowcount++;
     if ( $rowcount == 1 ) {
