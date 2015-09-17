@@ -58,7 +58,7 @@ $multimedia_url = 'http://cornelia.fieldmuseum.org' . $multimedia_url . '/' . $r
 
 // Taxonomy query
 // Create a Session and selecting the module we want to query.
-$tax_session = new IMuSession('10.20.1.71', 40107);
+$tax_session = new IMuSession(EMU_IP, EMU_PORT);
 $tax_module = new IMuModule('etaxonomy', $tax_session);
 
 // Adding our search terms.
