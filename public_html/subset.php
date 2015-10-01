@@ -56,10 +56,14 @@ foreach ($records as $record) {
     //if ($this_mimetype eq 'x-url') {continue;}
     
     // and get the reverse attachment values
-    foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $mul_record) {
-      $genus = $mul_record['ClaGenus'];
-      $species = $mul_record['ClaSpecies'];
-      $sciname = $genus . " " . $species;
+
+    // We need to ensure the multimedia array is not empty.
+    if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
+        foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $mul_record) {
+          $genus = $mul_record['ClaGenus'];
+          $species = $mul_record['ClaSpecies'];
+          $sciname = $genus . " " . $species;
+        }
     }
 
     $multimedia_url = "";
@@ -93,29 +97,6 @@ foreach ($records as $record) {
       $display .= $endrow;
       $rowcount = 0;
     }
-}
-
-// reverse attachments not working in subsequent (drill-down) requests
-if ($sciname == "") {
-  // Taxonomy query
-  // Create a Session and selecting the module we want to query.
-  $tax_session = new IMuSession(EMU_IP, EMU_PORT);
-  $tax_module = new IMuModule('etaxonomy', $tax_session);
-
-  // Adding our search terms.
-  $tax_terms = new IMuTerms();
-  $tax_terms->add('irn', $taxo_irn);
-
-  // Fetching results.
-  $tax_hits = $tax_module->findTerms($tax_terms);
-  $tax_columns = array('ClaGenus', 'ClaSpecies', 'AutAuthorString'); 
-  $tax_results = $tax_module->fetch('start', 0, 1, $tax_columns);
-  $tax_record = $tax_results->rows[0];
-
-  // vars
-      $genus = $tax_record['ClaGenus'];
-      $species = $tax_record['ClaSpecies'];
-      $sciname = $genus . " " . $species;
 }
 
 ?>
