@@ -36,16 +36,17 @@ $taxo_irn = $record['NotNotes'];
 $sciname = "";
 $wsc = '</p><p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p></td>';
 
-//$genus =  $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
-      foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $taxonomy_record) {
+// We need to ensure the attached record is not empty.
+if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
+    foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $taxonomy_record) {
         $genus = $taxonomy_record['ClaGenus'];
         $species = $taxonomy_record['ClaSpecies'];
         $sciname = $genus . " " . $species;
         // construct World Spider Catalog query string
         $wsc = str_replace('GGG', $genus, $wsc);
         $wsc = str_replace('SPSPSP', $species, $wsc);
-      }
-
+    }
+}
 
 $multimedia_url = "";
 $multimedia_url = '/' . substr($irn_string, -3, 3) . $multimedia_url;
