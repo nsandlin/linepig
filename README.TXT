@@ -2,71 +2,58 @@
 LINEPIG DOCUMENTATION
 #####################
 
-Main debugging issues
-1) Multiple calls to get Taxonomy information.
-2) Subset file, reverse attachments don't appear to work in drilldown.
+Field Museum scripts using IMu API to display images and metadata from the Field Museum's KE EMu database. 
+IMu API for PHP - http://imu.mel.kesoftware.com/doc/api/php
+KE Software's KE EMu - http://emu.kesoftware.com/
+About LinEpig - http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery
 
-LinEPig Notes
-Main page
-- Responsive design -- flexbox -- how many photos per row.
-- index.php -- EMu field -- primary field for first photo to display on main page.
+.......................................
+####  CURENT TASKS  ####
 
-Detail page
-- Nina adding Rights.
-- Exported records of LinEpig using test script.
-- Switch from BOLD lookup file to BOLD API.
-
-Subset page
-- AKA newview.php
-- Pete look at taxonomy query; if sciname is blank, add another query. Look
-  to see if I can fix the initial query.
-- Under the "Show all" links, items that have nothing available should have
-  their links disappear. Add IDs to the list items.
-
-
-http://linepig.fieldmuseum.org/            temporary main page during dev
-http://linepig.fieldmuseum.org/demo.php    latest version of main page - public
-http://linepig.fieldmuseum.org/main0c.php  version we work on, copy to 'demo' when safe
-
+Detail pages
+- Adding Rights text & links
+- Switch from BOLD lookup file to BOLD API?
+- Under the "Show all" (links to Subset views), links to empty subsets 
+  should have disappear. How to determine if filter would return anything?
+  
+All pages
+- Move table kluge to true responsive design using Flexbox
+- External CSS
+- Add nav leading to front-door/About pages
 
 .......................................
 ####  SCRIPT NOTES  ####
 
-main0c.php - thumbnails (LinEpig main page <=> demo.php)
+index.php - thumbnails of all epigyna images (LinEpig main page)
 html display template: internal
 var to display:        $display
 display type:          thumbnails (all)
-thumbnail links call:  newpage.php
+thumbnail links call:  detail.php
 
-
-newpage.php - detail (called from main page) --- new naming detail.php
+detail.php - single image with info, called from index.php
 html display template: tpl-detail.html
 var to display:        (multiple)
 display type:          detail
 lookup page(s):        lookup-bold.txt (BOLD Systems; IRL could use API?)    
 thumbnail links call:  should go to DNG where available
-filter links call:     newview.php -- new naming subset.php
+filter links call:     subset.php
 
-
-newview.php - thumbnails
+subset.php - thumbnails of a related group of images
 html display template: internal
 var to display:        $display
 display type:          thumbnails (filtered subset)
 
-
-newpage2.php - detail (called from filtered subset)
+detail2.php - single image with info; called from subset.php
 html display template: tpl-detail2.html
 var to display:        (multiple)
 display type:          detail
-lookup page(s):        (same as newpage.php)    
-thumbnail links call:  (same as newpage.php)
-filter links call:     (same as newpage.php)
-
-
+lookup page(s):        (same as detail.php)    
+thumbnail links call:  (same as detail.php)
+filter links call:     (same as detail.php)
 
 
 .......................................
-####  SERVER NOTES  ####
+####  LIVE SITE  ####
 
-http://spice.fieldmuseum.org      location of app (scripts & templates)
-http://cornelia.fieldmuseum.org   location of multimedia objects   
+http://linepig.fieldmuseum.org/            temporary main page during dev
+http://linepig.fieldmuseum.org/demo.php    latest version of main page - public

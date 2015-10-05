@@ -1,4 +1,5 @@
 <?php
+// INDEX.PHP - LinEpig main page
 
 // Enable all error reporting.
 error_reporting(E_ALL);
@@ -20,6 +21,7 @@ $module = new IMuModule('emultimedia', $session);
 $terms = new IMuTerms();
 $terms->add('MulCreator_tab', 'LinEpig');
 $terms->add('DetSubject_tab', 'epigynum');
+$terms->add('DetSubject_tab', 'primary');
 
 // Fetching results.
 $hits = $module->findTerms($terms);
@@ -31,8 +33,9 @@ $count = $results->count;
 $display = "";
 $colcount = 0;
 $rowcount = 0;
+$specieslist = "";
 
-// This is the responsive table cludge.
+// This is the responsive table kluge.
 $startrow = '<div class="row">';
 $startcol = '<div class="one-half column"><table><tbody><tr>';
 $endcol   = '</tr></tbody></table></div>';
@@ -40,53 +43,50 @@ $endrow   = '</div><!-- row -->';
 
 // Loop through each record and construct the Multimedia URL.
 foreach ($records as $record) {
-    //$this_mimetype = $record['MulMimeType'];
-    //if ($this_mimetype == "x-url") {continue;}
-    $irn_string = (string) $record['irn'];
-    if ($irn_string == "562211") {continue;}
-    $thisspecies =  $record['MulTitle'];
+  $irn_string = (string) $record['irn'];
+  if ($irn_string == "562211") {continue;}
+  $thisspecies =  $record['MulTitle'];
+  $thisspecies = substr_replace($thisspecies, '',-16);
+  if (@strpos($specieslist,$thisspecies) !== false) {continue;}
+  $specieslist =  $specieslist . $thisspecies . ",";
+  
+  // Build the filepath to image.
+  $multimedia_url = "";
+  $multimedia_url = '/' . substr($irn_string, -3, 3) . $multimedia_url;
+  $irn_string = substr_replace($irn_string, '', -3, 3);
+  $multimedia_url = "/" . $irn_string . $multimedia_url;
 
-    //if ($this_mimetype eq 'x-url') {continue;}
-    $multimedia_url = "";
-    $multimedia_url = '/' . substr($irn_string, -3, 3) . $multimedia_url;
-    $irn_string = substr_replace($irn_string, '', -3, 3);
-    $multimedia_url = "/" . $irn_string . $multimedia_url;
+  $multimedia_url = 'http://cornelia.fieldmuseum.org' . $multimedia_url . '/' . $record['MulIdentifier'];
+    
+  // Convert to thumb.
+  $multimedia_url = str_replace(".jpg",".thumb.jpg",$multimedia_url);
+  
+  // Build URL for detail page.
+  $imgsrc = '<td class="item"><a href="detail.php?irn=' . $record['irn'] . '"><img src="' . $multimedia_url . '" width="140" ></a><br>' . $thisspecies . '</td>';
+  
+  // Arrange thumbns into responsive-table rows.
+  $rowcount++;
+  if ( $rowcount == 1 ) {
+    $display .= $startrow;
+  }
+  $colcount++;
+  if ( $colcount == 1 ) {
+    $display .= $startcol;
+  }
+  
+  $display .= $imgsrc;
 
-    $thisspecies = substr_replace($thisspecies, '',-16);
-    
-    $multimedia_url = 'http://cornelia.fieldmuseum.org' . $multimedia_url . '/' . $record['MulIdentifier'];
-    
-    //print "Multimedia IRN: " . $record['irn'] . "\t";
-    //print $multimedia_url . PHP_EOL;
-    
-    //convert to thumb
-    $multimedia_url = str_replace(".jpg",".thumb.jpg",$multimedia_url);
-    
-    $imgsrc = '<td class="item"><a href="detail.php?irn=' . $record['irn'] . '"><img src="' . $multimedia_url . '" width="140" ></a><br>' . $thisspecies . '</td>';
-    
-    $rowcount++;
-    if ( $rowcount == 1 ) {
-      $display .= $startrow;
-    }
-    $colcount++;
-    if ( $colcount == 1 ) {
-      $display .= $startcol;
-    }
-    
-    $display .= $imgsrc;
-
-    if ( $colcount == 3 ) {
-      $display .= $endcol;
-      $colcount = 0;
-    }
-    if ( $rowcount == 6 ) {
-      $display .= $endrow;
-      $rowcount = 0;
-    }
-
-
+  if ( $colcount == 3 ) {
+    $display .= $endcol;
+    $colcount = 0;
+  }
+  if ( $rowcount == 6 ) {
+    $display .= $endrow;
+    $rowcount = 0;
+  }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,50 +122,50 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 2rem;
   font-weight: 300; }
-        
-        div.items {padding: 35px;}
-        div.items, table, tr, td {
-        background: #E0EBEB;
-        }
-        td {
-        font-family: Arial;
-        font-size: 80%;
-        color: #777;
-        max-width: 142px;
-        }
-        div.one-half {
-        float:left;
-        }
-        .items .row {
-        width: 100%;
-        }
-        .items .row:after {
-        content:'';
-        display:block;
-        clear:both;
-        }
-        </style>
+    
+    div.items {padding: 35px;}
+    div.items, table, tr, td {
+    background: #E0EBEB;
+    }
+    td {
+    font-family: Arial;
+    font-size: 80%;
+    color: #777;
+    max-width: 142px;
+    }
+    div.one-half {
+    float:left;
+    }
+    .items .row {
+    width: 100%;
+    }
+    .items .row:after {
+    content:'';
+    display:block;
+    clear:both;
+    }
+    </style>
 </head>
 <body>
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-    <div class="row top">
-      <div class="eleven columns" style="margin-top: 15%">
-        <h1>Welcome to LinEpig</h1>
-        <p>Get help identifying the erigonines languishing in your collection.</p>
-      </div><!-- 11 cols -->
-      <div class="one column">
-      </div><!-- 1 col -->
-    </div><!-- row top -->
+  <div class="row top">
+    <div class="eleven columns" style="margin-top: 15%">
+    <h1>Welcome to LinEpig</h1>
+    <p>Get help identifying the erigonines languishing in your collection.</p>
+    </div><!-- 11 cols -->
+    <div class="one column">
+    </div><!-- 1 col -->
+  </div><!-- row top -->
   </div><!-- container -->
   
   <div class="container items">
-    <!-- Start items -->
-    
-        <?php print $display; ?>
-    <!-- End items -->
-    
+  <!-- Start items -->
+  
+    <?php print $display; ?>
+  <!-- End items -->
+  
   </div><!-- container -->
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

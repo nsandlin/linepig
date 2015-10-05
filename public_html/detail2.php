@@ -1,5 +1,7 @@
 <?php
-    
+// DETAIL2.PHP - displays large image & image/specimen details
+// bascially the same as detail.php but called from subset.php
+
 // Enable all error reporting.
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
@@ -36,6 +38,7 @@ $num_of_divisions = $irn_length / 3;
 $multimedia_url = "";
 $sciname = "";
 $authorstring = "";
+// World Spider Catalog query string.
 $wsc = '</p><p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p></td>';
 
 for ($i = 0; $i < $num_of_divisions; $i++) {
