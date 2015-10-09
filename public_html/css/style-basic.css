@@ -1,0 +1,69 @@
+/* STYLE-BASIC.CSS - stylesheet for LinEpig linepig.fieldmuseum.org */
+/*  hat tip to getskeleton.com, and gratitude to Flexbox */
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222;
+}
+.container-top, .flex-container {
+  width: 100%;
+  max-width: 1080px;
+  margin: auto;
+  padding: 15px;
+}
+.container-top {
+  margin-top: 10%;
+}
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+a, a:visited {
+  color: #1EAEDB;
+}
+a:hover {
+  color: #0FA0CE;
+}
+ul {
+  list-style-position: inside;
+  padding-left: 0;
+  margin: 0;
+}
+/* Flexbox */
+.flex-container {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+  background: #E0EBEB;
+}
+
+.flex-items-default {
+  width: 140px;
+}
+.flex-item p {
+  max-width: 140px;
+  font-size: 80%;
+}
+.flex-item img, .detail p {
+  max-width: 500px;
+}
+.detail, container-top {
+  padding: 15px;
+}
+.detail p { 
+  font-size: 100%;
+}
+.all-epig .flex-item {
+  margin-left: 10px;
+}
