@@ -11,7 +11,7 @@ body {
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #222;
 }
-.container-top, .flex-container {
+.container-top, .flex-container, #bottomnav {
   width: 100%;
   max-width: 1080px;
   margin: auto;
@@ -29,8 +29,12 @@ h1, h2, h3, h4, h5, h6 {
 a, a:visited {
   color: #1EAEDB;
 }
-a:hover {
-  color: #0FA0CE;
+h1 a, h1 a:visited, #bottomnav a, #bottomnav a:visited {
+  color: #000;
+  text-decoration: none;
+}
+a:hover, h1 a:hover, #bottomnav a:hover {
+  color: #006699;
 }
 ul {
   list-style-position: inside;

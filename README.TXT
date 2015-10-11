@@ -16,10 +16,6 @@ Detail pages
 - Under the "Show all" (links to Subset views), links to empty subsets 
   should have disappear. How to determine if filter would return anything?
   
-All pages
-- Move table kluge to true responsive design using Flexbox
-- External CSS
-- Add nav leading to front-door/About pages
 
 .......................................
 ####  SCRIPT NOTES  ####

@@ -37,7 +37,7 @@ $multimedia_url = "";
 $taxo_irn = $record['NotNotes'];
 $sciname = "";
 // World Spider Catalog query string.
-$wsc = '</p><p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p></td>';
+$wsc = '<p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p><!--adds-->';
 
 // Set up vars.
 $thiscredit = $record['DetSource'];
@@ -90,12 +90,12 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
     //add a link
     $mysuffix = $sciname;
     $mysuffix = str_replace(' ', '+', $mysuffix);
-    $insert = '</p><p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
-    $insert = $insert . 'BOLD systems taxon page</a></p></td>';
-    $page= str_replace('</p></td>', $insert, $page); //IRL make this safer
+    $insert = '<p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
+    $insert = $insert . 'BOLD systems taxon page</a></p><!--adds-->';
+    $page= str_replace('<!--adds-->', $insert, $page); //IRL make this safer
   }
   // add link to WSC
-  $page= str_replace('</p></td>', $wsc, $page); //IRL make this safer
+  $page= str_replace('<!--adds-->', $wsc, $page); //IRL make this safer
   
 // write it out
 print $page;
