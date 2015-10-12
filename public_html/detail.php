@@ -27,7 +27,7 @@ $terms->add('irn', $irn);
 
 // Fetching results.
 $hits = $module->findTerms($terms);
-$columns = array('irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'NotNotes','DetRights','<erights:MulMultiMediaRef_tab>.(SummaryData)','<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)'); 
+$columns = array('irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'NotNotes','DetRights','DetMediaRightsRef.(SummaryData)','<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)'); 
 $results = $module->fetch('start', 0, 1, $columns);
 $record = $results->rows[0];
 $irn_string = $irn;
@@ -59,8 +59,8 @@ if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
 
 // This is the attempt to get the url for the the external specimen record
 $r = "";
-foreach ($record['erights:MulMultiMediaRef_tab'] as $r_record) {
-  $r = $r_record['SummaryData'];
+foreach ($record['DetMediaRightsRef'] as $r_record) {
+  $r = $r_record;
 }
 
 // Build the filepath to image.
