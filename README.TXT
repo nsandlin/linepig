@@ -11,7 +11,7 @@ About LinEpig - http://www.fieldmuseum.org/science/special-projects/dwarf-spider
 ####  CURENT TASKS  ####
 
 Detail pages
-- Adding Rights text & links
+- Add links to external collection record at lending institution
 - Switch from BOLD lookup file to BOLD API?
 - Under the "Show all" (links to Subset views), links to empty subsets 
   should have disappear. How to determine if filter would return anything?

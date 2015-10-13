@@ -28,7 +28,7 @@ $terms->add('irn', $irn);
 
 // Fetching results.
 $hits = $module->findTerms($terms);
-$columns = array('irn', 'MulIdentifier', 'MulTitle', 'DetSource'); 
+$columns = array('irn', 'MulIdentifier', 'MulTitle', 'DetSource','DetMediaRightsRef.(SummaryData)'); 
 $results = $module->fetch('start', 0, 1, $columns);
 $record = $results->rows[0];
 $imgtitle = $record['MulTitle'];
@@ -40,6 +40,16 @@ $sciname = "";
 $authorstring = "";
 // World Spider Catalog query string.
 $wsc = '<p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p><!--adds-->';
+
+// Get the associated rights info.
+$r = "";
+foreach ($record['DetMediaRightsRef'] as $r_record) {
+  $r = $r_record;
+}
+$cc = ' <span style="font-size:85%">(Copy and modify with attribution for noncommercial uses <a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">Details</a>)</span>';
+$r = str_replace('[(c)', '[c]',$r);
+$r = str_replace('] - Usage, Current', $cc,$r);
+
 
 for ($i = 0; $i < $num_of_divisions; $i++) {
   $multimedia_url = '/' . substr($irn_string, -3, 3) . $multimedia_url;
@@ -85,6 +95,7 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
   $page= str_replace('{sciname}', $sciname, $page);
   $page= str_replace('{multitle}', $imgtitle, $page);
   $page= str_replace('{thiscredit}', $thiscredit, $page);
+  $page= str_replace('{rrights}', $r, $page);
   $page= str_replace('{multimedia_url}', $multimedia_url, $page);
   $page= str_replace('{rbar}', $sciname, $page);
   $page= str_replace('{authorstring}', $authorstring, $page);
