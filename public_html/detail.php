@@ -47,13 +47,13 @@ $thiscredit = $record['DetSource'];
 // Ensure the attached record is not empty.
 if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
   foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $taxonomy_record) {
-  $genus = $taxonomy_record['ClaGenus'];
-  $species = $taxonomy_record['ClaSpecies'];
-  $authorstring = $taxonomy_record['AutAuthorString'];
-  $sciname = $genus . " " . $species;
-  // construct World Spider Catalog query string
-  $wsc = str_replace('GGG', $genus, $wsc);
-  $wsc = str_replace('SPSPSP', $species, $wsc);
+    $genus = $taxonomy_record['ClaGenus'];
+    $species = $taxonomy_record['ClaSpecies'];
+    $authorstring = $taxonomy_record['AutAuthorString'];
+    $sciname = $genus . " " . $species;
+    // construct World Spider Catalog query string
+    $wsc = str_replace('GGG', $genus, $wsc);
+    $wsc = str_replace('SPSPSP', $species, $wsc);
   }
 }
 
