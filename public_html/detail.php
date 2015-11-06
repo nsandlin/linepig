@@ -27,7 +27,12 @@ $terms->add('irn', $irn);
 
 // Fetching results.
 $hits = $module->findTerms($terms);
-$columns = array('irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'NotNotes','DetMediaRightsRef.(SummaryData)','<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)'); 
+$columns = array(
+            'irn', 'MulIdentifier', 'MulTitle',
+            'DetSource', 'NotNotes','DetMediaRightsRef.(SummaryData)',
+            '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)',
+            'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)', // Added related media to construct collection link.
+           );
 $results = $module->fetch('start', 0, 1, $columns);
 $record = $results->rows[0];
 $irn_string = $irn;
@@ -47,14 +52,22 @@ $thiscredit = $record['DetSource'];
 // Ensure the attached record is not empty.
 if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
   foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $taxonomy_record) {
-  $genus = $taxonomy_record['ClaGenus'];
-  $species = $taxonomy_record['ClaSpecies'];
-  $authorstring = $taxonomy_record['AutAuthorString'];
-  $sciname = $genus . " " . $species;
-  // construct World Spider Catalog query string
-  $wsc = str_replace('GGG', $genus, $wsc);
-  $wsc = str_replace('SPSPSP', $species, $wsc);
+    $genus = $taxonomy_record['ClaGenus'];
+    $species = $taxonomy_record['ClaSpecies'];
+    $authorstring = $taxonomy_record['AutAuthorString'];
+    $sciname = $genus . " " . $species;
+    // construct World Spider Catalog query string
+    $wsc = str_replace('GGG', $genus, $wsc);
+    $wsc = str_replace('SPSPSP', $species, $wsc);
   }
+}
+
+// Adding collection record link
+if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url" && 
+    !empty($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'])) {
+
+        $collection_record_link = $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
+        $insert = "<p class=\"view-collection-record\"><a href=\"$collection_record_link\" target=\"_blank\">View collection record</a></p>";
 }
 
 // Get the associated rights info.
@@ -92,8 +105,8 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
     //add a link
     $mysuffix = $sciname;
     $mysuffix = str_replace(' ', '+', $mysuffix);
-    $insert = '<p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
-    $insert = $insert . 'BOLD systems taxon page</a></p><!--adds-->';
+    $insert .= '<p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
+    $insert .= 'BOLD systems taxon page</a></p><!--adds-->';
     $page= str_replace('<!--adds-->', $insert, $page); //IRL make this safer
   }
   // add link to WSC
