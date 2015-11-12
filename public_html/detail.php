@@ -39,7 +39,7 @@ $irn_string = $irn;
 $irn_length = strlen($irn_string);
 $num_of_divisions = $irn_length / 3;
 $multimedia_url = "";
-$taxo_irn = $record['NotNotes'];
+$taxo_irn = $record['MulOtherNumber_tab'][0]; // Are we sure we only have one item in the Other Number field?
 $sciname = "";
 // World Spider Catalog query string.
 $wsc = '<p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p><!--adds-->';
