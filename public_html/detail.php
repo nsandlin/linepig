@@ -63,11 +63,11 @@ if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
 }
 
 // Adding collection record link
-if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url" && 
-    !empty($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'])) {
-
+if (!empty($record['RelRelatedMediaRef_tab'][0])) {
+    if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url" && !empty($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'])) {
         $collection_record_link = $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
         $insert = "<p class=\"view-collection-record\"><a href=\"$collection_record_link\" target=\"_blank\">View collection record</a></p>";
+    }
 }
 
 // Get the associated rights info.
