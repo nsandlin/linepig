@@ -29,7 +29,7 @@ $terms->add('irn', $irn);
 $hits = $module->findTerms($terms);
 $columns = array(
             'irn', 'MulIdentifier', 'MulTitle',
-            'DetSource', 'NotNotes','DetMediaRightsRef.(SummaryData)',
+            'DetSource', 'NotNotes', 'MulOtherNumber_tab', 'DetMediaRightsRef.(SummaryData)',
             '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)',
             'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)', // Added related media to construct collection link.
            );
