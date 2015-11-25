@@ -30,7 +30,7 @@ $terms->add('DetSubject_tab', $flag);
 
 // Fetching results.: unlike Index.php, this list not exclude non-primary images
 $hits = $module->findTerms($terms);
-$columns = array('irn', 'MulIdentifier', 'MulTitle', 'MulMimeType','<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, irn)'); 
+$columns = array('irn', 'MulIdentifier', 'MulTitle', 'MulMimeType','<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)'); 
 $results = $module->fetch('start', 0, -1, $columns);
 $records = $results->rows;
 $count = $results->count;
@@ -78,9 +78,8 @@ foreach ($records as $record) {
 <head>
   <meta charset="utf-8">
   <title>LinEpig - A resource for ID of female erigonines</title>
-  <meta name="description" content="">
+  <meta name="description" content="Microscopy images of <?php print $sciname ?> (family Linyphiidae)">
   <meta name="author" content="LinEpig, Field Museum of Natural History">
-  <!-- Mobile-specific metas, font, css, & favicon -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <link rel="icon" type="image" href="images/favicon.ico">

@@ -29,27 +29,22 @@ $terms->add('irn', $irn);
 $hits = $module->findTerms($terms);
 $columns = array(
             'irn', 'MulIdentifier', 'MulTitle',
-            'DetSource', 'NotNotes', 'MulOtherNumber_tab', 'DetMediaRightsRef.(SummaryData)',
+            'DetSource', 'MulOtherNumber_tab', 'DetMediaRightsRef.(SummaryData)',
             '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)',
             'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)', // Added related media to construct collection link.
-           );
+);
 $results = $module->fetch('start', 0, 1, $columns);
 $record = $results->rows[0];
 $irn_string = $irn;
 $irn_length = strlen($irn_string);
 $num_of_divisions = $irn_length / 3;
-$multimedia_url = "";
 $taxo_irn = $record['MulOtherNumber_tab'][0]; // Are we sure we only have one item in the Other Number field?
+$thiscredit = $record['DetSource'];
 $sciname = "";
 // World Spider Catalog query string.
 $wsc = '<p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p><!--adds-->';
 
-// Set up vars.
-$thiscredit = $record['DetSource'];
-
-
-//$genus =  $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
-// Ensure the attached record is not empty.
+// Get taxonomy info.
 if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
   foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $taxonomy_record) {
     $genus = $taxonomy_record['ClaGenus'];
@@ -63,10 +58,13 @@ if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
 }
 
 // Adding collection record link
+$collrecd = "";
 if (!empty($record['RelRelatedMediaRef_tab'][0])) {
     if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url" && !empty($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'])) {
         $collection_record_link = $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
-        $insert = "<p class=\"view-collection-record\"><a href=\"$collection_record_link\" target=\"_blank\">View collection record</a></p>";
+        if ($collrecd) {
+        $collrecd = ' <span class="view-collection-record"><a href="$collection_record_link" target="_blank">View collection record</a></span>';
+        }
     }
 }
 
@@ -74,10 +72,11 @@ if (!empty($record['RelRelatedMediaRef_tab'][0])) {
 $r = "";
 foreach ($record['DetMediaRightsRef'] as $r_record) {
   $r = $r_record;
+  $r = str_replace('CC','<a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">CC',$r);
+  $r = str_replace("NC","NC</a> (Attribution-NonCommercial)",$r);
 }
-$cc = ' <span style="font-size:85%">(Copy and modify with attribution for noncommercial uses <a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">Details</a>)</span>';
 $r = str_replace('[(c)', '[c]',$r);
-$r = str_replace('] - Usage, Current', $cc,$r);
+$r = str_replace('] - Usage, Current','',$r);
 
 // Build the filepath to image.
 $multimedia_url = "";
@@ -105,10 +104,12 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
     //add a link
     $mysuffix = $sciname;
     $mysuffix = str_replace(' ', '+', $mysuffix);
-    $insert .= '<p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
+    $insert = '<p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
     $insert .= 'BOLD systems taxon page</a></p><!--adds-->';
     $page= str_replace('<!--adds-->', $insert, $page); //IRL make this safer
   }
+  // add collection record, if any
+  $page= str_replace('<!--collrecd-->',$collrecd, $page); //IRL make this safer
   // add link to WSC
   $page= str_replace('<!--adds-->', $wsc, $page); //IRL make this safer
   

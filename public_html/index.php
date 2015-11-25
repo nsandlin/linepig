@@ -19,7 +19,7 @@ $module = new IMuModule('emultimedia', $session);
 
 // Adding our search terms.
 $terms = new IMuTerms();
-$terms->add('MulCreator_tab', 'LinEpig');
+$terms->add('MulMultimediaCreatorRef_tab', '177281');
 $terms->add('DetSubject_tab', 'epigynum');
 $terms->add('DetSubject_tab', 'primary');
 
@@ -31,15 +31,8 @@ $results = $module->fetch('start', 0, -1, $columns);
 $records = $results->rows;
 $count = $results->count;
 $display = "";
-$colcount = 0;
 $rowcount = 0;
 $specieslist = "";
-
-// This is the responsive table kluge.
-$startrow = '<div class="row">';
-$startcol = '<div class="one-half column"><table><tbody><tr>';
-$endcol   = '</tr></tbody></table></div>';
-$endrow   = '</div><!-- row -->';
 
 // Loop through each record and construct the Multimedia URL.
 foreach ($records as $record) {
@@ -72,9 +65,8 @@ foreach ($records as $record) {
 <head>
   <meta charset="utf-8">
   <title>LinEpig - A resource for ID of female erigonines</title>
-  <meta name="description" content="">
+  <meta name="description" content="A visual aid for identifying the difficult spiders in family Linyphiidae.">
   <meta name="author" content="LinEpig, Field Museum of Natural History">
-  <!-- Mobile-specific metas, font, css, & favicon -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <link rel="icon" type="image" href="images/favicon.ico">
@@ -83,7 +75,8 @@ foreach ($records as $record) {
 <body>
   <div class="container container-top">
     <h1>Welcome to LinEpig</h1>
-    <p>Get help identifying the erigonines languishing in your collection.</p>
+    <p>Get help identifying the erigonines languishing in your collection.
+    <br>We have images for <b><?php print $count; ?> species</b> so far. Read more <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">about LinEpig</a> and <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">help us grow</a>.</p>
   </div><!-- container -->
   
   <div class="container items flex-container all-epig">

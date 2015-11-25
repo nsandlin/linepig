@@ -28,61 +28,64 @@ $terms->add('irn', $irn);
 
 // Fetching results.
 $hits = $module->findTerms($terms);
-$columns = array('irn', 'MulIdentifier', 'MulTitle', 'DetSource','DetMediaRightsRef.(SummaryData)'); 
+$columns = array(
+            'irn', 'MulIdentifier', 'MulTitle',
+            'DetSource', 'MulOtherNumber_tab', 'DetMediaRightsRef.(SummaryData)',
+            '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)',
+            'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)', // Added related media to construct collection link.
+);
 $results = $module->fetch('start', 0, 1, $columns);
 $record = $results->rows[0];
 $imgtitle = $record['MulTitle'];
 $irn_string = $irn;
 $irn_length = strlen($irn_string);
 $num_of_divisions = $irn_length / 3;
-$multimedia_url = "";
+$taxo_irn = $record['MulOtherNumber_tab'][0]; // Are we sure we only have one item in the Other Number field?
+$thiscredit = $record['DetSource'];
 $sciname = "";
-$authorstring = "";
 // World Spider Catalog query string.
 $wsc = '<p><a href="http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=GGG&gMt=exact&sSpecies=SPSPSP&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s" target="_blank">World Spider Catalog lookup</a></p><!--adds-->';
+
+// Get taxonomy info.
+if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
+  foreach ($record['etaxonomy:MulMultiMediaRef_tab'] as $taxonomy_record) {
+    $genus = $taxonomy_record['ClaGenus'];
+    $species = $taxonomy_record['ClaSpecies'];
+    $authorstring = $taxonomy_record['AutAuthorString'];
+    $sciname = $genus . " " . $species;
+    // construct World Spider Catalog query string
+    $wsc = str_replace('GGG', $genus, $wsc);
+    $wsc = str_replace('SPSPSP', $species, $wsc);
+  }
+}
+
+// Adding collection record link
+$collrecd = "";
+if (!empty($record['RelRelatedMediaRef_tab'][0])) {
+    if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url" && !empty($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'])) {
+        $collection_record_link = $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
+        if ($collrecd) {
+        $collrecd = ' <span class="view-collection-record"><a href="$collection_record_link" target="_blank">View collection record</a></span>';
+        }
+    }
+}
 
 // Get the associated rights info.
 $r = "";
 foreach ($record['DetMediaRightsRef'] as $r_record) {
   $r = $r_record;
+  $r = str_replace('CC','<a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">CC',$r);
+  $r = str_replace("NC","NC</a> (Attribution-NonCommercial)",$r);
 }
-$cc = ' <span style="font-size:85%">(Copy and modify with attribution for noncommercial uses <a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">Details</a>)</span>';
 $r = str_replace('[(c)', '[c]',$r);
-$r = str_replace('] - Usage, Current', $cc,$r);
+$r = str_replace('] - Usage, Current','',$r);
 
-
-for ($i = 0; $i < $num_of_divisions; $i++) {
-  $multimedia_url = '/' . substr($irn_string, -3, 3) . $multimedia_url;
-  $irn_string = substr_replace($irn_string, '', -3, 3);
-}
+// Build the filepath to image.
+$multimedia_url = "";
+$multimedia_url = '/' . substr($irn_string, -3, 3) . $multimedia_url;
+$irn_string = substr_replace($irn_string, '', -3, 3);
+$multimedia_url = "/" . $irn_string . $multimedia_url;
 $multimedia_url = 'http://cornelia.fieldmuseum.org' . $multimedia_url . '/' . $record['MulIdentifier'];
-
-
-// Taxonomy query
-// Create a Session and selecting the module we want to query.
-$tax_session = new IMuSession(EMU_IP, EMU_PORT);
-$tax_module = new IMuModule('etaxonomy', $tax_session);
-
-// Adding our search terms.
-$tax_terms = new IMuTerms();
-$tax_terms->add('irn', $taxo_irn);
-
-// Fetching results.
-$tax_hits = $tax_module->findTerms($tax_terms);
-$tax_columns = array('ClaGenus', 'ClaSpecies', 'AutAuthorString'); 
-$tax_results = $tax_module->fetch('start', 0, 1, $tax_columns);
-$tax_record = $tax_results->rows[0];
-
-// vars
-    $thisspecies = $record['MulTitle'];
-    $thiscredit = $record['DetSource'];
-    $genus = $tax_record['ClaGenus'];
-    $species = $tax_record['ClaSpecies'];
-    $sciname = $genus . " " . $species;
-    $authorstring = $tax_record['AutAuthorString'];
-        // construct World Spider Catalog query string
-        $wsc = str_replace('GGG', $genus, $wsc);
-        $wsc = str_replace('SPSPSP', $species, $wsc);
 
 // get the tpl
 $page = file_get_contents('tpl-detail2.html');
@@ -92,7 +95,7 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
 
 
 // swap in the vars
-  $page= str_replace('{sciname}', $sciname, $page);
+  $page= str_replace('{thisspecies}', $sciname, $page);
   $page= str_replace('{multitle}', $imgtitle, $page);
   $page= str_replace('{thiscredit}', $thiscredit, $page);
   $page= str_replace('{rrights}', $r, $page);
@@ -100,6 +103,7 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
   $page= str_replace('{rbar}', $sciname, $page);
   $page= str_replace('{authorstring}', $authorstring, $page);
   $page= str_replace('{taxoirn}', $taxo_irn, $page);
+  // add link(s) based on successful lookup
   if (@strpos($lookup_bold,$sciname) !== false) {
     //add a link
     $mysuffix = $sciname;
@@ -108,6 +112,8 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
     $insert = $insert . 'BOLD systems taxon page</a></p><!--adds-->';
     $page= str_replace('<!--adds-->', $insert, $page); //IRL make this safer
   }
+  // add collection record, if any
+  $page= str_replace('<!--collrecd-->',$collrecd, $page); //IRL make this safer
   // add link to WSC
   $page= str_replace('<!--adds-->', $wsc, $page); //IRL make this safer
     
