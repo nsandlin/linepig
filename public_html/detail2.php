@@ -59,6 +59,42 @@ if (!empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
   }
 }
 
+// SUBSET INFO
+// We need to check each subset to make sure we have data for each 
+// before we display the link on the page. That means querying the multimedia
+// using the MulOtherNumber_tab and DetSubject_tab fields.
+$subset_check = array(
+  'male' => FALSE,
+  'female' => FALSE,
+  'habitus' => FALSE,
+  'genitalia' => FALSE,
+  'palp' => FALSE,
+  'epigynum' => FALSE
+);
+
+// SUBSET INFO -- checking each category.
+foreach ($subset_check as $key => $value) {
+  $subset_terms = new IMuTerms();
+  $subset_terms->add('MulOtherNumber_tab', $taxo_irn);
+  $subset_terms->add('DetSubject_tab', $key);
+  $subset_hits = $module->findTerms($subset_terms);
+  $subset_results = $module->fetch('start', 0, -1, 'irn');
+  $subset_count = $subset_results->count;
+  ($subset_count > 0) ? $subset_check[$key] = TRUE : $subset_check[$key] = FALSE;
+}
+
+// SUBSET INFO -- constructing subset unordered list.
+$subset_list_items = "";
+
+foreach ($subset_check as $key => $value) {
+  if ($value) {
+    $subset_list_items .= "<li><a href=\"subset.php?irn=$taxo_irn&amp;flag=$key\">$key</a></li>";
+  }
+}
+
+// Adding all images link.
+$subset_list_items .= "<li><a href=\"subset.php?irn=$taxo_irn&amp;flag=\">all images</a></li>";
+
 // Adding collection record link
 $collrecd = "";
 if (!empty($record['RelRelatedMediaRef_tab'][0])) {
