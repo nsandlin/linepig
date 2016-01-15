@@ -101,7 +101,7 @@ if (!empty($record['RelRelatedMediaRef_tab'][0])) {
     if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url" && !empty($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'])) {
         $collection_record_link = $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
         if ($collection_record_link) {
-        $collrecd = ' <span class="view-collection-record"><a href="$collection_record_link" target="_blank">View collection record</a></span>';
+        $collrecd = ' <span class="view-collection-record"><a href="' . $collection_record_link . '" target="_blank">View collection record</a></span>';
         }
     }
 }
@@ -138,7 +138,7 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
   $page= str_replace('{multimedia_url}', $multimedia_url, $page);
   $page= str_replace('{rbar}', $sciname, $page);
   $page= str_replace('{authorstring}', $authorstring, $page);
-  $page= str_replace('{taxoirn}', $taxo_irn, $page);
+  $page = str_replace('{subset_list_items}', $subset_list_items, $page);
   // add link(s) based on successful lookup
   if (@strpos($lookup_bold,$sciname) !== false) {
     //add a link

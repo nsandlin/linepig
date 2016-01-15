@@ -66,7 +66,7 @@ foreach ($records as $record) {
   $multimedia_url = str_replace(".jpg",".thumb.jpg",$multimedia_url);
   
   // Build URL for detail page.
-  $imgsrc = '<div class="item flex-item"><a href="detail2.php?irn=' . $record['irn'] . '&amp;taxoirn=' .$taxo_irn . '"><img src="' . $multimedia_url . '" width="140" ></a><p>' . $thisspecies . '</p></div>';
+  $imgsrc = '<div class="item flex-item"><p>' . $thisspecies . '</p><a href="detail2.php?irn=' . $record['irn'] . '&amp;taxoirn=' .$taxo_irn . '"><img src="' . $multimedia_url . '" width="140" ></a></div>';
   
   // And add it to the display items.
   $display .= $imgsrc;
