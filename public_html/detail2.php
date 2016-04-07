@@ -13,6 +13,7 @@ require_once __DIR__.'/../imu-api-php/Session.php';
 require_once __DIR__.'/../imu-api-php/Module.php';
 require_once __DIR__.'/../imu-api-php/Terms.php';
 require_once __DIR__.'/../.env';
+require_once __DIR__.'/../libs/backlink-old-image/BacklinkImage.php';
 
 // Get query string.
 $irn = filter_var($_GET['irn'], FILTER_VALIDATE_INT);
@@ -123,14 +124,17 @@ $irn_string = substr_replace($irn_string, '', -3, 3);
 $multimedia_url = "/" . $irn_string . $multimedia_url;
 $multimedia_url = 'http://cornelia.fieldmuseum.org' . $multimedia_url . '/' . $record['MulIdentifier'];
 
-// get the tpl
+// Get the old "backlink" image for the record.
+$backlink_old_image = new BacklinkImage($irn);
+$backlink_old_image_url = $backlink_old_image->getFormattedImageURL();
+
+// Get the template.
 $page = file_get_contents('tpl-detail2.html');
 
-// get the lookup file(s)
+// Get the lookup file(s).
 $lookup_bold = file_get_contents('lookup-bold.txt');
 
-
-// swap in the vars
+// Swap in the vars.  
   $page= str_replace('{thisspecies}', $sciname, $page);
   $page= str_replace('{multitle}', $imgtitle, $page);
   $page= str_replace('{thiscredit}', $thiscredit, $page);
@@ -147,6 +151,11 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
     $insert = '<p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
     $insert = $insert . 'BOLD systems taxon page</a></p><!--adds-->';
     $page= str_replace('<!--adds-->', $insert, $page); //IRL make this safer
+  }
+  // add backlink to previous, incorrect image
+  if ($backlink_old_image_url != "http://cornelia.fieldmuseum.org///") {
+    $page = str_replace('"backlink-old-image" style="display:none;"','"backlink-old-image"',$page);
+    $page = str_replace('{backlinkimage}', $backlink_old_image_url, $page);
   }
   // add collection record, if any
   $page= str_replace('<!--collrecd-->',$collrecd, $page); //IRL make this safer

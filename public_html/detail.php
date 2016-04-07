@@ -139,7 +139,6 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
   $page = str_replace('{multimedia_url}', $multimedia_url, $page);
   $page = str_replace('{rbar}', $sciname, $page);
   $page = str_replace('{authorstring}', $authorstring, $page);
-  $page = str_replace('{backlinkimage}', $backlink_old_image_url, $page);
   $page = str_replace('{subset_list_items}', $subset_list_items, $page);
   // add link(s) based on successful lookup
   if (@strpos($lookup_bold,$sciname) !== false) {
@@ -149,6 +148,11 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
     $insert = '<p><a href="http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=' . $mysuffix . '" target="_blank">';
     $insert .= 'BOLD systems taxon page</a></p><!--adds-->';
     $page= str_replace('<!--adds-->', $insert, $page); //IRL make this safer
+  }
+  // add backlink to previous, incorrect image
+  if ($backlink_old_image_url != "http://cornelia.fieldmuseum.org///") {
+    $page = str_replace('"backlink-old-image" style="display:none;"','"backlink-old-image"',$page);
+    $page = str_replace('{backlinkimage}', $backlink_old_image_url, $page);
   }
   // add collection record, if any
   $page= str_replace('<!--collrecd-->',$collrecd, $page); //IRL make this safer

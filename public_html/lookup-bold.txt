@@ -1,6 +1,10 @@
-
+﻿
  Abacoproeces saltuum
+ Abiskoa abiskoensis
+ Acanoides beijingensis
+ Acanoides hengshanensis
  Acanthoneta aggressa
+ Acanthoneta furcata
  Acartauchenius scurrilis
  Agnyphantes arboreus
  Agnyphantes expunctus
@@ -9,6 +13,7 @@
  Agyneta alpica
  Agyneta amersaxatilis
  Agyneta amersaxatilis cf.
+ Agyneta angulata
  Agyneta brevis
  Agyneta bucklei
  Agyneta cauta
@@ -45,6 +50,7 @@
  Agyneta perspicua
  Agyneta protrudens
  Agyneta ramosa
+ Agyneta ressli
  Agyneta ripariensis
  Agyneta rurestris
  Agyneta saaristoi
@@ -77,13 +83,19 @@
  Agyneta watertoni
  Allomengea dentisetis
  Allomengea scopigera
+ Allomengea sp.
+ Allomengea vidua
  Anguliphantes angulipalpis
  Anguliphantes dybowskii
  Anguliphantes karpinskii
+ Anguliphantes monticola
  Anguliphantes nasus
+ Anguliphantes sp.
+ Anguliphantes zygius
  Antrohyphantes sophianus
  Aphileta microtarsa
  Aphileta misera
+ Araeoncus anguineus
  Araeoncus crassiceps
  Araeoncus humilis
  Arcterigone pilifrons
@@ -94,9 +106,10 @@
  Asemostera janetae
  Asiceratinops kolymensis
  Asperthorax borealis
+ Asthenargus edentulus
+ Asthenargus helveticus
  Asthenargus paganus
  Australolinyphia remota
- Baryphyma gowerense
  Baryphyma pratense
  Baryphyma trifrons
  Baryphyma trifrons affine
@@ -113,6 +126,7 @@
  Bathyphantes iviei
  Bathyphantes keeni
  Bathyphantes latescens
+ Bathyphantes malkini
  Bathyphantes nigrinus
  Bathyphantes orica
  Bathyphantes pallidus
@@ -120,24 +134,31 @@
  Bathyphantes pogonias
  Bathyphantes reprobus
  Bathyphantes setiger
+ Bathyphantes similis
  Bathyphantes simillimus
  Bathyphantes tongluensis
+ Bathyphantes waneta
  Batueta cuspidata
  Batueta similis
+ Bifurcia curvata
+ Bifurcia ramosa
  Bolephthyphantes index
  Bolyphantes alticeps
  Bolyphantes bipartitus
  Bolyphantes luteolus
  Bolyphantes sacer
+ Bolyphantes sp.
  Capsulia sp. 1 QW-2007
  Caracladus avicula
  Caracladus zamoniensis
  Carorita limnaea
+ Carorita sp. 1GAB
  Centromerita bicolor
  Centromerus acutidentatus
  Centromerus albidus
  Centromerus arcanus
  Centromerus brevipalpus
+ Centromerus brevivulvatus
  Centromerus cavernarum
  Centromerus cornupalpis
  Centromerus denticulatus
@@ -154,20 +175,26 @@
  Centromerus persolutus
  Centromerus semiater
  Centromerus serratus
+ Centromerus silvicola
  Centromerus sp. 2GAB
  Centromerus sp. 3GAB
  Centromerus subalpinus
  Centromerus sylvaticus
+ Centromerus trilobus
  Ceraticelus artemisiae
  Ceraticelus atriceps
  Ceraticelus bulbosus
  Ceraticelus crassiceps
  Ceraticelus fissiceps
  Ceraticelus laetabilis
+ Ceraticelus laetus
+ Ceraticelus laticeps
+ Ceraticelus limnologicus
  Ceraticelus minutus
  Ceraticelus rowensis
  Ceraticelus silus
  Ceraticelus similis
+ Ceraticelus vesperus
  Ceratinella acerea
  Ceratinella alaskae
  Ceratinella brevipes
@@ -179,6 +206,7 @@
  Ceratinella scabrosa
  Ceratinella sp.
  Ceratinella tigana
+ Ceratinella wideri
  Ceratinops annulipes
  Ceratinops crenatus
  Ceratinopsidis formosa
@@ -187,11 +215,15 @@
  Ceratinopsis labradorensis
  Ceratinopsis laticeps
  Ceratinopsis nigriceps
+ Ceratinopsis nigripalpis
  Ceratinopsis setoensis
- Ceratinopsis sp. 1GAB
+ Ceratinopsis swanea
  Ceratinops latus
  Ceratinops littoralis
+ Ceratinops obscurus
  Ceratinops rugosus
+ Ceratinops sylvaticus
+ Cheniseo sphagnicultor
  Cinetata gradata
  Cnephalocotes obscurus
  Collinsia holmgreni
@@ -200,12 +232,16 @@
  Collinsia pertinens
  Collinsia plumosa
  Collinsia spetsbergensis
+ Collinsia stylifera
  Collinsia thulensis
  Coloncus siou
+ Concavocephalus rubens
  Connithorax barbatus
  Coreorgonal monoceros
  Coreorgonal petulcus
- Coreorgonal sp. 1GAB
+ Crispiphantes sp.
+ Denisiphantes sp.
+ Diastanillus pecuarius
  Dicymbium elongatum
  Dicymbium facetum
  Dicymbium libidinosum
@@ -229,18 +265,25 @@
  Diplocephalus subrostratus
  Diplocephalus uliginosus
  Diplostyla concolor
+ Disembolus corneliae
+ Disembolus hyalinus
+ Disembolus implicatus
+ Disembolus sp. 1GAB
  Dismodicus alticeps
  Dismodicus bifrons
  Dismodicus decemoculatus
  Dismodicus elevatus
+ Dismodicus sp. 1 GAB
  Doenitzius pruvus
  Donacochara speciosa
  Drapetisca alteranda
  Drapetisca socialis
  Drepanotylus borealis
  Drepanotylus uncatus
+ Dubiaranea cf. caledonica
  Dubiaranea difficilis
  Dubiaranea distincta
+ Dubiaranea longiscapa
  Dubiaranea sp.
  Dubiaranea sp. 10 FML
  Dubiaranea sp. 11 FML
@@ -250,6 +293,7 @@
  Dubiaranea sp. 3 FML
  Dubiaranea sp. 4 FML
  Dubiaranea sp. 6 FML
+ Eldonnia sp.
  Entelecara acuminata
  Entelecara congenera
  Entelecara media
@@ -260,6 +304,7 @@
  Erigone alsaida
  Erigone antegona
  Erigone arctica
+ Erigone arctica palearctica
  Erigone arctica sibirica
  Erigone arcticola
  Erigone arctophylacis
@@ -275,6 +320,7 @@
  Erigonella hiemalis
  Erigonella ignobilis
  Erigonella subelevata
+ Erigone longipalpis
  Erigone prominens
  Erigone psychrophila
  Erigone remota
@@ -289,19 +335,22 @@
  Eskovina clava
  Estrandia grandaeva
  Eulaira arctoa
+ Eulaira chelata
+ Eulaira dela
  Eulaira obscura
  Eulaira sp. 1GAB
+ Evansia merens
  Fissiscapus sp. 1 FML
  Flagelliphantes flagellifer
  Floricomus plumalis
  Floricomus rostratus
  Floricomus sp. 1GAB
- Floricomus sp1-GAB
  Florinda coccinea
  Floronia bucculenta
  Frederickus coylei
  Frederickus wilburi
  Frontinella communis
+ Frontinella frutetorum
  Frontinella huachuca
  Frontinella potosia
  Frontinella zhui
@@ -314,23 +363,29 @@
  Glyphesis scopulifer
  Glyphesis servulus
  Gnathonarium dentatum
+ Gnathonarium famelicum
  Gnathonarium suppositum
  Gnathonarium taczanowskii
  Gnathonaroides pedalis
  Gonatium crassipalpum
  Gonatium hilare
+ Gonatium paradoxum
  Gonatium rubellum
  Gonatium rubens
  Gongylidiellum latebricola
  Gongylidiellum murcidum
+ Gongylidiellum vivum
+ Gongylidioides rimatus
  Gongylidium rufipes
  Grammonota angusta
+ Grammonota capitata
  Grammonota gentilis
  Grammonota gigas
  Grammonota inornata
  Grammonota kincaidi
  Grammonota maritima
  Grammonota ornata
+ Grammonota pictilis
  Grammonota secata
  Grammonota sp. 1 FML
  Grammonota sp. 1GAB
@@ -343,6 +398,7 @@
  Gravipalpus standifer
  Halorates n. sp.
  Halorates reprobus
+ Halorates stylifer
  Haplinis diloris
  Helophora insignis
  Helophora reducta
@@ -357,6 +413,7 @@
  Hilaira proletaria
  Hilaira sibirica
  Hilaira vexatrix
+ Hilaria glacialis
  Holminaria prolata
  Horcotes quadricristatus
  Horcotes strandi
@@ -364,7 +421,6 @@
  Hybauchenidium aquilonare
  Hybauchenidium cymbadentatum
  Hybauchenidium gibbosum
- Hybauchenidium sp. 1GAB
  Hybauchenidium sp2-GAB
  Hylyphantes graminicola
  Hypomma bituberculatum
@@ -388,12 +444,14 @@
  Incestophantes lamprus
  Incestophantes laricetorum
  Incestophantes mercedes
+ Incestophantes sp. 1 GAB
  Incestophantes washingtoni
  Ipa keyserlingi
  Islandiana cristata
  Islandiana falsifica
  Islandiana flaveola
  Islandiana holmi
+ Islandiana lasalana
  Islandiana longisetosa
  Islandiana princeps
  Ivielum sibiricum
@@ -403,29 +461,36 @@
  Kaestneria rufula
  Kikimora palustris
  Labulla thoracica
+ Laminacauda ansoni
  Laminacauda tucumani
  Lasiargus hirsutus
- Lasiargus pilipes
+ Lasiargus sp.
  Lepthyphantes alpinus
  Lepthyphantes furcillifer
+ Lepthyphantes hamifer
  Lepthyphantes intricatus
+ Lepthyphantes keyserlingi
  Lepthyphantes leprosus
+ Lepthyphantes luteipes
  Lepthyphantes minutus
  Lepthyphantes nodifer
+ Lepthyphantes rainieri
  Lepthyphantes sp. 12
  Lepthyphantes sp. 12RB
  Lepthyphantes sp. 2RB
  Lepthyphantes turbatrix
  Leptorhoptrum robustum
  Leptothrix hardyi
+ Lessertia dentichelis
  Linyphantes aeronauticus
+ Linyphantes anacortes
  Linyphantes nehalem
  Linyphantes nigrescens
  Linyphantes orcinus
  Linyphantes pacificus
  Linyphantes pualla
  Linyphantes sp.
- Linyphantes sp. 2GAB
+ Linyphantes sp. 1GAB
  Linyphantes victoria
  Linyphia hortensis
  Linyphia mimonti
@@ -435,8 +500,6 @@
  Linyphiidae_IM SP_IM5
  Linyphiidae_IM SP_IM6
  Linyphiidae_IM SP_IM8
- Linyphiidae sp. 4 QW-2007
- Linyphiidae sp. 5 QW-2007
  Lophomma depressum
  Lophomma punctatum
  Lophomma vaccinii
@@ -447,7 +510,9 @@
  Mansuphantes fragilis
  Mansuphantes korgei
  Mansuphantes mansuetus
+ Maro amplus
  Maro borealis
+ Maro lehtineni
  Maro minutus
  Maro nearcticus
  Maro n. sp.
@@ -464,7 +529,6 @@
  Mecynargus paetulus
  Mecynargus pinipumilis
  Mecynargus sp. 1GAB
- Mecynargus sp. 2GAB
  Mecynargus sphagnicola
  Mecynargus tungusicus
  Mecynidis cf. dentipalpis
@@ -474,7 +538,10 @@
  Megalepthyphantes pseudocollinus
  Meioneta innotabilis
  Meioneta nigripes
+ Meioneta rurestris
+ Mermessus augustalis
  Mermessus brevidentatus
+ Mermessus contortus
  Mermessus entomologicus
  Mermessus fradeorum
  Mermessus index
@@ -486,14 +553,18 @@
  Mermessus sp. 11 FML
  Mermessus sp. 1 FML
  Mermessus sp. 1GAB
+ Mermessus sp. 2GAB
  Mermessus taibo
  Mermessus tridentatus
  Mermessus trilobata
  Mermessus trilobatus
  Mermessus undulatus
+ Mesasigone mira
+ Metopobactrus pacificus
  Metopobactrus prominulus
  Micrargus alpinus
  Micrargus apertus
+ Micrargus georgescuae
  Micrargus herbigradus
  Micrargus herbigradus cf.
  Micrargus sp.
@@ -503,7 +574,7 @@
  Microlinyphia impigra
  Microlinyphia mandibulata
  Microlinyphia pusilla
- Microlinyphia sp. 1GAB
+ Microlinyphia sp.
  Microlinyphia sp1-GAB
  Microlinyphia sterilis
  Microneta aterrima
@@ -517,13 +588,19 @@
  Moyosi rugosa
  Mughiphantes cornutus
  Mughiphantes mughi
+ Mughiphantes nigromaculatus
+ Mughiphantes pulcher
  Mughiphantes sobrius
+ Mughiphantes sp.
  Mughiphantes sp. 1GAB
  Mughiphantes taczanowskii
  Mughiphantes variabilis
  Mythoplastoides erectus
  Nasoonaria circinata
  Nematogmus sanguinolentus
+ Neomaso gibber
+ Neomaso minimus
+ Neomaso pollicatus
  Neonesiotes remiformis
  Neriene cavaleriei
  Neriene clathrata
@@ -537,14 +614,15 @@
  Neriene macella
  Neriene montana
  Neriene nigripectoris
- Neriene nr. clathrata
  Neriene oidedicata
  Neriene peltata
  Neriene radiata
+ Neriene sp.
  Neriene sp. 1GAB
  Neriene sp. CJ-013
  Neriene sp. TAB-2009
  Neriene variabilis
+ Nippononeta coreana
  Notholepthyphantes australis
  Notioscopus sarcinatus
  Notioscopus sibiricus
@@ -557,13 +635,17 @@
  Oedothorax fuscus
  Oedothorax gibbifer
  Oedothorax gibbosus
+ Oedothorax montifer
  Oedothorax retusus
  Oedothorax trilobatus
+ Oia imadatei
  Oreoneta banffkluane
  Oreoneta brunnea
  Oreoneta frigida
  Oreoneta garrina
  Oreoneta leviceps
+ Oreoneta tatrica
+ Oreoneta tienshangensis
  Oreonetides filicatus
  Oreonetides flavescens
  Oreonetides flavus
@@ -588,19 +670,23 @@
  Orsonwelles ventus
  Oryphantes angulatus
  Oryphantes bipilis
+ Oryphantes sp.
  Ostearius melanopygius
  Pacifiphantes magnificus
+ Pacifiphantes zakharovi
  Palliduphantes antroniensis
  Palliduphantes byzantinus
  Palliduphantes ericaeus
  Palliduphantes insignis
  Palliduphantes khobarum
+ Palliduphantes montanus
  Palliduphantes pallidus
  Panamomops mengei
  Panamomops tauricornis
  Paraletes pogo
  Parameioneta tricolorata
  Paratmeticus bipunctis
+ Parawubanoides unicornis
  Pelecopsis dorniana
  Pelecopsis elongata
  Pelecopsis janus
@@ -612,6 +698,7 @@
  Perregrinus deformis
  Perro polaris
  Perro putoranica
+ Perro sp. 1GAB
  Phlattothrata flagellata
  Phlattothrata parva
  Phlattothrata sp. 1GAB
@@ -620,16 +707,15 @@
  Pityohyphantes costatus
  Pityohyphantes cristatus
  Pityohyphantes limitaneus
+ Pityohyphantes minidoka
  Pityohyphantes phrygianus
+ Pityohyphantes rubrofasciatus
  Pityohyphantes subarcticus
  Pityohyphantes tacoma
  Pocadicnemis americana
  Pocadicnemis juncea
  Pocadicnemis occidentalis
  Pocadicnemis pumila
- Pocadicnemis sp. 1GAB
- Pocadicnemis sp. 1LS
- Pocadicnemis sp. 2GAB
  Pocobletus sp. 10 FML
  Pocobletus sp. 1 FML
  Pocobletus sp. MAA-2009
@@ -645,11 +731,13 @@
  Poeciloneta variegata
  Porrhomma boreale
  Porrhomma convexum
+ Porrhomma longjiangense
  Porrhomma microphthalmum
  Porrhomma montanum
  Porrhomma oblitum
  Porrhomma pallidum
  Porrhomma pygmaeum
+ Porrhomma rosenhaueri
  Porrhomma terrestre
  Praestigia groenlandica
  Praestigia kulczynskii
@@ -660,6 +748,10 @@
  Prosoponoides sinensis
  Pseudafroneta incerta
  Pseudocyba miracula
+ Ryojius sp.
+ Saaristoa abnormis
+ Saaristoa ebinoensis
+ Saaristoa firma
  Saaristoa sammamish
  Saloca diceros
  Satilatlas britteni
@@ -667,6 +759,7 @@
  Satilatlas marxi
  Satilatlas monticola
  Savignia frontata
+ Savignia sp.
  Scandichrestus tenuis
  Sciastes dubius
  Sciastes extremus
@@ -692,6 +785,7 @@
  Scotinotylus majesticus
  Scotinotylus pallidus
  Scotinotylus patellatus
+ Scotinotylus protervus
  Scotinotylus pr. sanctus
  Scotinotylus sacer
  Scotinotylus sanctus
@@ -699,6 +793,9 @@
  Scotinotylus sp. 1GAB
  Scotinotylus sp. 2GAB
  Scotinotylus sp. 3GAB
+ Scotinotylus sp. 6GAB
+ Scotinotylus tianschanicus
+ Scotinotylus vernalis
  Scylaceus pallidus
  Scyletria inflata
  Semljicola alticola
@@ -711,11 +808,14 @@
  Semljicola sp. 3GAB
  Silometopoides pampia
  Silometopoides pingrensis
+ Silometopus ambiguus
  Silometopus elegans
+ Silometopus incurvatus
  Silometopus reussi
  Sintula corniger
  Sintula retroversus
  Sintula spiniger
+ Sisicottus crossoclavis
  Sisicottus montanus
  Sisicottus nesides
  Sisicottus orites
@@ -724,13 +824,24 @@
  Sisicus penifusifer
  Sisis rotundus
  Smerasia obscurus
+ Solenysa longqiensis
+ Solenysa melloteei
+ Solenysa partibilis
+ Solenysa protrudens
+ Solenysa reflexilis
+ Solenysa retractilis
+ Solenysa tianmushana
+ Solenysa wulingensis
  Soucron arenarium
  Souessa spinifera
+ Souessoula parva
  Soulgas corticarius
  Soulgas sp. 1GAB
+ Sphecozone bicolor
  Sphecozone modica
  Sphecozone sp.
  Spirembolus abnormis
+ Spirembolus chilkatensis
  Spirembolus demonologicus
  Spirembolus hibernus cf.
  Spirembolus monticolens
@@ -747,7 +858,10 @@
  Styloctetor purpurescens
  Styloctetor romanus
  Styloctetor stativus
+ Syedra myrmicarum
  Symmigma minimum
+ Tachygyna coosi
+ Tachygyna haydeni
  Tachygyna pallida
  Tachygyna proba
  Tachygyna ursina
@@ -771,9 +885,6 @@
  Tapinocyba praecox
  Tapinocyba prima
  Tapinocyba simplex
- Tapinocyba sp. 1GAB
- Tapinocyba sp. 2GAB
- Tapinocyba sp. 3GAB
  Tapinocyboides pygmaeus
  Tapinopa bilineata
  Tapinopa guttata
@@ -790,12 +901,16 @@
  Tenuiphantes jacksonoides
  Tenuiphantes mengei
  Tenuiphantes nigriventris
+ Tenuiphantes sabulosus
+ Tenuiphantes sp.
  Tenuiphantes tenebricola
  Tenuiphantes tenuis
  Tenuiphantes zebra
  Tenuiphantes zelatus
  Tenuiphantes zibus
  Tenuiphantes zimmermanni
+ Ternatus malleatus
+ Ternatus siculus
  Thaleria leechi
  Thaleria sp. 1GAB
  Theoa bidentata
@@ -820,7 +935,6 @@
  Trichopternoides thorelli
  Troglohyphantes drenskii
  Troglohyphantes karolianus
- Troglohyphantes lesserti
  Troglohyphantes pisidicus
  Troglohyphantes pretneri
  Troxochrus scabriculus
@@ -828,6 +942,8 @@
  Tunagyna debilis
  Typhochrestus digitatus
  Typhochrestus pygmaeus
+ Ummeliata insecticeps
+ Vagiphantes vaginatus
  Vermontia thoracica
  Vittatus bian
  Vittatus fencha
@@ -843,6 +959,7 @@
  Walckenaeria arctica
  Walckenaeria atrotibialis
  Walckenaeria auranticeps
+ Walckenaeria brevicornis
  Walckenaeria capito
  Walckenaeria castanea
  Walckenaeria clavicornis
@@ -853,6 +970,7 @@
  Walckenaeria crocea
  Walckenaeria cucullata
  Walckenaeria cuspidata
+ Walckenaeria cuspidata brevicula
  Walckenaeria digitata
  Walckenaeria directa
  Walckenaeria dysderoides
@@ -875,14 +993,15 @@
  Walckenaeria occidentalis
  Walckenaeria pallida
  Walckenaeria palustris
+ Walckenaeria pellax
  Walckenaeria pinocchio
+ Walckenaeria prominens
  Walckenaeria redneri
  Walckenaeria sp.
  Walckenaeria sp. 10 FML
  Walckenaeria sp. 11 FML
  Walckenaeria sp. 13 FML
  Walckenaeria sp. 1 FML
- Walckenaeria sp. 1GAB
  Walckenaeria sp. 2GAB
  Walckenaeria sp. 4GAB
  Walckenaeria spiralis
@@ -898,11 +1017,19 @@
  Wubana drassoides
  Wubana pacifica
  Wubana sp.
- Wubana sp. 1GAB
  Wubana sp. 1JS
+ Wubana suprema
  Wubanoides fissus
+ Wubanoides sp.
  Zornella armata
  Zornella cryptodon
  Zornella cultrigera
  Zygottus corvallis
  Zygottus sp.
+
+
+
+
+
+
+
