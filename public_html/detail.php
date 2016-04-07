@@ -7,12 +7,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 
-// Setting up requirements.
+// Setting up requirements and libraries.
 require_once __DIR__.'/../imu-api-php/IMu.php';
 require_once __DIR__.'/../imu-api-php/Session.php';
 require_once __DIR__.'/../imu-api-php/Module.php';
 require_once __DIR__.'/../imu-api-php/Terms.php';
 require_once __DIR__.'/../.env';
+require_once __DIR__.'/../libs/backlink-old-image/BacklinkImage.php';
 
 // Get query string.
 $irn = filter_var($_GET['irn'], FILTER_VALIDATE_INT);
@@ -121,6 +122,10 @@ $irn_string = substr_replace($irn_string, '', -3, 3);
 $multimedia_url = "/" . $irn_string . $multimedia_url;
 $multimedia_url = 'http://cornelia.fieldmuseum.org' . $multimedia_url . '/' . $record['MulIdentifier'];
 
+// Get the old "backlink" image for the record.
+$backlink_old_image = new BacklinkImage($irn);
+$backlink_old_image_url = $backlink_old_image->getFormattedImageURL();
+
 // Get the template.
 $page = file_get_contents('tpl-detail.html');
 
@@ -134,6 +139,7 @@ $lookup_bold = file_get_contents('lookup-bold.txt');
   $page = str_replace('{multimedia_url}', $multimedia_url, $page);
   $page = str_replace('{rbar}', $sciname, $page);
   $page = str_replace('{authorstring}', $authorstring, $page);
+  $page = str_replace('{backlinkimage}', $backlink_old_image_url, $page);
   $page = str_replace('{subset_list_items}', $subset_list_items, $page);
   // add link(s) based on successful lookup
   if (@strpos($lookup_bold,$sciname) !== false) {
