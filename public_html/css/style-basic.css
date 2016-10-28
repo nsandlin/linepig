@@ -7,30 +7,37 @@ html {
 body {
   font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
-  font-weight: 400;
-  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
   color: #222;
 }
 .container-top, .flex-container, #bottomnav {
   width: 100%;
-  max-width: 1080px;
+  /*max-width: 1080px;*/
+  max-width: 1400px;
   margin: auto;
   padding: 15px;
 }
 .container-top {
-  margin-top: 10%;
+  margin-top: 2em;
+}
+.container {
+  padding-right: 0;
 }
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 2rem;
-  font-weight: 300;
+  font-family: 'Noto Serif', Helvetica, Arial, sans-serif;
+}
+h1 {
+  font-size: 3em;
+  font-weight: 200;
 }
 a, a:visited {
-  color: #1EAEDB;
+  color: #0003AC;
 }
 h1 a, h1 a:visited, #bottomnav a, #bottomnav a:visited {
-  color: #000;
+  color: #0003AC;
   text-decoration: none;
 }
 a:hover, h1 a:hover, #bottomnav a:hover {
@@ -41,6 +48,15 @@ ul {
   padding-left: 0;
   margin: 0;
 }
+.flex-item p.species-item {
+  font-family: 'Noto Serif', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.species-thumbnail {
+  width: 180px;
+}
+
 /* Flexbox */
 .flex-container {
   display:flex;
@@ -70,4 +86,41 @@ ul {
 }
 .all-epig .flex-item {
   margin-left: 10px;
+}
+
+/* Home page CSS */
+.home .flex-container {
+  border-radius: 10px;
+}
+
+/* Detail page CSS */
+.detail-page .flex-container {
+  background-color: #FFF;
+}
+.detail {
+  background-color: #006699;
+  color: #FFF;
+  border-radius: 10px;
+}
+.species-title {
+  margin-top: 30px;
+  margin-bottom: 25px;
+}
+.species-links {
+  padding-left: 25px;
+}
+.subset-list-links a:link, .subset-list-links a:visited {
+  color: #FFF;
+}
+.subset-list-links a:hover, .subset-list-links a:active {
+  color: #FFF;
+  text-decoration: none;
+}
+.detail .additional-info {
+  background-color: #FFF;
+  color: #444;
+}
+.detail .blue {
+  background-color: #006699;
+  padding-left: 0;
 }

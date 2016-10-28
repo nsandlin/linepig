@@ -54,7 +54,7 @@ foreach ($records as $record) {
   $multimedia_url = str_replace(".jpg",".thumb.jpg",$multimedia_url);
   
   // Build URL for detail page.
-  $imgsrc = '<div class="item flex-item"><p>' . $thisspecies . '</p><a href="detail.php?irn=' . $record['irn'] . '"><img src="' . $multimedia_url . '" width="140" ></a></div>';
+  $imgsrc = '<div class="item flex-item"><p class="species-item">' . $thisspecies . '</p><a href="detail.php?irn=' . $record['irn'] . '" class="species-link"><img src="' . $multimedia_url . '" class="species-thumbnail" ></a></div>';
   
   // And add it to the display.
   $display .= $imgsrc;
@@ -70,9 +70,10 @@ foreach ($records as $record) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <link rel="icon" type="image" href="images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/style-basic.css" />
 </head>
-<body>
+<body class="home">
   <div class="container container-top">
     <h1>Welcome to LinEpig</h1>
     <p>Get help identifying the erigonines languishing in your collection.
