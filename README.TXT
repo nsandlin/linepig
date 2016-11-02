@@ -8,7 +8,7 @@ KE Software's KE EMu - http://emu.kesoftware.com/
 About LinEpig - http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery
 
 .......................................
-####  CURENT TASKS  ####
+####  CURRENT TASKS  ####
 
 Detail pages
 - Add links to external collection record at lending institution
