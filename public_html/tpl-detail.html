@@ -13,27 +13,28 @@
 </head>
 <body class="detail-page">
   <div class="container container-top">
+    <p style="float:right;"><img src="images/logo-field.png"></p><br clear="both">
     <h1><a href="/">LinEpig:</a> <i>{thisspecies}</i></h1>
-  </div><!-- container -->
+  </div><!--.container (h1)-->
   
-  <div class="container items flex-container">
-  <!-- Start items -->
-    
-    <div class="detail flex-item item-picbox">
-      <div class="flex-container blue">
-        <div class="flex-item">
+  <div class="flex-container blue">  
+    <div class="flex-item">
           <h4 style="margin:30px 0 0 0;">Female epigynum, ventral view.</h4>
-          <img src="{multimedia_url}"><p><i>{thisspecies}</i> {authorstring}</p>
-        </div>
-        <div class="flex-item species-links">
+          <img src="{multimedia_url}" class="detail-pic"><p><i>{thisspecies}</i> {authorstring}</p>
+    </div><!--.flex-item blue-->
+ 
+    <div class="flex-item species-links">
           <h4 class="species-title">Show all <i>{thisspecies}</i>:</h4>
             <ul class="subset-list-links">{subset_list_items}</ul>
-        </div>
-      </div>
+     </div><!--.flex-item species-links-->
+  </div><!--.flex-container blue-->
 
       <div class="additional-info">
-        <p>{thiscredit}</p>
-          <!--adds--><p>&nbsp;<br><span style="font-size:85%">Image {rrights}</span></p>
+        <p><span class="label">Taxonomy</span></p><!--adds-->
+        
+        
+        <p><br><span class="label">Material</span></p><p>{thiscredit}&nbsp;<!--collrecd--></p>
+        <p>Image {rrights}</p>
           
           <!-- Link to old/bad previous image -->
           <div class="backlink-old-image" style="display:none;"><hr>
@@ -47,16 +48,13 @@
   <!-- End items --
   </div><!-- container-->
 
-    <div class="detail flex-container">
-      <h4 style="margin:30px 0 0 0;">Go to:</h4>
-      <ul>
-      <li><a href="/">LinEpig main page</a></li>
-      <li><a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">About</a></li>
-      <li><a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">Scientific American blog post</a></li>
-      <li><a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a></li>
-      <li><a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a></li>
-      </ul>
-    </div><!--item-navbox-->
+  <div id="bottomnav">
+    <a href="/index.php">LinEpig main page</a> - 
+    <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">About</a> - 
+    <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
+    <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a> - 
+    <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a>
+  </div><!--bottomnav-->
 </body>
 </html>
 

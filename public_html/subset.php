@@ -85,13 +85,14 @@ foreach ($records as $record) {
   <link rel="icon" type="image" href="images/favicon.ico">
   <link rel="stylesheet" type="text/css" href="css/style-basic.css" />
 </head>
-<body>
+<body class="home subset">
   <div class="container container-top">
+  <p style="float:right;"><img src="images/logo-field.png"></p><br clear="both">
   <h1><a href="/">LinEpig:</a> <i><?php print $sciname; ?></i></h1>
   <p>Displaying all available <?php print $flag; ?> images.</p>
   </div><!-- container -->
   
-  <div class="container items flex-container">
+  <div class="container items flex-container blue">
   <!-- Start items -->
   
   <?php print $display; ?>
@@ -102,7 +103,7 @@ foreach ($records as $record) {
   <div id="bottomnav">
     <a href="/index.php">LinEpig main page</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">About</a> - 
-    <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">Scientific American blog post</a> - 
+    <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a> - 
     <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a>
   </div><!--bottomnav-->

@@ -52,6 +52,7 @@ foreach ($records as $record) {
     
   // Convert to thumb.
   $multimedia_url = str_replace(".jpg",".thumb.jpg",$multimedia_url);
+  $multimedia_url = str_replace(".png",".thumb.jpg",$multimedia_url);
   
   // Build URL for detail page.
   $imgsrc = '<div class="item flex-item"><p class="species-item">' . $thisspecies . '</p><a href="detail.php?irn=' . $record['irn'] . '" class="species-link"><img src="' . $multimedia_url . '" class="species-thumbnail" ></a></div>';
@@ -75,12 +76,13 @@ foreach ($records as $record) {
 </head>
 <body class="home">
   <div class="container container-top">
+    <p style="float:right;"><img src="images/logo-field.png"></p><br clear="both">
     <h1>Welcome to LinEpig</h1>
     <p>Get help identifying the erigonines languishing in your collection.
-    <br>We have images for <b><?php print $count; ?> species</b> so far. Read more <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">about LinEpig</a> and <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">help us grow</a>.</p>
-  </div><!-- container -->
+    <br>We have epigynal images for <b><?php print $count; ?> species</b> of Erigoninae so far. Read more <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">about LinEpig</a> and <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">help us grow</a>.</p>
+  </div><!--.container container-top-->
   
-  <div class="container items flex-container all-epig">
+  <div class="container items flex-container all-epig blue">
   <!-- Start items -->
   
   <?php print $display; ?>
@@ -91,7 +93,7 @@ foreach ($records as $record) {
   <div id="bottomnav">
     <a href="/index.php">LinEpig main page</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">About</a> - 
-    <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">Scientific American blog post</a> - 
+    <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a> - 
     <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a>
   </div><!--bottomnav-->
