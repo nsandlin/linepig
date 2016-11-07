@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ed9df8b872992035f068a7fe461a635a",
-    "content-hash": "76036da3b5b55b91dbe1e1affa01bf9e",
+    "hash": "b6f01b877deabc8b7363e1b08c54a49a",
+    "content-hash": "2c80970aafa5afd52b427c02dfe03c14",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -160,6 +160,50 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
+        },
+        {
+            "name": "itfieldmuseum/bimu",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slobulas/BIMu.git",
+                "reference": "329a3e224b110572dd6cb673e428a75b15eee487"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slobulas/BIMu/zipball/329a3e224b110572dd6cb673e428a75b15eee487",
+                "reference": "329a3e224b110572dd6cb673e428a75b15eee487",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BIMu\\": "src/"
+                },
+                "classmap": [
+                    "src/imu-api-php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pete Herbst",
+                    "email": "pherbst@fieldmuseum.org"
+                }
+            ],
+            "description": "A better IMu client.",
+            "keywords": [
+                "EMu",
+                "Field Museum",
+                "IMu"
+            ],
+            "time": "2016-10-04 18:42:34"
         },
         {
             "name": "jakub-onderka/php-console-color",
