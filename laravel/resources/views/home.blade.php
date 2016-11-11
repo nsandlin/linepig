@@ -1,8 +1,7 @@
-@extends('header')
-
-@section('title', $title)
-
-@section('description', $description)
+@extends('master')
+@section('title', 'LinEpig - A resource for ID of female erigonines')
+@section('description', 'A visual aid for identifying the difficult spiders in family Linyphiidae.')
+@section('count', $count)
 
 @section('content')
   <div class="container items flex-container all-epig blue">
@@ -10,12 +9,9 @@
     <ul class="records-list">
       @foreach ($records as $record)
         <li class="record">
-          {{ dd($record) }}
         </li>
       @endforeach
     </ul>
     <!-- End items -->
   </div><!-- container-->
 @endsection
-
-@extends('footer')

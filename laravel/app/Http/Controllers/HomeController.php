@@ -32,9 +32,10 @@ class HomeController extends Controller
         $count = $results->count;
 
         $view = view('home', [
-            'title' => 'LinEpig - A resource for ID of female erigonines',
-            'description' => 'A visual aid for identifying the difficult spiders in family Linyphiidae.',
+            'count' => $count,
             'records' => $records,
         ])->render();
+
+        return $view;
     }
 }
