@@ -55,7 +55,7 @@ ul {
 .flex-item .species-item {
   font-size: 12px;
   white-space: nowrap;
-  color: #FFF;
+  color: #EEE;
 }
 .species-thumbnail:hover, .species-thumbnail:active {
   border: 1px solid #FFF;

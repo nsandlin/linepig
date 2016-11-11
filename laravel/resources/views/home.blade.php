@@ -6,12 +6,18 @@
 @section('content')
   <div class="container items flex-container all-epig blue">
     <!-- Start items -->
-    <ul class="records-list">
       @foreach ($records as $record)
-        <li class="record">
-        </li>
+        <div class="item flex-item">
+          <p class="species-item">{{ $record['species_name'] }}</p>
+          <a href="/multimedia/{{ $record['irn'] }}" class="species-link">
+            <img src="{{ $record['thumbnail_url'] }}"
+                 class="species-thumbnail"
+                 alt="{{ $record['MulTitle'] }}"
+                 title="{{ $record['MulTitle'] }}" />
+          </a>
+        </div>
       @endforeach
-    </ul>
+    </div>
     <!-- End items -->
   </div><!-- container-->
 @endsection

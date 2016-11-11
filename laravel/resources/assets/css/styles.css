@@ -15,7 +15,6 @@ body.detail-page {
 }
 body.home .container-top, body.home .flex-container, body.home #bottomnav {
   width: 100%;
-  /*max-width: 1080px;*/
   max-width: 1400px;
   margin: auto;
   padding: 15px;
@@ -53,13 +52,19 @@ ul {
   padding-left: 0;
   margin: 0;
 }
-.flex-item p.species-item {
-  font-size: 13px;
+.flex-item .species-item {
+  font-size: 12px;
   white-space: nowrap;
+  color: #FFF;
+}
+.species-thumbnail:hover, .species-thumbnail:active {
+  border: 1px solid #FFF;
+  width: 178px;
 }
 .species-thumbnail {
   width: 180px;
 }
+
 
 /* Flexbox */
 .flex-container {

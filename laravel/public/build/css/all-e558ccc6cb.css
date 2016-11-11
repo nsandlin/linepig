@@ -52,8 +52,8 @@ ul {
   padding-left: 0;
   margin: 0;
 }
-.flex-item .species-item {
-  font-size: 12px;
+.flex-item .species-name-link {
+  font-size: 13px;
   white-space: nowrap;
   color: #FFF;
 }

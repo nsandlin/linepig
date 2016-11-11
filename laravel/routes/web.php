@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'HomeController@showHome')->name('home');
+
+Route::get('/multimedia/{irn}', 'MultimediaController@showMultimedia')->name('multimedia');

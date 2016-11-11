@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
   <script src="{{ elixir('js/all.js') }}"></script>
 </head>
-<body class="home">
+<body class="detail-page">
   <div class="container container-top">
     <p style="float:right;">
       <a href="https://fieldmuseum.org" target="_blank">
@@ -21,14 +21,7 @@
       </a>
     </p>
     <br clear="both">
-    <h1>Welcome to LinEpig</h1>
-    <p>
-      Get help identifying the erigonines languishing in your collection.
-      <br>We have epigynal images for <b>@yield('count') species</b> of Erigoninae so far. Read more
-      <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">
-      about LinEpig</a> and 
-      <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">help us grow</a>.
-    </p>
+    <h1>@yield('species_name')</h1>
   </div><!--.container container-top-->
 
   @yield('content')

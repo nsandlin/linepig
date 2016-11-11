@@ -52,14 +52,19 @@ ul {
   padding-left: 0;
   margin: 0;
 }
-.flex-item .species-item {
-  font-size: 12px;
+.flex-item .species-name-link {
+  font-size: 13px;
   white-space: nowrap;
   color: #FFF;
 }
-.species-thumbnail:hover, .species-thumbnail:active {
-  border: 1px solid #FFF;
-  width: 178px;
+.species-name-link:link, .species-name-link:visited {
+  text-decoration: none;
+}
+.species-name-link:hover, .species-name-link:active {
+  text-decoration: underline;
+}
+.species-link:hover, .species-link:active {
+  
 }
 .species-thumbnail {
   width: 180px;

@@ -80,6 +80,9 @@ ul {
 body.home .flex-items-default (
   width: 180px;
 )
+body.home .flex-item {
+  margin-bottom: 20px;
+}
 body.home .flex-item p {
   max-width: 180px;
   font-size: 80%

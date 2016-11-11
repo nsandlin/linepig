@@ -15,13 +15,11 @@ require('laravel-elixir-vue-2');
 
 elixir((mix) => {
     mix.styles([
-        'bootstrap.min.css',
         'styles.css'
     ]);
 
     mix.scripts([
-        'jquery-3.1.1.min.js',
-        'bootstrap.min.js'
+        'jquery-3.1.1.min.js'
     ]);
 
     mix.copy('resources/assets/fonts', 'public/fonts');
