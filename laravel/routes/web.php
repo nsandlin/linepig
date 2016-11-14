@@ -11,6 +11,11 @@
 |
 */
 
+// Homepage routing
 Route::get('/', 'HomeController@showHome')->name('home');
 
+// Individual Multimedia routing
 Route::get('/multimedia/{irn}', 'MultimediaController@showMultimedia')->name('multimedia');
+
+// Subset page routing
+Route::get('/subset/{type}/{taxonomyirn}', 'MultimediaController@showSubset')->name('subset');

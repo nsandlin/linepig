@@ -15,30 +15,39 @@ class MultimediaController extends Controller
      *
      * @return view
      */
-    public function showMultimedia($irn) {
-
-        // Create a Session and selecting the module we want to query.
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('emultimedia', $session);
-
-        // Adding our search terms.
-        $terms = new \IMuTerms();
-        $terms->add('irn', $irn);
-        $terms->add('DetSubject_tab', 'epigynum');
-
-        // Fetching results.
-        $hits = $module->findTerms($terms);
-        $columns = array(
-                      'irn', 'MulIdentifier', 'MulTitle',
-                      'DetSource', 'MulOtherNumber_tab', 'DetMediaRightsRef.(SummaryData)',
-                      '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus,ClaSpecies,AutAuthorString)',
-                      'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
-        );
-        $result = $module->fetch('start', 0, 1, $columns);
-        $record = $result->rows[0];
+    public function showMultimedia($irn)
+    {
+        $multimedia = new Multimedia();
+        $record = $multimedia->getRecord($irn);
 
         $view = view('multimedia', [
             'record' => $record,
+        ])->render();
+
+        return $view;
+    }
+
+    /**
+     * Handles displaying a subset of Multimedia records, linked from the detail page.
+     *
+     * @param string $type
+     *   The subset type that we're displaying.
+     *
+     * @param int $taxonomyIRN
+     *   The Taxonomy IRN for the subset of records to display.
+     *
+     * @return view
+     */
+    public function showSubset($type, $taxonomyIRN)
+    {
+        $multimedia = new Multimedia();
+        $records = $multimedia->getSubset($type, $taxonomyIRN);
+        $genusSpecies = $multimedia->getGenusSpecies($records[0]);
+
+        $view = view('subset', [
+            'genus_species' => $genusSpecies,
+            'type' => $type,
+            'records' => $records,
         ])->render();
 
         return $view;

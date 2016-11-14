@@ -143,7 +143,6 @@ body.detail-page .blue, body.detail-page .additional-info {
 body.detail-page .additional-info {
   background: #ccc;
   border-bottom: solid 2px #006699;
-  border-radius: 10px;
   margin-bottom: 10px;
 }
 
@@ -157,9 +156,6 @@ body.subset div.item p {
 }
   body.detail-page .flex-item img.detail-pic {
     padding-top: 12px;
-}
-#bottomnav {
-  margin-bottom: 25px;
 }
 /** MEDIA QUERIES **/
 @media screen and (max-width: 600px) {
