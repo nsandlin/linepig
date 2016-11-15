@@ -34,7 +34,14 @@
 
   <div class="additional-info">
     <p><span class="label">Taxonomy</span></p>
-    <p>
+
+    @if (!empty($record['bold_url']))
+      <p class="bold-systems">
+        <a href="{{ $record['bold_url'] }}" target="_blank">BOLD systems taxon page</a>
+      </p>
+    @endif
+
+    <p class="wsc">
       <a href="{{ $record['world_spider_catalog_url'] }}" target="_blank">World Spider Catalog lookup</a>
     </p>
 

@@ -66,6 +66,7 @@ class Multimedia extends Model
         $record['author'] = $this->getAuthor($record);
         $record['rights'] = $this->getRights($record);
         $record['backlinked_image'] = $this->getBacklinkedImage($irn);
+        $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($record);
         $record['taxonomy_irn'] = empty($record['MulOtherNumber_tab'][0]) ? "" :
                                         $record['MulOtherNumber_tab'][0];
@@ -326,6 +327,28 @@ class Multimedia extends Model
     {
         $bli = new BacklinkImage($irn);
         $url = $bli->getFormattedImageURL();
+
+        return $url;
+    }
+
+    /**
+     * Determines if we have a BOLD link to add to the page and returns a
+     * string of the URL if we have a URL for BOLD.
+     *
+     * @param array $record
+     *   The Multimedia record.
+     *
+     * @return string
+     *   The BOLD URL.
+     */
+    public function getBOLD($record) : string
+    {
+        if (!in_array($record['genus_species'], config('bold.lookup'))) {
+            return "";
+        }
+
+        $boldGS = str_replace(" ", "+", $record['genus_species']);
+        $url = "http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=" . $boldGS;
 
         return $url;
     }
