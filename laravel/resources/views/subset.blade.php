@@ -4,14 +4,15 @@
 @section('species_name', $genus_species)
 
 @section('content')
-  <div class="container items flex-container blue">
-    <p>Displaying all available {{ $type }} images.</p>
+  <p>Displaying all available <em>{{ $type }}</em> images.</p>
+  <div class="container items flex-container subset blue">
+    
 
     @foreach ($records as $record)
       <div class="item flex-item">
-        <p>{{ $record['species_name'] }}</p>
-        <a href="/multimedia/{{ $record['irn'] }}">
-          <img src="{{ $record['thumbnail_url'] }}" width="140">
+        <p class="species-item">{{ $record['species_name'] }}</p>
+        <a href="/multimedia/{{ $record['irn'] }}" class="species-link">
+          <img src="{{ $record['thumbnail_url'] }}" class="species-thumbnail">
         </a>
       </div>
     @endforeach

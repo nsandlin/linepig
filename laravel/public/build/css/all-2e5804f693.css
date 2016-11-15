@@ -118,19 +118,9 @@ body.detail-page .blue a:hover {
 .species-links {
   padding-left: 25px;
 }
-.detail-page .subset .flex-item {
-  margin-right: 10px;
-}
-.detail-page .subset .species-link {
+.subset .species-link {
   border-radius: 0;
-  padding: 0;
-  color: #006699;
-  background-color: #006699;
-}
-.detail-page .subset .species-link:hover, .detail-page .subset .species-link:active {
-  color: #006699;
-  background-color: #006699;
-  width: 178px;
+  color: transparent;
 }
 .subset-list-links a:link, .subset-list-links a:visited {
   color: #fff;
