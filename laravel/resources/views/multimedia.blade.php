@@ -14,11 +14,13 @@
           <h4 class="species-title">Show all <i>{{ $record['genus_species'] }}</i>:</h4>
             <ul class="subset-list-links">
               @foreach ($record['subsets'] as $key => $value)
-                <li class="subset-list-item">
-                  <a href="/subset/{{ $key }}/{{ $record['taxonomy_irn'] }}" class="subset-link">
-                    {{ $key }}
-                  </a>
-                </li>
+                @if ($value == true)
+                  <li class="subset-list-item">
+                    <a href="/subset/{{ $key }}/{{ $record['taxonomy_irn'] }}" class="subset-link">
+                      {{ $key }}
+                    </a>
+                  </li>
+                @endif
               @endforeach
               <li class="subset-list-item">
                 <a href="/subset/all/{{ $record['taxonomy_irn'] }}" class="subset-link">

@@ -140,8 +140,12 @@ class Multimedia extends Model
 
         $terms = new \IMuTerms();
         $terms->add('MulOtherNumber_tab', $taxonomyIRN);
-        $terms->add('DetSubject_tab', $type);
         $terms->add('MulMimeType', 'image');
+
+        // If we have a type that's not "all", query for that subset.
+        if ($type !== "all") {
+            $terms->add('DetSubject_tab', $type);
+        }
 
         $hits = $module->findTerms($terms);
         $columns = config('emuconfig.subset_fields');
