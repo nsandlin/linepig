@@ -14,6 +14,7 @@ return [
     'multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
         'DetMediaRightsRef.(SummaryData)',
+        'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
     ],
@@ -27,7 +28,8 @@ return [
     ],
     'subset_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'MulMimeType', 'thumbnail',
-        '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)'
+        'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
+        '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
     ],
     'rights_cc' => '<a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">CC',
     'rights_nc' => 'NC</a> (Attribution-NonCommercial)',

@@ -46,7 +46,6 @@ class Multimedia extends Model
         // Adding our search terms.
         $terms = new \IMuTerms();
         $terms->add('irn', $irn);
-        $terms->add('DetSubject_tab', 'epigynum');
 
         // Fetching results.
         $module->findTerms($terms);
@@ -67,6 +66,7 @@ class Multimedia extends Model
         $record['author'] = $this->getAuthor($record);
         $record['rights'] = $this->getRights($record);
         $record['backlinked_image'] = $this->getBacklinkedImage($irn);
+        $record['world_spider_catalog_url'] = $this->getWSCLink($record);
         $record['taxonomy_irn'] = empty($record['MulOtherNumber_tab'][0]) ? "" :
                                         $record['MulOtherNumber_tab'][0];
 
@@ -326,6 +326,32 @@ class Multimedia extends Model
     {
         $bli = new BacklinkImage($irn);
         $url = $bli->getFormattedImageURL();
+
+        return $url;
+    }
+
+    /**
+     * Retrieves the World Spider Catalog URL for Multimedia page.
+     *
+     * @param array $record
+     *   The Multimedia record.
+     *
+     * @return string
+     *   Returns a string of HTML containing the URL.
+     */
+    public function getWSCLink($record) : string
+    {
+        if (empty($record['etaxonomy:MulMultiMediaRef_tab'][0])) {
+            return "";
+        }
+
+        $genus = $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
+        $species = $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaSpecies'];
+        $url = "http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=" . 
+                    $genus .
+                    "&gMt=exact&sSpecies=" .
+                    $species .
+                    "&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s";
 
         return $url;
     }

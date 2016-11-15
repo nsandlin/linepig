@@ -33,7 +33,10 @@
 
 
   <div class="additional-info">
-    <p><span class="label">Taxonomy</span></p><!--adds-->
+    <p><span class="label">Taxonomy</span></p>
+    <p>
+      <a href="{{ $record['world_spider_catalog_url'] }}" target="_blank">World Spider Catalog lookup</a>
+    </p>
 
     <p><br><span class="label">Material</span></p><p>{{ $record['DetSource'] }}&nbsp;<!--collrecd--></p>
       <p>Image {!! $record['rights'] !!}</p>
