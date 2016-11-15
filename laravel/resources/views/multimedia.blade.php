@@ -1,7 +1,7 @@
 @extends('master-multimedia')
 @section('title', 'LinEpig - A resource for ID of female erigonines')
 @section('description', 'A visual aid for identifying the difficult spiders in family Linyphiidae.')
-@section('species_name', $record['MulTitle'])
+@section('species_name', $record['species_name'])
 
 @section('content')
   <div class="flex-container blue">  

@@ -61,6 +61,7 @@ class Multimedia extends Model
         $record = $result->rows[0];
 
         // Additional record processing.
+        $record['species_name'] = self::fixSpeciesTitle($record);
         $record['image_url'] = self::fixImageURL($record);
         $record['genus_species'] = $this->getGenusSpecies($record);
         $record['author'] = $this->getAuthor($record);
@@ -184,7 +185,8 @@ class Multimedia extends Model
     public static function fixSpeciesTitle($record) : string
     {
         $title = $record['MulTitle'];
-        $newTitle = str_replace(" epigynum", "", $title);
+        $newTitle = str_replace(" female epigynum", "", $title);
+        $newTitle = str_replace(" male epigynum", "", $newTitle);
 
         return $newTitle;
     }
