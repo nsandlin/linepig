@@ -349,7 +349,7 @@ class Multimedia extends Model
 
             // Fetching results.
             $hits = $module->findTerms($terms);
-            $results = $module->fetch('start', 0, -1, 'irn');
+            $results = $module->fetch('start', 0, 1, 'irn');
             $count = $results->count;
             
             if ($count > 0) {
