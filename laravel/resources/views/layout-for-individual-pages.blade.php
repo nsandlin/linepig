@@ -21,7 +21,7 @@
       </a>
     </p>
     <br clear="both">
-    <h1>@yield('species_name')</h1>
+    <h1><a href="/">LinEpig</a>: <em>@yield('species_name')</em></h1>
   </div><!--.container container-top-->
 
   @yield('content')

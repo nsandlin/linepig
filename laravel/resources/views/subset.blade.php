@@ -1,4 +1,4 @@
-@extends('master-multimedia')
+@extends('layout-for-individual-pages')
 @section('title', 'LinEpig - A resource for ID of female erigonines')
 @section('description', "Microscopy images of " . $genus_species . " (family Linyphiidae)")
 @section('species_name', $genus_species)

@@ -20,7 +20,7 @@ class MultimediaController extends Controller
         $multimedia = new Multimedia();
         $record = $multimedia->getRecord($irn);
 
-        $view = view('multimedia', [
+        $view = view('detail', [
             'record' => $record,
         ])->render();
 
