@@ -19,3 +19,12 @@ Route::get('/multimedia/{irn}', 'MultimediaController@showMultimedia')->name('mu
 
 // Subset page routing
 Route::get('/subset/{type}/{taxonomyirn}', 'MultimediaController@showSubset')->name('subset');
+
+// Search pages
+Route::get('/search', 'SearchController@showSearch')->name('search');
+Route::post('/search-handle', 'SearchController@handleSearch')->name('handlesearch');
+Route::get('/search-results/{searchTerms}', [
+        'as' => 'searchresults',
+        'uses' => 'SearchController@showSearchResults'
+    ]
+);

@@ -175,6 +175,11 @@ body.subset div.item p {
 #bottomnav {
   margin-bottom: 25px;
 }
+/* Search CSS */
+.search-container {
+  margin-bottom: 30px;
+}
+
 /** MEDIA QUERIES **/
 @media screen and (max-width: 600px) {
   h1 {
