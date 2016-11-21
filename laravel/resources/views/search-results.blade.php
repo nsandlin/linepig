@@ -7,8 +7,6 @@
   <div class="flex-container">  
     <div class="flex-item">
       <div class="search-container">
-        <h1>Search Results</h1>
-
         <div class="search-results-container">
           @if (empty($searchResults))
             <p>No search results, sorry.</p>
@@ -18,12 +16,25 @@
             <strong>{{ number_format($resultsCount) }}</strong> total records returned.
           </div>
 
+          <?php // Initialize counter
+              $i = 1;
+          ?>
           @foreach ($searchResults as $result)
-            <div class="result-container">
-              <div class="irn">IRN: {{ $result->irn }}</div>
-              <div class="module">Module: {{ $result->module }}</div>
+            <?php
+                if ($i % 2 == 0) {
+                    $row_class = " even";
+                }
+                else {
+                    $row_class = " odd";
+                }
+            ?>
+            <div class="result-container{{ $row_class }}">
+              <div class="thumbnail">IRN: {{ $result->irn }}</div>
               <div class="search">Search field: {{ $result->search }}</div>
             </div>
+            <?php
+                $i++;
+            ?>
           @endforeach
 
            {!! $searchResults->links() !!}

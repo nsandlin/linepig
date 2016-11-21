@@ -179,13 +179,8 @@ body.subset div.item p {
 .search-container {
   margin-bottom: 30px;
 }
-.result-container {
-  margin-bottom: 20px;
-  padding: 12px;
-}
 .result-container.even {
-  background-color: #DDD;
-  border-radius: 10px;
+  background-color: #999;
 }
 
 /** MEDIA QUERIES **/
@@ -208,3 +203,4 @@ body.subset div.item p {
     padding: 20px;
   }
 }
+/*# sourceMappingURL=all.css.map */

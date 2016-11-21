@@ -181,7 +181,7 @@ body.subset div.item p {
 }
 .result-container {
   margin-bottom: 20px;
-  padding: 12px;
+  padding: 7px;
 }
 .result-container.even {
   background-color: #DDD;
@@ -208,3 +208,4 @@ body.subset div.item p {
     padding: 20px;
   }
 }
+/*# sourceMappingURL=all.css.map */
