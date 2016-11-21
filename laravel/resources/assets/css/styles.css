@@ -77,9 +77,9 @@ ul {
   background: #E0EBEB;
 }
 
-body.home .flex-items-default (
+body.home .flex-items-default {
   width: 180px;
-)
+}
 body.home .flex-item p {
   max-width: 180px;
   font-size: 80%
