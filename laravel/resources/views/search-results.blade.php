@@ -8,6 +8,8 @@
     <div class="flex-item">
       <div class="search-container">
         <div class="search-results-container">
+          <p><a href="/search">&lt;&lt; search again</a></p>
+
           @if (empty($searchResults))
             <p>No search results, sorry.</p>
           @endif
