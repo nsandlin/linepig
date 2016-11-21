@@ -179,8 +179,6 @@ body.detail-page .flex-item img.detail-pic {
 /* Search CSS */
 .search-fieldset {
   border: none;
-  padding-right: 0;
-  margin-right: 0;
 }
 .search-fieldset label {
   display: inline-block;

@@ -23,7 +23,7 @@ Route::get('/subset/{type}/{taxonomyirn}', 'MultimediaController@showSubset')->n
 // Search pages
 Route::get('/search', 'SearchController@showSearch')->name('search');
 Route::post('/search-handle', 'SearchController@handleSearch')->name('handlesearch');
-Route::get('/search-results/{searchTerms}', [
+Route::get('/search-results/genus/{genus}/species/{species}/keywords/{keywords}', [
         'as' => 'searchresults',
         'uses' => 'SearchController@showSearchResults'
     ]

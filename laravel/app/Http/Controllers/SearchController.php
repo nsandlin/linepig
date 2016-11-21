@@ -30,61 +30,51 @@ class SearchController extends Controller
      */
     public function handleSearch(Request $request)
     {
-        if (!empty($request->input('searchTerms'))) {
-            return redirect()->route('searchresults', [
-                'searchTerms' => $this->getTermsForURL($request->input('searchTerms'))
-            ]);
-        }
-        else {
-            return back();
-        }
-    }
+        // Check if we have any search terms entered.
+        if (empty($request->input('genus')) &&
+            empty($request->input('species')) &&
+            empty($request->input('keywords'))) {
 
-    /**
-     * Formats the search terms to be plus-delimited so that our search results page
-     * can properly handle the search terms.
-     *
-     * @param string $searchTerms
-     *   The search terms inputted by the user.
-     *
-     * @return string
-     *   Returns a formatted string to use with the results page URL.
-     */
-    public function getTermsForURL($searchTerms)
-    {
-        $searchTermsExploded = explode(" ", $searchTerms);
-        $termsForUrl = "";
-
-        foreach ($searchTermsExploded as $term) {
-            $termsForUrl .= $term . "+";
+                return back();
         }
-        $termsForUrl = rtrim($termsForUrl, "+");
 
-        return $termsForUrl;
+        if (!empty($request->input('genus'))) {
+            $genus = $request->input('genus');
+        } else {
+            $genus = "none";
+        }
+        if (!empty($request->input('species'))) {
+            $species = $request->input('species');
+        } else {
+            $species = "none";
+        }
+
+        return redirect()->route('searchresults', [
+            'genus' => $genus,
+            'species' => $species,
+            'keywords' => "none",
+        ]);
     }
 
     /**
      * Queries the Sqlite database to retrieve Multimedia
      * records based upon the search terms entered.
      *
-     * @param string $searchTerms
-     *   The search terms in string format, plus-delimited
+     * @param string $genus
+     * @param string $species
+     * @param string $keywords
      *
      * @return Response
      */
-    public function showSearchResults($searchTerms)
+    public function showSearchResults($genus, $species, $keywords)
     {
-        $searchTermsArray = explode("+", $searchTerms);
-        $query = $this->getDBQuery($searchTermsArray);
+        $query = $this->getDBQuery($genus, $species, $keywords);
         $records = $query->get();
 
         return view('search-results', [
             'title' => 'Search results',
             'description' => 'Search results',
-            'searchTerms' => $searchTermsArray,
-            'urlSearch' => $searchTerms,
             'resultsCount' => count($records),
-            //'searchResults' => $query->paginate(25),
             'searchResults' => $records,
         ]);
     }
@@ -92,23 +82,23 @@ class SearchController extends Controller
     /**
      * Gets the DB query of the Multimedia records.
      *
-     * @param array $searchTerms
-     *   An array of the search terms provided by the user.
+     * @param string $genus
+     * @param string $species
+     * @param string $keywords
      *
      * @return DB
      *   A DB object of the query.
      */
-    public function getDBQuery($searchTerms)
+    public function getDBQuery($genus, $species, $keywords)
     {
         // Searching the search table.
         $query = DB::table('search');
 
-        // Adding each search term to where clause.
-        foreach ($searchTerms as $term) {
-            $query->where('search', 'like', "% $term %");
-            $query->orWhere('search', 'like', "$term %");
-            $query->orWhere('search', 'like', "% $term");
-            $query->orWhere('search', 'like', $term);
+        if ($genus !== "none") {
+            $query->where('genus', '=', $genus);
+        }
+        if ($species !== "none") {
+            $query->where('species', '=', $species);
         }
 
         // Ordering by Genus, Species.

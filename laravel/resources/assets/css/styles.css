@@ -169,14 +169,29 @@ body.detail-page .additional-info p span.label {
 body.subset div.item p {
   margin-right: .5em;
 }
-  body.detail-page .flex-item img.detail-pic {
-    padding-top: 12px;
+body.detail-page .flex-item img.detail-pic {
+  padding-top: 12px;
 }
 #bottomnav {
   margin-top: 10px;
   margin-bottom: 25px;
 }
 /* Search CSS */
+.search-fieldset {
+  border: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+.search-fieldset label {
+  display: inline-block;
+  width: 70px;
+}
+.search-fieldset input {
+  float: right;
+}
+input.search {
+  float: right;
+}
 .search-container {
   margin-bottom: 30px;
 }

@@ -7,12 +7,19 @@
   <div class="flex-container">  
     <div class="flex-item">
       <div class="search-container">
-        <h1>Search for records</h1>
         <div id="search-form">
           {!! Form::open(['action' => 'SearchController@handleSearch']) !!}
-          {!! Form::token() !!}
-          {!! Form::text('searchTerms') !!}
-          {!! Form::submit('Search') !!}
+            <fieldset class="search-fieldset">
+              {!! Form::label('genus', 'Genus') !!}
+              {!! Form::text('genus') !!}
+            </fieldset>
+
+            <fieldset class="search-fieldset">
+              {!! Form::label('species', 'Species') !!}
+              {!! Form::text('species') !!}
+            </fieldset>
+
+            {!! Form::submit('Search', array('class' => 'search')) !!}
           {!! Form::close() !!}
         </div>
       </div>
