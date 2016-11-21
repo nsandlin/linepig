@@ -173,7 +173,6 @@ body.subset div.item p {
     padding-top: 12px;
 }
 #bottomnav {
-  margin-top: 10px;
   margin-bottom: 25px;
 }
 /* Search CSS */
@@ -184,7 +183,17 @@ body.subset div.item p {
   background-color: #006699;
 }
 .result-container {
+  margin-bottom: 20px;
+  padding: 25px;
+}
+.result-container.even {
+  background-color: #DDD;
+  border-radius: 10px;
+}
+.result-container .thumbnail {
   float: left;
+  margin-top: 3px;
+  margin-right: 5px;
 }
 /** MEDIA QUERIES **/
 @media screen and (max-width: 600px) {

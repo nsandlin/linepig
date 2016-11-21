@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Multimedia;
 
 class SearchImport extends Command
 {
@@ -71,13 +72,12 @@ class SearchImport extends Command
         // Create a Session.
         $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
         $module = new \IMuModule('emultimedia', $session);
-        $module->setDestroy(false);
 
         // Adding our search terms.
         $terms = new \IMuTerms();
         $terms->add('MulMultimediaCreatorRef_tab', '177281');
         $terms->add('DetSubject_tab', 'epigynum');
-        $columns = config('emuconfig.multimedia_fields');
+        $columns = config('emuconfig.search_fields');
 
         // Fetching results.
         $hits = $module->findTerms($terms);
@@ -90,12 +90,21 @@ class SearchImport extends Command
             // Process the record for insertion into search table.
             $irn = (int) $record['irn'];
             $module = "emultimedia";
+            $genus = @$record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
+            $species = @$record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaSpecies'];
+            $title = $record['MulTitle'];
+            $description = $record['MulDescription'];
+            $thumbnailURL = Multimedia::fixThumbnailURL($record);
             $searchString = $this->combineArrayForSearch($record);
 
             // Add record to search table.
             DB::insert(
-                'INSERT INTO search (irn, module, search) VALUES (?, ?, ?)',
-                [$irn, $module, $searchString]
+                'INSERT INTO search (
+                        irn, module, genus, species, title,
+                        description, thumbnailURL, search)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                [$irn, $module, $genus, $species, $title,
+                 $description, $thumbnailURL, $searchString]
             );
             Log::info("Added $i records to the search table.");
             print("Added $i records to the search table." . PHP_EOL);
@@ -150,6 +159,11 @@ class SearchImport extends Command
             'CREATE TABLE IF NOT EXISTS search (
                 irn INTEGER NOT NULL,
                 module TEXT NOT NULL,
+                genus TEXT,
+                species TEXT,
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                thumbnailURL TEXT NOT NULL,
                 search TEXT
             )'
         );

@@ -16,7 +16,7 @@ class SearchController extends Controller
     public function showSearch()
     {
         $view = view('search', [
-        ])->render();
+            ])->render();
 
         return $view;
     }
@@ -79,12 +79,13 @@ class SearchController extends Controller
         $records = $query->get();
 
         return view('search-results', [
-                'title' => 'Search results',
-                'description' => 'Search results',
-                'searchTerms' => $searchTermsArray,
-                'urlSearch' => $searchTerms,
-                'resultsCount' => count($records),
-                'searchResults' => $query->paginate(25),
+            'title' => 'Search results',
+            'description' => 'Search results',
+            'searchTerms' => $searchTermsArray,
+            'urlSearch' => $searchTerms,
+            'resultsCount' => count($records),
+            //'searchResults' => $query->paginate(25),
+            'searchResults' => $records,
         ]);
     }
 
@@ -109,6 +110,10 @@ class SearchController extends Controller
             $query->orWhere('search', 'like', "% $term");
             $query->orWhere('search', 'like', $term);
         }
+
+        // Ordering by Genus, Species.
+        $query->orderBy('genus', 'asc');
+        $query->orderBy('species', 'asc');
 
         return $query;
     }

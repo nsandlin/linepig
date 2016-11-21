@@ -173,21 +173,19 @@ body.subset div.item p {
     padding-top: 12px;
 }
 #bottomnav {
+  margin-top: 10px;
   margin-bottom: 25px;
 }
 /* Search CSS */
 .search-container {
   margin-bottom: 30px;
 }
+.search-results-container {
+  background-color: #006699;
+}
 .result-container {
-  margin-bottom: 20px;
-  padding: 12px;
+  float: left;
 }
-.result-container.even {
-  background-color: #DDD;
-  border-radius: 10px;
-}
-
 /** MEDIA QUERIES **/
 @media screen and (max-width: 600px) {
   h1 {
