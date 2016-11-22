@@ -92,6 +92,7 @@ class SearchImport extends Command
             $module = "emultimedia";
             $genus = @$record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
             $species = @$record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaSpecies'];
+            $keywords = @$this->combineArrayForSearch($record['DetSubject_tab']);
             $title = $record['MulTitle'];
             $description = $record['MulDescription'];
             $thumbnailURL = Multimedia::fixThumbnailURL($record);
@@ -100,10 +101,10 @@ class SearchImport extends Command
             // Add record to search table.
             DB::insert(
                 'INSERT INTO search (
-                        irn, module, genus, species, title,
+                        irn, module, genus, species, keywords, title,
                         description, thumbnailURL, search)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                [$irn, $module, $genus, $species, $title,
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [$irn, $module, $genus, $species, $keywords, $title,
                  $description, $thumbnailURL, $searchString]
             );
             Log::info("Added $i records to the search table.");
@@ -161,6 +162,7 @@ class SearchImport extends Command
                 module TEXT NOT NULL,
                 genus TEXT,
                 species TEXT,
+                keywords TEXT,
                 title TEXT NOT NULL,
                 description TEXT NOT NULL,
                 thumbnailURL TEXT NOT NULL,

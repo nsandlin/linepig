@@ -35,7 +35,7 @@ return [
     'rights_nc' => 'NC</a> (Attribution-NonCommercial)',
     'search_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
-        'thumbnail', 'DetMediaRightsRef.(SummaryData)', 'MulDescription',
+        'DetSubject_tab', 'thumbnail', 'DetMediaRightsRef.(SummaryData)', 'MulDescription',
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
