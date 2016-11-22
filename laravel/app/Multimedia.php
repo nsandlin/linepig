@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\BacklinkImage;
 
 class Multimedia extends Model
@@ -87,37 +88,9 @@ class Multimedia extends Model
      */
     public function getRecords() : array
     {
-        // Create a Session.
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('emultimedia', $session);
-
-        // Adding our search terms.
-        $terms = new \IMuTerms();
-        $terms->add('MulMultimediaCreatorRef_tab', '177281');
-        $terms->add('DetSubject_tab', 'epigynum');
-        $terms->add('DetSubject_tab', 'primary');
-
-        // Fetching results.
-        $hits = $module->findTerms($terms);
-        $module->sort('MulIdentifier');
-        $columns = config('emuconfig.home_multimedia_fields'); 
-        $results = $module->fetch('start', 0, -1, $columns);
-        $rows = $results->rows;
-
-        // If there's no records, abort.
-        if (empty($results->rows)) {
-            abort(404);
-        }
-
-        $this->count = $results->count;
-
-        // Additional processing we need to do for each record.
-        foreach ($rows as $key => $value) {
-            $rows[$key]['thumbnail_url'] = self::fixThumbnailURL($value);
-            $rows[$key]['species_name'] = self::fixSpeciesTitle($value);
-        }
-
-        $this->records = $rows;
+        $records = DB::select('SELECT * FROM search');
+        $this->count = count($records);
+        $this->records = $records;
 
         return $this->records;
     }

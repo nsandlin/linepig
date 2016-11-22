@@ -8,12 +8,12 @@
     <!-- Start items -->
       @foreach ($records as $record)
         <div class="item flex-item">
-          <p class="species-item">{{ $record['species_name'] }}</p>
-          <a href="/multimedia/{{ $record['irn'] }}" class="species-link">
-            <img src="{{ $record['thumbnail_url'] }}"
+          <p class="species-item">{{ $record->genus }} {{ $record->species }}</p>
+          <a href="/multimedia/{{ $record->irn }}" class="species-link">
+            <img src="{{ $record->thumbnailURL }}"
                  class="species-thumbnail"
-                 alt="{{ $record['MulTitle'] }}"
-                 title="{{ $record['MulTitle'] }}" />
+                 alt="{{ $record->title }}"
+                 title="{{ $record->title }}" />
           </a>
         </div>
       @endforeach
