@@ -17,6 +17,7 @@ return [
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
+        '<ecatalogue:MulMultiMediaRef_tab>.(irn, SummaryData)',
     ],
     'subsets_to_check' => [
         'male' => false,

@@ -46,8 +46,13 @@
       <a href="{{ $record['world_spider_catalog_url'] }}" target="_blank">World Spider Catalog lookup</a>
     </p>
 
-    <p><br><span class="label">Material</span></p><p>{{ $record['DetSource'] }}&nbsp;<!--collrecd--></p>
-      <p>Image {!! $record['rights'] !!}</p>
+    <p>
+      <br><span class="label">Material</span></p><p>{{ $record['DetSource'] }}&nbsp;
+      @if (!empty($record['collection_record_url']))
+        <a href="{{ $record['collection_record_url'] }}">View collection record</a>
+      @endif
+    </p>
+    <p>Image {!! $record['rights'] !!}</p>
 
       <!-- Link to old/bad previous image -->
       @if (!empty($record['backlinked_image']))

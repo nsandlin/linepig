@@ -69,6 +69,7 @@ class Multimedia extends Model
         $record['backlinked_image'] = $this->getBacklinkedImage($irn);
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($record);
+        $record['collection_record_url'] = $this->getCollectionRecordURL($record);
         $record['taxonomy_irn'] = empty($record['MulOtherNumber_tab'][0]) ? "" :
                                         $record['MulOtherNumber_tab'][0];
 
@@ -257,11 +258,11 @@ class Multimedia extends Model
      */
     public function getAuthor($record) : string
     {
-        if (empty($record['etaxonomy:MulMultiMediaRef_tab'][0])) {
+        if (empty($record['etaxonomy:MulMultiMediaRef_tab'][0]['AutAuthorString'])) {
             return null;
+        } else {
+            return $record['etaxonomy:MulMultiMediaRef_tab'][0]['AutAuthorString'];
         }
-
-        return $record['etaxonomy:MulMultiMediaRef_tab'][0]['AutAuthorString'];
     }
 
     /**
@@ -353,6 +354,30 @@ class Multimedia extends Model
                     "&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s";
 
         return $url;
+    }
+
+    /**
+     * Retrieves the collection record link (Catalogue).
+     *
+     * @param array $record
+     *   The EMu Multimedia record.
+     *
+     * @return string $url
+     *   Returns a string of the URL of the collection record, either external or internal
+     *   Catalogue record.
+     */
+    public function getCollectionRecordURL($record) : string
+    {
+        // If the attached Multimedia record is an external link, return that URL.
+        if (!empty($record['RelRelatedMediaRef_tab'][0])) {
+            if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url") {
+                return $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
+            }
+        } elseif (!empty($record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'])) {
+            return "/catalogue/" . $record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'];
+        } else {
+            return "";
+        }
     }
 
     /**
