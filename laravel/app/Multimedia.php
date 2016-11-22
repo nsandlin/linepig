@@ -86,11 +86,14 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of all of the Multimedia records.
      */
-    public function getRecords() : array
+    public function getRecords() : \Illuminate\Support\Collection
     {
-        $records = DB::select('SELECT * FROM search');
-        $this->count = count($records);
+        $records = DB::table('search')
+                           ->orderBy('genus', 'asc')
+                           ->orderBy('species', 'asc')
+                           ->get();
         $this->records = $records;
+        $this->count = DB::table('search')->count();
 
         return $this->records;
     }
