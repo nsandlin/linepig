@@ -19,6 +19,19 @@
               {!! Form::text('species') !!}
             </fieldset>
 
+            <fieldset class="search-fieldset keywords">
+              {!! Form::label('keywords', 'Keywords') !!}
+
+              <ul class="keywords-option-list">
+                @foreach ($keywords as $keyword)
+                  <li class="keyword-option-item">
+                    {!! Form::label('keywords', $keyword) !!}
+                    {!! Form::checkbox('keywords[]', $keyword) !!}
+                  </li>
+                @endforeach
+              </ul>
+            </fieldset>
+
             {!! Form::submit('Search', array('class' => 'search')) !!}
           {!! Form::close() !!}
         </div>

@@ -9,13 +9,24 @@ use App\Multimedia;
 class SearchController extends Controller
 {
     /**
+     * @var array $searchConditions
+     *   An array of conditions we used to search the database.
+     */
+    protected $searchConditions;
+
+    /**
      * Handles the main search page.
      *
      * @return view
      */
     public function showSearch()
     {
+        // Get available keywords for the search.
+        $records = DB::select('SELECT * FROM search');
+        $keywords = $this->getKeywords($records);
+
         $view = view('search', [
+                'keywords' => $keywords,
             ])->render();
 
         return $view;
@@ -39,20 +50,25 @@ class SearchController extends Controller
         }
 
         if (!empty($request->input('genus'))) {
-            $genus = $request->input('genus');
+            $genus = trim($request->input('genus'));
         } else {
             $genus = "none";
         }
         if (!empty($request->input('species'))) {
-            $species = $request->input('species');
+            $species = trim($request->input('species'));
         } else {
             $species = "none";
+        }
+        if (!empty($request->input('keywords'))) {
+            $keywords = implode("+", $request->input('keywords'));
+        } else {
+            $keywords = "none";
         }
 
         return redirect()->route('searchresults', [
             'genus' => $genus,
             'species' => $species,
-            'keywords' => "none",
+            'keywords' => $keywords,
         ]);
     }
 
@@ -75,6 +91,7 @@ class SearchController extends Controller
             'title' => 'Search results',
             'description' => 'Search results',
             'resultsCount' => count($records),
+            'searchConditions' => $this->searchConditions,
             'searchResults' => $records,
         ]);
     }
@@ -94,11 +111,34 @@ class SearchController extends Controller
         // Searching the search table.
         $query = DB::table('search');
 
-        if ($genus !== "none") {
-            $query->where('genus', '=', $genus);
+        // Keywords searching.
+        if ($keywords !== "none") {
+            $searchValues = explode("+", $keywords);
+
+            foreach ($searchValues as $value) {
+                $value = trim($value);
+
+                $query->where(function($q) use ($value) {
+                    $q->orWhere('keywords', 'like', "% $value %");
+                    $q->orWhere('keywords', 'like', "$value %");
+                    $q->orWhere('keywords', 'like', "% $value");
+                    $q->orWhere('keywords', 'like', $value);
+                });
+
+                $this->searchConditions[] = $value;
+            }
         }
+
+        // Genus searching.
+        if ($genus !== "none") {
+            $query->where('genus', '=', trim($genus));
+            $this->searchConditions[] = trim($genus);
+        }
+
+        // Species searching.
         if ($species !== "none") {
-            $query->where('species', '=', $species);
+            $query->where('species', '=', trim($species));
+            $this->searchConditions[] = trim($species);
         }
 
         // Ordering by Genus, Species.
@@ -106,5 +146,36 @@ class SearchController extends Controller
         $query->orderBy('species', 'asc');
 
         return $query;
+    }
+
+    /**
+     * Retrieves all available keyword options for the search form.
+     *
+     * @param array $records
+     *   All of the search table records.
+     *
+     * @return array $keywords
+     *   Returns an array of available keywords for the search.
+     */
+    public function getKeywords($records) : array
+    {
+        $keywords = array();
+
+        foreach ($records as $record) {
+            $chunks = explode(" | ", $record->keywords);
+            
+            foreach ($chunks as $chunk) {
+                if (!empty($chunk) &&
+                    $chunk !== 'primary' &&
+                    $chunk !== 'Philippines Natural History') {
+
+                    $keywords[] = $chunk;
+                }
+            }
+        }
+
+        $keywords = array_unique($keywords);
+
+        return $keywords;
     }
 }

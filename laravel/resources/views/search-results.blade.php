@@ -9,7 +9,16 @@
   @endif
 
   <div class="search-results-count">
-    <strong>{{ number_format($resultsCount) }}</strong> total records returned.
+    <p><strong>{{ number_format($resultsCount) }}</strong> total records returned.</p>
+    <p>You search on:
+      <ul class="search-conditions-list">
+        @if (!empty($searchConditions))
+          @foreach ($searchConditions as $condition)
+            <li class="search-condition">{{ $condition }}</li>
+          @endforeach
+        @endif
+      </ul>
+    </p>
   </div>
 
   <div class="container items flex-container subset blue">
