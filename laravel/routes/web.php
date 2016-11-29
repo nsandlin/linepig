@@ -20,6 +20,9 @@ Route::get('/multimedia/{irn}', 'MultimediaController@showMultimedia')->name('mu
 // Subset page routing
 Route::get('/subset/{type}/{taxonomyirn}', 'MultimediaController@showSubset')->name('subset');
 
+// Catalogue page routing
+Route::get('/catalog/{irn}', 'CatalogController@showCatalog')->name('catalog');
+
 // Search pages
 Route::get('/search', 'SearchController@showSearch')->name('search');
 Route::post('/search-handle', 'SearchController@handleSearch')->name('handlesearch');

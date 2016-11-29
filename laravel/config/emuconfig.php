@@ -19,6 +19,9 @@ return [
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
         '<ecatalogue:MulMultiMediaRef_tab>.(irn, SummaryData)',
     ],
+    'catalog_fields' => [
+        'irn', 'DarCatalogNumber', 'DarGenus', 'DarSpecies',
+    ],
     'subsets_to_check' => [
         'male' => false,
         'female' => false,
