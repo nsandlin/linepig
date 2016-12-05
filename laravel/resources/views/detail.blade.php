@@ -67,10 +67,10 @@
       @endif
 
     {{-- Notes section --}}
-    @if (!empty($record['NotNotes']))
+    @if (!empty($record['notes']))
       <div class="notes">
         <h2>Notes</h2>
-        {{ $record['NotNotes'] }}
+        {{ $record['notes'] }}
       </div>
     @endif
 

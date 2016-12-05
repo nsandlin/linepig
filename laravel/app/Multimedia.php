@@ -70,6 +70,7 @@ class Multimedia extends Model
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($record);
         $record['collection_record_url'] = $this->getCollectionRecordURL($record);
+        $record['notes'] = $this->getNotes($record);
         $record['taxonomy_irn'] = empty($record['MulOtherNumber_tab'][0]) ? "" :
                                         $record['MulOtherNumber_tab'][0];
 
@@ -375,6 +376,30 @@ class Multimedia extends Model
             }
         } elseif (!empty($record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'])) {
             return "/catalogue/" . $record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'];
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Retrieves the Multimedia notes for a record. Requires extra processing because
+     * we don't want to include notes for records that only have an IRN for the notes field.
+     *
+     * @param array $record
+     *   The Multimedia record.
+     *
+     * @return string $notes
+     *   Returns the notes field.
+     */
+    public function getNotes($record) : string
+    {
+        if (empty($record['NotNotes'])) {
+            return "";
+        }
+
+        // If the notes is NOT just an IRN, return it.
+        if (!ctype_digit($record['NotNotes'])) {
+            return $record['NotNotes'];
         } else {
             return "";
         }
