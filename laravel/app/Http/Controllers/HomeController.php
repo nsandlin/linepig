@@ -16,7 +16,15 @@ class HomeController extends Controller
     {
         $multimedia = new Multimedia();
         $records = $multimedia->getRecords();
-        $count = $multimedia->getCount();
+
+        // We only want the "primary" records for the home page.
+        foreach ($records as $key => $value) {
+            if (strpos($value->keywords, "primary") === false) {
+                unset($records[$key]);
+            }
+        }
+
+        $count = count($records);
 
         $view = view('home', [
             'count' => $count,
