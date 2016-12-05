@@ -13,7 +13,7 @@ return [
     ],
     'multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
-        'DetMediaRightsRef.(SummaryData)',
+        'DetMediaRightsRef.(SummaryData)', 'NotNotes',
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
@@ -37,6 +37,14 @@ return [
     ],
     'rights_cc' => '<a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">CC',
     'rights_nc' => 'NC</a> (Attribution-NonCommercial)',
+    'search_keywords' => [
+        'male',
+        'female',
+        'habitus',
+        'genitalia',
+        'palp',
+        'epigynum',
+    ],
     'search_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
         'DetSubject_tab', 'thumbnail', 'DetMediaRightsRef.(SummaryData)', 'MulDescription',
