@@ -382,8 +382,7 @@ class Multimedia extends Model
     }
 
     /**
-     * Retrieves the Multimedia notes for a record. Requires extra processing because
-     * we don't want to include notes for records that only have an IRN for the notes field.
+     * Retrieves the Multimedia notes for a record.
      *
      * @param array $record
      *   The Multimedia record.
@@ -393,15 +392,10 @@ class Multimedia extends Model
      */
     public function getNotes($record) : string
     {
-        if (empty($record['NotNotes'])) {
+        if (empty($record['NteText0'])) {
             return "";
-        }
-
-        // If the notes is NOT just an IRN, return it.
-        if (!ctype_digit($record['NotNotes'])) {
-            return $record['NotNotes'];
         } else {
-            return "";
+            return $record['NteText0'];
         }
     }
 

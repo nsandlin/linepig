@@ -13,7 +13,7 @@ return [
     ],
     'multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
-        'DetMediaRightsRef.(SummaryData)', 'NotNotes',
+        'DetMediaRightsRef.(SummaryData)', 'NteText0',
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
