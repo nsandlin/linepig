@@ -159,22 +159,7 @@ class SearchController extends Controller
      */
     public function getKeywords($records) : array
     {
-        $keywords = array();
-
-        foreach ($records as $record) {
-            $chunks = explode(" | ", $record->keywords);
-            
-            foreach ($chunks as $chunk) {
-                if (!empty($chunk) &&
-                    $chunk !== 'primary' &&
-                    $chunk !== 'Philippines Natural History') {
-
-                    $keywords[] = $chunk;
-                }
-            }
-        }
-
-        $keywords = array_unique($keywords);
+        $keywords = config('emuconfig.search_keywords');
 
         return $keywords;
     }
