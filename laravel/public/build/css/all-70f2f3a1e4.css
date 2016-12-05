@@ -23,10 +23,8 @@ body.home .container-top, body.home .flex-container, body.home #bottomnav {
   margin-top: 0;
 }
 .fieldmuseum-logo {
-  max-width: 150px;
+  max-width: 250px;
   background-color: #84a726;
-  padding: 10px;
-  border-radius: 4px;
 }
 .container {
   padding-right: 0;
@@ -227,3 +225,4 @@ input.search {
     padding: 20px;
   }
 }
+/*# sourceMappingURL=all.css.map */
