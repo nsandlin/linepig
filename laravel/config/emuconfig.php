@@ -20,7 +20,18 @@ return [
         '<ecatalogue:MulMultiMediaRef_tab>.(irn, SummaryData)',
     ],
     'catalog_fields' => [
-        'irn', 'DarCatalogNumber', 'DarGenus', 'DarSpecies',
+        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber',
+        'LotTotalCount', 'LotSemaphoront_tab', 'LotWetCount_tab',
+        'IdeIdentifiedByRef_nesttab.(SummaryData)', 'IdeDateIdentified0',
+        'ColCollectionEventRef.(
+            irn, SummaryData, ColCollectionMethod, ColCollectionEventCode,
+            ColDateVisitedFrom, ColDateVisitedTo, ColParticipantRef_tab.(SummaryData),
+            ColSiteRef.(irn),
+         )',
+         'DarLatitude', 'DarLongitude', 'DarMinimumElevation',
+    ],
+    'site_fields' => [
+        'irn', 'SummaryData', 'AquHabitat_tab',
     ],
     'subsets_to_check' => [
         'male' => false,
