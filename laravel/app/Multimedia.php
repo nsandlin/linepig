@@ -322,11 +322,13 @@ class Multimedia extends Model
      */
     public function getBOLD($record) : string
     {
-        if (!in_array($record['genus_species'], config('bold.lookup'))) {
+        $genusSpecies = DB::table('bold')->where('genus_species', $record['genus_species'])->value('genus_species');
+
+        if (is_null($genusSpecies)) {
             return "";
         }
 
-        $boldGS = str_replace(" ", "+", $record['genus_species']);
+        $boldGS = str_replace(" ", "+", $genusSpecies);
         $url = "http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=" . $boldGS;
 
         return $url;
