@@ -112,8 +112,9 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of records for the subset.
      */
-    public function getSubset($type, $taxonomyIRN)
+    public function getSubset($type, $taxonomyIRN) : array
     {
+        $rows = array();
         $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
         $module = new \IMuModule('emultimedia', $session);
 
