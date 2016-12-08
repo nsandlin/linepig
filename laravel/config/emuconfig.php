@@ -8,6 +8,7 @@ return [
     'emuserver' => '10.20.1.71',
     'emuport' => 40107,
     'multimedia_server' => 'cornelia.fieldmuseum.org',
+    'BOLD_import_url' => 'http://boldsystems.org/index.php/TaxBrowser_TaxonPage/SpeciesSummary?taxid=1266',
     'home_multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'MulMimeType', 'thumbnail'
     ],
