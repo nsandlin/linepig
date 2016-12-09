@@ -76,7 +76,6 @@ class SearchImport extends Command
         // Adding our search terms.
         $terms = new \IMuTerms();
         $terms->add('MulMultimediaCreatorRef_tab', '177281');
-        $terms->add('DetSubject_tab', 'epigynum');
         $columns = config('emuconfig.search_fields');
 
         // Fetching results.
