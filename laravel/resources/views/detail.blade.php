@@ -57,11 +57,17 @@
 
       <!-- Link to old/bad previous image -->
       @if (!empty($record['backlinked_image']))
-        <div class="backlink-old-image"><hr>
-          <p><b>Note:</b> This species was previously incorrectly represented here as<br>
-            <a href="{{ $record['backlinked_image'] }}" target="_blank">
-              <img src="{{ $record['backlinked_image'] }}" width="160px"><br>Click to enlarge
-            <a>
+        <div class="backlink-old-record"><hr>
+          <p><b>Note:</b> This species was previously incorrectly represented here as:<br>
+            [ IMAGE HERE ]
+            @if (empty($record['backlinked_record']['ClaSpecies']))
+              {{ $record['backlinked_record']['ClaGenus'] }} sp.
+            @elseif (empty($record['backlinked_record']['ClaGenus']))
+              {{ $record['backlinked_record']['ClaFamily'] }} sp.
+            @else
+              {{ $record['backlinked_record']['ClaGenus'] }}
+              {{ $record['backlinked_record']['ClaSpecies'] }}
+            @endif
           </p>
         </div>
       @endif
