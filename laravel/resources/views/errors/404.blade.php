@@ -17,7 +17,7 @@
     <p style="padding:0 0 0 40px;"> 
        &bull; <a href="">Search LinEpig <i>[once this is ready]</i></a> <br><br>
        &bull; <a href="http://linepig.fieldmuseum.org/">Visually browse the LineEpig main page:</a><br>
-       <a href="http://linepig.fieldmuseum.org/"><img src="images/mainpage.png"></a> <br><br>
+       <a href="http://linepig.fieldmuseum.org/"><img src="/images/mainpage2.png"></a> <br><br>
        &bull; <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery">Refer to "About LineEpig"</a> <br><br>
        &bull; <a href="http://www.wsc.nmbe.ch/family/48/Linyphiidae">Refer to "Linyphiidae" in the World Spider Catalog</a> <br> &nbsp;
     </p>
@@ -26,7 +26,9 @@
     </p>
 
     <p>LineEpig helps institutions identify the erigonines (family Linyphiidae) languishing in their collection.
-    <br>We have images for <b>296 species</b> so far. Read more <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">about LinEpig</a> and <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">help us grow</a>.</p>
+    <br>We have images for <b>296 species</b> so far. Read more
+    <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">about LinEpig</a> and
+    <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">help us grow</a>.</p>
   </div><!-- container -->
 
   <div id="bottomnav">
