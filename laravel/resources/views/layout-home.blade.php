@@ -36,6 +36,7 @@
   <div id="bottomnav" class="container container-bottom">
     <a href="/">LinEpig main page</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">About</a> - 
+    <a href="/search">Search</a> - 
     <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a> - 
     <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a>
