@@ -23,6 +23,7 @@ class BacklinkImage extends Model
      * Object variables
      */
     protected $taxonomyIRN;
+    protected $taxonomyRecord;
     protected $narrativeIRN;
     protected $oldImageRecord;
     protected $oldImageURL;
@@ -34,6 +35,7 @@ class BacklinkImage extends Model
     public function __construct($irn)
     {
         $this->taxonomyIRN = $this->getTaxonomyIRNFromMultimedia($irn);
+        $this->setOldTaxonomyRecord($this->taxonomyIRN);
         $this->narrativeIRN = $this->getReversedAttachedNarrativeIRN($this->taxonomyIRN);
         $this->oldImageRecord = $this->getOldImageRecord($this->narrativeIRN);
         $this->setFormattedImageURL($this->oldImageRecord);
@@ -75,12 +77,49 @@ class BacklinkImage extends Model
         }
         
         // Let's now grab the Taxonomy record IRN.
-        
         if (!empty($record['MulOtherNumber_tab'][$sourceKey])) {
             return $record['MulOtherNumber_tab'][$sourceKey];
         }
         else {
             return null;
+        }
+    }
+
+    /**
+     * Returns the old Taxonomy record.
+     *
+     * @return array $record
+     *   Returns the old Taxonomy classification record.
+     */
+    public function getOldTaxonomyRecord()
+    {
+        return $this->taxonomyRecord;
+    }
+
+    /**
+     * Sets the Taxonomy record of the old classification.
+     *
+     * @param int $irn
+     *   The IRN of the Taxonomy record to query.
+     *
+     * @return void
+     */
+    public function setOldTaxonomyRecord($irn)
+    {
+        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
+        $module = new \IMuModule('etaxonomy', $session);
+        $terms = new \IMuTerms();
+        $terms->add('irn', $irn);
+        $hits = $module->findTerms($terms);
+        $columns = array(
+            'irn', 'ClaFamily', 'ClaGenus', 'ClaSpecies',
+            'MulMultiMediaRef_tab.(irn, MulIdentifier)',
+        );
+        $results = $module->fetch('start', 0, 1, $columns);
+
+        if (!empty($results->rows)) {
+            $this->taxonomyRecord = $results->rows[0];
+            //$this->setFormattedImageURL($this->taxonomyRecord['MulMultiMediaRef_tab'][0]);
         }
     }
     

@@ -67,6 +67,7 @@ class Multimedia extends Model
         $record['author'] = $this->getAuthor($record);
         $record['rights'] = $this->getRights($record);
         $record['backlinked_image'] = $this->getBacklinkedImage($irn);
+        $record['backlinked_record'] = $this->getOldTaxonomyClassification($irn);
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($record);
         $record['collection_record_url'] = $this->getCollectionRecordURL($record);
@@ -308,6 +309,23 @@ class Multimedia extends Model
         $url = $bli->getFormattedImageURL();
 
         return $url;
+    }
+
+    /**
+     * Retrieves old Taxonomy classification info.
+     *
+     * @param int $irn
+     *   The IRN of the Multimedia record.
+     *
+     * @return array $record
+     *   The Taxonomy EMu record.
+     */
+    public function getOldTaxonomyClassification($irn)
+    {
+        $bli = new BacklinkImage($irn);
+        $record = $bli->getOldTaxonomyRecord();
+
+        return $record;
     }
 
     /**
