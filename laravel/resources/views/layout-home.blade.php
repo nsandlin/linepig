@@ -24,10 +24,7 @@
     <h1>Welcome to LinEpig</h1>
     <p>
       Get help identifying the erigonines languishing in your collection.
-      <br>We have epigynal images for <b>@yield('count') species</b> of Erigoninae so far. Read more
-      <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">
-      about LinEpig</a> and 
-      <a href="https://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">help us grow</a>.
+      <br>We have epigynal images for <b>@yield('count') species</b> of Erigoninae so far.
     </p>
   </div><!--.container container-top-->
 
