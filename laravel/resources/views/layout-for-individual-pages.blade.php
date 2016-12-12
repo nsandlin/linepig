@@ -27,7 +27,7 @@
   @yield('content')
 
   <div id="bottomnav" class="container container-bottom">
-    <a href="/">LinEpig main page</a> - 
+    <a href="/">Home</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">About</a> - 
     <a href="/search">Search</a> - 
     <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
