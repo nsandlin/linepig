@@ -66,7 +66,7 @@ class Multimedia extends Model
         $record['genus_species'] = $this->getGenusSpecies($record);
         $record['author'] = $this->getAuthor($record);
         $record['rights'] = $this->getRights($record);
-        $record['old_taxon_classification'] = $this->getOldTaxonomyClassification($record);
+        $record['wrong_multimedia'] = $this->getOldMultimedia($record);
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($record);
         $record['collection_record_url'] = $this->getCollectionRecordURL($record);
@@ -294,18 +294,22 @@ class Multimedia extends Model
     }
 
     /**
-     * Retrieves old Taxonomy classification info.
+     * Retrieves old Multimedia classification info.
+     * This function retrieves the old, "incorrectly" used Multimedia image record info from
+     * the Narrative module.
      *
      * @param array $record
      *   Array of the Multimedia record.
      *
      * @return array $record
-     *   Returns an array of the old classification Taxonomy record w/Multimedia.
+     *   Returns an array of the old multimedia information.
      */
-    public function getOldTaxonomyClassification($record) : array
+    public function getOldMultimedia($record) : array
     {
-        $oldTaxonomyIRN = null;
+        $taxonomyIRN = "";
+        $oldMultimedia = null;
 
+        // Basic check to see if we have a Taxonomy IRN in the record.
         if (empty($record['MulOtherNumberSource_tab'])) {
             return array();
         }
@@ -324,7 +328,7 @@ class Multimedia extends Model
         
         // Let's now grab the Taxonomy record IRN.
         if (!empty($record['MulOtherNumber_tab'][$sourceKey])) {
-            $oldTaxonomyIRN = $record['MulOtherNumber_tab'][$sourceKey];
+            $taxonomyIRN = $record['MulOtherNumber_tab'][$sourceKey];
         } else {
             return array();
         }
@@ -332,30 +336,39 @@ class Multimedia extends Model
         $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
         $module = new \IMuModule('etaxonomy', $session);
         $terms = new \IMuTerms();
-        $terms->add('irn', $oldTaxonomyIRN);
+        $terms->add('irn', $taxonomyIRN);
         $hits = $module->findTerms($terms);
         $columns = array(
             'irn', 'ClaFamily', 'ClaGenus', 'ClaSpecies',
-            'MulMultiMediaRef_tab.(irn, MulIdentifier, thumbnail)',
+            '<enarratives:TaxTaxaRef_tab>.(
+                irn, NarNarrative, MulMultiMediaRef_tab.(irn, MulIdentifier, thumbnail)
+             )',
         );
         $results = $module->fetch('start', 0, 1, $columns);
 
+        // Important: if we do NOT have a reverse-attached Narrative, then return empty array.
+        if (empty($results->rows[0]['enarratives:TaxTaxaRef_tab'])) {
+            return array();
+        }
+
+        // Process results.
         if (!empty($results->rows)) {
             $record = $results->rows[0];
-            $record['to_display'] = "";
 
             // Add the previous image if we have it.
-            if (!empty($record['MulMultiMediaRef_tab'][0])) {
-                $record['thumbnail_url'] = self::fixThumbnailURL($record['MulMultiMediaRef_tab'][0]);
+            if (!empty($record['enarratives:TaxTaxaRef_tab'][0]['MulMultiMediaRef_tab'][0])) {
+                $record['thumbnail_url'] = self::fixThumbnailURL(
+                    $record['enarratives:TaxTaxaRef_tab'][0]['MulMultiMediaRef_tab'][0]
+                );
             }
 
             // Logic for which classifications to display.
             if (empty($record['ClaSpecies'])) {
-                $record['to_display'] = $record['ClaGenus'] . " sp.";
+                $record['taxon_to_display'] = $record['ClaGenus'] . " sp.";
             } elseif (empty($record['ClaGenus'])) {
-                $record['to_display'] = $record['ClaFamily'] . " sp.";
+                $record['taxon_to_display'] = $record['ClaFamily'] . " sp.";
             } else {
-                $record['to_display'] = $record['ClaGenus'] . " " . $record['ClaSpecies'];
+                $record['taxon_to_display'] = $record['ClaGenus'] . " " . $record['ClaSpecies'];
             }
 
             return $record;

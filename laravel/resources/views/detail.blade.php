@@ -56,14 +56,14 @@
     <p>Image {!! $record['rights'] !!}</p>
 
       <!-- Link to old/bad previous classification -->
-      @if (!empty($record['old_taxon_classification']))
-        <div class="old-classification"><hr>
-          <p><b>Note:</b> This species was previously incorrectly represented here as:<br>
-            <i>{{ $record['old_taxon_classification']['to_display'] }}</i> <br />
-            @if (!empty($record['old_taxon_classification']['thumbnail_url']))
-              <img src="{{ $record['old_taxon_classification']['thumbnail_url'] }}"
-                   alt="{{ $record['old_taxon_classification']['to_display'] }}"
-                   title="{{ $record['old_taxon_classification']['to_display'] }}" >
+      @if (!empty($record['wrong_multimedia']))
+        <div class="wrong-multimedia"><hr>
+          <p>{!! $record['wrong_multimedia']['enarratives:TaxTaxaRef_tab'][0]['NarNarrative'] or "" !!}</p>
+          <p>
+            @if (!empty($record['wrong_multimedia']['thumbnail_url']))
+              <img src="{{ $record['wrong_multimedia']['thumbnail_url'] }}"
+                   alt="{{ $record['wrong_multimedia']['taxon_to_display'] }}"
+                   title="{{ $record['wrong_multimedia']['taxon_to_display'] }}" >
             @endif
           </p>
         </div>
