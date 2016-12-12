@@ -25,7 +25,9 @@ return [
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
-        '<ecatalogue:MulMultiMediaRef_tab>.(irn, SummaryData)',
+        '<ecatalogue:MulMultiMediaRef_tab>.(
+            irn, SummaryData, MulMultiMediaRef_tab.(irn, thumbnail)
+         )',
         'MulOtherNumberSource_tab',
     ],
     'catalog_fields' => [
