@@ -19,13 +19,6 @@ body.home .container-top, body.home .flex-container, body.home #bottomnav, body.
   margin: auto;
   padding: 15px;
 }
-body.home #topnav {
-  padding-top: 0;
-  padding-bottom: 5px;
-}
-.detail-page #topnav {
-  margin-bottom: 0;
-}
 .container-top {
   margin-top: 0;
 }
@@ -164,7 +157,7 @@ body.detail-page .blue div, body.detail-page .blue div a {
 }
 body.detail-page .blue, body.detail-page .additional-info {
   max-width: 1024px;
-  margin-top: 5px;
+  margin-top: 10px;
   padding: 20px;
 }
 body.detail-page .additional-info {
@@ -237,3 +230,4 @@ input.search {
     padding: 20px;
   }
 }
+/*# sourceMappingURL=all.css.map */
