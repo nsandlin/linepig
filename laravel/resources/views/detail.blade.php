@@ -55,18 +55,15 @@
     </p>
     <p>Image {!! $record['rights'] !!}</p>
 
-      <!-- Link to old/bad previous image -->
-      @if (!empty($record['backlinked_image']))
-        <div class="backlink-old-record"><hr>
+      <!-- Link to old/bad previous classification -->
+      @if (!empty($record['old_taxon_classification']))
+        <div class="old-classification"><hr>
           <p><b>Note:</b> This species was previously incorrectly represented here as:<br>
-            [ IMAGE HERE ]
-            @if (empty($record['backlinked_record']['ClaSpecies']))
-              {{ $record['backlinked_record']['ClaGenus'] }} sp.
-            @elseif (empty($record['backlinked_record']['ClaGenus']))
-              {{ $record['backlinked_record']['ClaFamily'] }} sp.
-            @else
-              {{ $record['backlinked_record']['ClaGenus'] }}
-              {{ $record['backlinked_record']['ClaSpecies'] }}
+            <i>{{ $record['old_taxon_classification']['to_display'] }}</i> <br />
+            @if (!empty($record['old_taxon_classification']['thumbnail_url']))
+              <img src="{{ $record['old_taxon_classification']['thumbnail_url'] }}"
+                   alt="{{ $record['old_taxon_classification']['to_display'] }}"
+                   title="{{ $record['old_taxon_classification']['to_display'] }}" >
             @endif
           </p>
         </div>

@@ -66,8 +66,7 @@ class Multimedia extends Model
         $record['genus_species'] = $this->getGenusSpecies($record);
         $record['author'] = $this->getAuthor($record);
         $record['rights'] = $this->getRights($record);
-        $record['backlinked_image'] = $this->getBacklinkedImage($irn);
-        $record['backlinked_record'] = $this->getOldTaxonomyClassification($irn);
+        $record['old_taxon_classification'] = $this->getOldTaxonomyClassification($record);
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($record);
         $record['collection_record_url'] = $this->getCollectionRecordURL($record);
@@ -295,37 +294,74 @@ class Multimedia extends Model
     }
 
     /**
-     * Retrieves the Back-linked image for the Multimedia record.
-     *
-     * @param int $irn
-     *   The IRN of the Multimedia record.
-     *
-     * @return string
-     *   Returns a formatted string of the URL of the back-linked image.
-     */
-    public function getBacklinkedImage($irn) : string
-    {
-        $bli = new BacklinkImage($irn);
-        $url = $bli->getFormattedImageURL();
-
-        return $url;
-    }
-
-    /**
      * Retrieves old Taxonomy classification info.
      *
-     * @param int $irn
-     *   The IRN of the Multimedia record.
+     * @param array $record
+     *   Array of the Multimedia record.
      *
      * @return array $record
-     *   The Taxonomy EMu record.
+     *   Returns an array of the old classification Taxonomy record w/Multimedia.
      */
-    public function getOldTaxonomyClassification($irn)
+    public function getOldTaxonomyClassification($record) : array
     {
-        $bli = new BacklinkImage($irn);
-        $record = $bli->getOldTaxonomyRecord();
+        $oldTaxonomyIRN = null;
 
-        return $record;
+        if (empty($record['MulOtherNumberSource_tab'])) {
+            return array();
+        }
+
+        // Loop through the Other Number Source table to get the etaxonomy IRN.
+        foreach ($record['MulOtherNumberSource_tab'] as $key => $value) {
+            if ($value == 'etaxonomy irn') {
+                $sourceKey = $key;
+            }
+        }
+
+        // If we don't have an etaxonomy irn source key, return.
+        if (is_null($sourceKey)) {
+            return array();
+        }
+        
+        // Let's now grab the Taxonomy record IRN.
+        if (!empty($record['MulOtherNumber_tab'][$sourceKey])) {
+            $oldTaxonomyIRN = $record['MulOtherNumber_tab'][$sourceKey];
+        } else {
+            return array();
+        }
+
+        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
+        $module = new \IMuModule('etaxonomy', $session);
+        $terms = new \IMuTerms();
+        $terms->add('irn', $oldTaxonomyIRN);
+        $hits = $module->findTerms($terms);
+        $columns = array(
+            'irn', 'ClaFamily', 'ClaGenus', 'ClaSpecies',
+            'MulMultiMediaRef_tab.(irn, MulIdentifier, thumbnail)',
+        );
+        $results = $module->fetch('start', 0, 1, $columns);
+
+        if (!empty($results->rows)) {
+            $record = $results->rows[0];
+            $record['to_display'] = "";
+
+            // Add the previous image if we have it.
+            if (!empty($record['MulMultiMediaRef_tab'][0])) {
+                $record['thumbnail_url'] = self::fixThumbnailURL($record['MulMultiMediaRef_tab'][0]);
+            }
+
+            // Logic for which classifications to display.
+            if (empty($record['ClaSpecies'])) {
+                $record['to_display'] = $record['ClaGenus'] . " sp.";
+            } elseif (empty($record['ClaGenus'])) {
+                $record['to_display'] = $record['ClaFamily'] . " sp.";
+            } else {
+                $record['to_display'] = $record['ClaGenus'] . " " . $record['ClaSpecies'];
+            }
+
+            return $record;
+        } else {
+            return array();
+        }
     }
 
     /**

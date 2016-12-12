@@ -26,6 +26,7 @@ return [
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
         '<ecatalogue:MulMultiMediaRef_tab>.(irn, SummaryData)',
+        'MulOtherNumberSource_tab',
     ],
     'catalog_fields' => [
         'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber',
