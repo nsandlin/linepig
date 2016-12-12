@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\SearchImport::class,
+        Commands\BOLDImport::class,
+        Commands\SitemapGenerator::class,
     ];
 
     /**

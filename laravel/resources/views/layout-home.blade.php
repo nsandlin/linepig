@@ -17,7 +17,7 @@
   <div class="container container-top">
     <p style="float:right;">
       <a href="https://fieldmuseum.org" target="_blank">
-        <img src="/images/logo-field.png">
+        <img src="/images/field-logo.svg" class="fieldmuseum-logo">
       </a>
     </p>
     <br clear="both">
@@ -34,12 +34,23 @@
   @yield('content')
 
   <div id="bottomnav" class="container container-bottom">
-    <a href="/">LinEpig main page</a> - 
+    <a href="/">Home</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery" target="_blank">About</a> - 
+    <a href="/search">Search</a> - 
     <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a> - 
     <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a>
   </div><!--bottomnav-->
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-88512602-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>

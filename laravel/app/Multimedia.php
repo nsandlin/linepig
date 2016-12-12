@@ -67,9 +67,11 @@ class Multimedia extends Model
         $record['author'] = $this->getAuthor($record);
         $record['rights'] = $this->getRights($record);
         $record['backlinked_image'] = $this->getBacklinkedImage($irn);
+        $record['backlinked_record'] = $this->getOldTaxonomyClassification($irn);
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($record);
         $record['collection_record_url'] = $this->getCollectionRecordURL($record);
+        $record['notes'] = $this->getNotes($record);
         $record['taxonomy_irn'] = empty($record['MulOtherNumber_tab'][0]) ? "" :
                                         $record['MulOtherNumber_tab'][0];
 
@@ -111,8 +113,9 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of records for the subset.
      */
-    public function getSubset($type, $taxonomyIRN)
+    public function getSubset($type, $taxonomyIRN) : array
     {
+        $rows = array();
         $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
         $module = new \IMuModule('emultimedia', $session);
 
@@ -309,6 +312,23 @@ class Multimedia extends Model
     }
 
     /**
+     * Retrieves old Taxonomy classification info.
+     *
+     * @param int $irn
+     *   The IRN of the Multimedia record.
+     *
+     * @return array $record
+     *   The Taxonomy EMu record.
+     */
+    public function getOldTaxonomyClassification($irn)
+    {
+        $bli = new BacklinkImage($irn);
+        $record = $bli->getOldTaxonomyRecord();
+
+        return $record;
+    }
+
+    /**
      * Determines if we have a BOLD link to add to the page and returns a
      * string of the URL if we have a URL for BOLD.
      *
@@ -320,11 +340,13 @@ class Multimedia extends Model
      */
     public function getBOLD($record) : string
     {
-        if (!in_array($record['genus_species'], config('bold.lookup'))) {
+        $genusSpecies = DB::table('bold')->where('genus_species', $record['genus_species'])->value('genus_species');
+
+        if (is_null($genusSpecies)) {
             return "";
         }
 
-        $boldGS = str_replace(" ", "+", $record['genus_species']);
+        $boldGS = str_replace(" ", "+", $genusSpecies);
         $url = "http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=" . $boldGS;
 
         return $url;
@@ -377,6 +399,24 @@ class Multimedia extends Model
             return "/catalogue/" . $record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'];
         } else {
             return "";
+        }
+    }
+
+    /**
+     * Retrieves the Multimedia notes for a record.
+     *
+     * @param array $record
+     *   The Multimedia record.
+     *
+     * @return string $notes
+     *   Returns the notes field.
+     */
+    public function getNotes($record) : string
+    {
+        if (empty($record['NteText0'])) {
+            return "";
+        } else {
+            return $record['NteText0'];
         }
     }
 

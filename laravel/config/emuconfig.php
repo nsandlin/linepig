@@ -7,20 +7,39 @@
 return [
     'emuserver' => '10.20.1.71',
     'emuport' => 40107,
+    'website_domain' => 'http://linepig.fieldmuseum.org/',
+    'website_links' => [
+        'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery',
+        'http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/',
+        'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help',
+        'https://github.com/nsandlin/linepig'
+    ],
     'multimedia_server' => 'cornelia.fieldmuseum.org',
+    'BOLD_import_url' => 'http://boldsystems.org/index.php/TaxBrowser_TaxonPage/SpeciesSummary?taxid=1266',
     'home_multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'MulMimeType', 'thumbnail'
     ],
     'multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
-        'DetMediaRightsRef.(SummaryData)', 'NotNotes',
+        'DetMediaRightsRef.(SummaryData)', 'NteText0',
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
         '<ecatalogue:MulMultiMediaRef_tab>.(irn, SummaryData)',
     ],
     'catalog_fields' => [
-        'irn', 'DarCatalogNumber', 'DarGenus', 'DarSpecies',
+        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber',
+        'LotTotalCount', 'LotSemaphoront_tab', 'LotWetCount_tab',
+        'IdeIdentifiedByRef_nesttab.(SummaryData)', 'IdeDateIdentified0',
+        'ColCollectionEventRef.(
+            irn, SummaryData, ColCollectionMethod, ColCollectionEventCode,
+            ColDateVisitedFrom, ColDateVisitedTo, ColParticipantRef_tab.(SummaryData),
+            ColSiteRef.(irn),
+         )',
+         'DarLatitude', 'DarLongitude', 'DarMinimumElevation',
+    ],
+    'site_fields' => [
+        'irn', 'SummaryData', 'AquHabitat_tab',
     ],
     'subsets_to_check' => [
         'male' => false,
