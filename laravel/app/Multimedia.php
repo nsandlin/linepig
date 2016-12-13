@@ -339,9 +339,10 @@ class Multimedia extends Model
         $terms->add('irn', $taxonomyIRN);
         $hits = $module->findTerms($terms);
         $columns = array(
-            'irn', 'ClaFamily', 'ClaGenus', 'ClaSpecies',
+            'irn',
             '<enarratives:TaxTaxaRef_tab>.(
-                irn, NarNarrative, MulMultiMediaRef_tab.(irn, MulIdentifier, thumbnail)
+                irn, NarNarrative, MulMultiMediaRef_tab.(irn, MulIdentifier, thumbnail),
+                TaxTaxaRef_tab.(irn, SummaryData)
              )',
         );
         $results = $module->fetch('start', 0, 1, $columns);
@@ -362,13 +363,12 @@ class Multimedia extends Model
                 );
             }
 
-            // Logic for which classifications to display.
-            if (empty($record['ClaSpecies'])) {
-                $record['taxon_to_display'] = $record['ClaGenus'] . " sp.";
-            } elseif (empty($record['ClaGenus'])) {
-                $record['taxon_to_display'] = $record['ClaFamily'] . " sp.";
+            // Let's use the SummaryData for the classification.
+            if (empty($record['enarratives:TaxTaxaRef_tab'][0]['TaxTaxaRef_tab']['0']['SummaryData'])) {
+                $record['taxon_to_display'] = "";
             } else {
-                $record['taxon_to_display'] = $record['ClaGenus'] . " " . $record['ClaSpecies'];
+                $record['taxon_to_display'] =
+                    $record['enarratives:TaxTaxaRef_tab'][0]['TaxTaxaRef_tab']['0']['SummaryData'];
             }
 
             return $record;

@@ -55,7 +55,7 @@
     </p>
     <p>Image {!! $record['rights'] !!}</p>
 
-      <!-- Link to old/bad previous classification -->
+      <!-- Link to old/bad previous multimedia -->
       @if (!empty($record['wrong_multimedia']))
         <div class="wrong-multimedia"><hr>
           <p>{!! $record['wrong_multimedia']['enarratives:TaxTaxaRef_tab'][0]['NarNarrative'] or "" !!}</p>
@@ -66,6 +66,10 @@
                    title="{{ $record['wrong_multimedia']['taxon_to_display'] }}" >
             @endif
           </p>
+
+          @if (!empty($record['wrong_multimedia']['taxon_to_display']))
+            {{ $record['wrong_multimedia']['taxon_to_display'] }}
+          @endif
         </div>
       @endif
 
