@@ -217,6 +217,22 @@ input.search {
 .result-container {
   float: left;
 }
+/** Catalogue page CSS **/
+.multimedia-container {
+  float: right;
+}
+body.detail-page .blue .catalogue-multimedia-link:link,
+body.detail-page .blue .catalogue-multimedia-link:hover {
+  border-radius: inherit;
+  background: transparent;
+  padding: 0;
+}
+.semaphoronts-list {
+  list-style-position: outside;
+}
+li.semaphoront {
+  margin-left: 25px;
+}
 /** MEDIA QUERIES **/
 @media screen and (max-width: 600px) {
   h1 {

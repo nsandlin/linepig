@@ -6,6 +6,22 @@
 @section('content')
   <div class="flex-container blue">  
     <div class="flex-item">
+
+      {{-- Catalogue Images container --}}
+        @if (!empty($record['multimedia']))
+          <div class="multimedia-container">
+            @foreach ($record['multimedia'] as $multimedia)
+              <div class="catalogue-multimedia multimedia">
+                <a href="/multimedia/{{ $multimedia['irn'] }}" class="catalogue-multimedia-link">
+                  <img src="{{ $multimedia['thumbnail_url'] }}"
+                       alt="{{ $multimedia['MulDescription'] }}"
+                       title="{{ $multimedia['MulTitle'] }}">
+                </a>
+              </div>
+            @endforeach
+          </div>
+        @endif
+
       <div class="collection-data">Collection data: {{ $record['collection_data'] }}</div>
 
       <div class="total-count">Total count: {{ $record['total_count'] }}</div>

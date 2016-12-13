@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Multimedia;
 
 class Catalog extends Model
 {
@@ -62,6 +63,14 @@ class Catalog extends Model
         $record['lng'] = $record['DarLongitude'] ?? null;
         $record['elevation'] = $record['DarMinimumElevation'] ?? null;
         $record['habitat'] = $this->getHabitat($record) ?? null;
+
+        // Attached Multimedia processing.
+        if (!empty($record['MulMultiMediaRef_tab'])) {
+            foreach ($record['MulMultiMediaRef_tab'] as $multimedia) {
+                $multimedia['thumbnail_url'] = Multimedia::fixThumbnailURL($multimedia);
+                $record['multimedia'][] = $multimedia; 
+            }
+        }
 
         // Set the individual Multimedia record.
         $this->record = $record;

@@ -40,6 +40,7 @@ return [
             ColSiteRef.(irn),
          )',
          'DarLatitude', 'DarLongitude', 'DarMinimumElevation',
+         'MulMultiMediaRef_tab.(irn, MulTitle, MulDescription, thumbnail)'
     ],
     'site_fields' => [
         'irn', 'SummaryData', 'AquHabitat_tab',
