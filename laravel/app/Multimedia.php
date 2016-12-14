@@ -341,8 +341,11 @@ class Multimedia extends Model
         $columns = array(
             'irn',
             '<enarratives:TaxTaxaRef_tab>.(
-                irn, NarNarrative, MulMultiMediaRef_tab.(irn, MulIdentifier, thumbnail),
-                TaxTaxaRef_tab.(irn, SummaryData)
+                irn, NarNarrative,
+                MulMultiMediaRef_tab.(
+                    irn, MulIdentifier, thumbnail,
+                    <etaxonomy:MulMultiMediaRef_tab>.(ClaFamily, ClaGenus, ClaSpecies),
+                ),
              )',
         );
         $results = $module->fetch('start', 0, 1, $columns);
@@ -363,12 +366,19 @@ class Multimedia extends Model
                 );
             }
 
-            // Let's use the SummaryData for the classification.
-            if (empty($record['enarratives:TaxTaxaRef_tab'][0]['TaxTaxaRef_tab']['0']['SummaryData'])) {
-                $record['taxon_to_display'] = "";
+            // Let's set the previous taxonomy.
+            if (!empty($record['enarratives:TaxTaxaRef_tab'][0]['MulMultiMediaRef_tab'][0]['etaxonomy:MulMultiMediaRef_tab'][0])) {
+                $previousTaxonomy =
+                        $record['enarratives:TaxTaxaRef_tab'][0]['MulMultiMediaRef_tab'][0]['etaxonomy:MulMultiMediaRef_tab'][0];
+            }
+
+            // Logic for which classification to display.
+            if (empty($previousTaxonomy['ClaSpecies'])) {
+                $record['taxon_to_display'] = $previousTaxonomy['ClaGenus'] . " sp.";
+            } elseif (empty($previousTaxonomy['ClaGenus'])) {
+                $record['taxon_to_display'] = $previousTaxonomy['ClaFamily'] . " sp.";
             } else {
-                $record['taxon_to_display'] =
-                    $record['enarratives:TaxTaxaRef_tab'][0]['TaxTaxaRef_tab']['0']['SummaryData'];
+                $record['taxon_to_display'] = $previousTaxonomy['ClaGenus'] . " " . $previousTaxonomy['ClaSpecies'];
             }
 
             return $record;
