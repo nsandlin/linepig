@@ -10,9 +10,7 @@ return [
     'website_domain' => 'http://linepig.fieldmuseum.org/',
     'website_links' => [
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery',
-        'http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/',
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help',
-        'https://github.com/nsandlin/linepig'
     ],
     'multimedia_server' => 'cornelia.fieldmuseum.org',
     'BOLD_import_url' => 'http://boldsystems.org/index.php/TaxBrowser_TaxonPage/SpeciesSummary?taxid=1266',
