@@ -1,12 +1,12 @@
 @extends('layout-for-individual-pages')
 @section('title', 'LinEpig - A resource for ID of female erigonines')
 @section('description', 'A visual aid for identifying the difficult spiders in family Linyphiidae.')
-@section('species_name', $record['species_name'])
+@section('species_name', $record['genus_species'])
 
 @section('content')
   <div class="flex-container blue">  
     <div class="flex-item">
-          <h4 style="margin:30px 0 0 0;">{{ $record['species_name'] }}</h4>
+          <h4 style="margin:30px 0 0 0;">{{ $record['MulTitle'] }}</h4>
           <img src="{{ $record['image_url'] }}" class="detail-pic">
           <p><i>{{ $record['genus_species'] }}</i> {{ $record['author'] }}</p>
     </div><!--.flex-item blue-->
