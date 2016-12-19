@@ -6,7 +6,7 @@
 @section('content')
   <div class="flex-container blue">  
     <div class="flex-item">
-          <h4 style="margin:30px 0 0 0;">Female epigynum, ventral view.</h4>
+          <h4 style="margin:30px 0 0 0;">{{ $record['species_name'] }}</h4>
           <img src="{{ $record['image_url'] }}" class="detail-pic">
           <p><i>{{ $record['genus_species'] }}</i> {{ $record['author'] }}</p>
     </div><!--.flex-item blue-->
