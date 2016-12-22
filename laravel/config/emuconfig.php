@@ -72,5 +72,6 @@ return [
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
+        'MulOtherNumberSource_tab',
     ],
 ];

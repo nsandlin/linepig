@@ -89,9 +89,9 @@ class SearchImport extends Command
             // Process the record for insertion into search table.
             $irn = (int) $record['irn'];
             $module = "emultimedia";
-            $genus = @$record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
-            $species = @$record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaSpecies'];
-            $keywords = @$this->combineArrayForSearch($record['DetSubject_tab']);
+            $genus = $this->getGenus($record);
+            $species = $this->getSpecies($record);
+            $keywords = $this->combineArrayForSearch($record['DetSubject_tab']);
             $title = $record['MulTitle'];
             $description = $record['MulDescription'];
             $thumbnailURL = Multimedia::fixThumbnailURL($record);
@@ -113,6 +113,110 @@ class SearchImport extends Command
 
         Log::info("Done adding records to the search database.");
         print("Done adding records to the search database." . PHP_EOL);
+    }
+
+    /**
+     * Retrieves the Genus for the record from the MulOtherNumber_tab on the Multimedia record.
+     *
+     * @param array $record
+     *   The Multimedia record array.
+     *
+     * @return string $genus
+     *   Returns a string of the Genus for the record.
+     */
+    public function getGenus($record) : string
+    {
+        // We need to figure out which array element to grab the Taxonomy IRN from.
+        $taxonomyArrayKey = null;
+
+        if (!empty($record['MulOtherNumberSource_tab'])) {
+            foreach ($record['MulOtherNumberSource_tab'] as $key => $value) {
+                if ($value == "etaxonomy irn") {
+                    $taxonomyArrayKey = $key;
+                }
+            }
+        }
+
+        // Now let's get the Taxonomy IRN from the MulOtherNumber_tab field.
+        if (empty($record['MulOtherNumber_tab'])) {
+            Log::error("No Taxonomy IRN included with Multimedia, IRN: $irn");
+            print("No Taxonomy IRN included with Multimedia, IRN: $irn" . PHP_EOL);
+            exit;
+        } else {
+            $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
+        }
+
+        // Create a Session.
+        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
+        $module = new \IMuModule('etaxonomy', $session);
+
+        // Adding our search terms.
+        $terms = new \IMuTerms();
+        $terms->add('irn', $irn);
+
+        // Fetching results.
+        $hits = $module->findTerms($terms);
+        $results = $module->fetch('start', 0, 1, array("irn", "ClaGenus"));
+
+        if (empty($results->rows[0]['ClaGenus'])) {
+            Log::error("Could NOT find Genus info for this record, IRN: $irn");
+            print("Could NOT find Genus info for this record, IRN: $irn" . PHP_EOL);
+            return "";
+        } else {
+            return $results->rows[0]['ClaGenus'];
+        }
+    }
+
+    /**
+     * Retrieves the Species for the record from the MulOtherNumber_tab on the Multimedia record.
+     *
+     * @param array $record
+     *   The Multimedia record array.
+     *
+     * @return string $species
+     *   Returns a string of the Species for the record.
+     */
+    public function getSpecies($record) : string
+    {
+        // We need to figure out which array element to grab the Taxonomy IRN from.
+        $taxonomyArrayKey = null;
+
+        if (!empty($record['MulOtherNumberSource_tab'])) {
+            foreach ($record['MulOtherNumberSource_tab'] as $key => $value) {
+                if ($value == "etaxonomy irn") {
+                    $taxonomyArrayKey = $key;
+                }
+            }
+        }
+
+        // Now let's get the Taxonomy IRN from the MulOtherNumber_tab field.
+        if (empty($record['MulOtherNumber_tab'])) {
+            Log::error("No Taxonomy IRN included with Multimedia, IRN: $irn");
+            print("No Taxonomy IRN included with Multimedia, IRN: $irn" . PHP_EOL);
+            exit;
+        } else {
+            $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
+        }
+
+        // Create a Session.
+        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
+        $module = new \IMuModule('etaxonomy', $session);
+
+        // Adding our search terms.
+        $terms = new \IMuTerms();
+        $terms->add('irn', $irn);
+
+        // Fetching results.
+        $hits = $module->findTerms($terms);
+        $results = $module->fetch('start', 0, 1, array("irn", "ClaSpecies"));
+
+        if (empty($results->rows[0]['ClaSpecies'])) {
+            Log::error("Could NOT find Species info for this record, IRN: $irn");
+            print("Could NOT find Species info for this record, IRN: $irn" . PHP_EOL);
+            return "";
+        } else {
+            return $results->rows[0]['ClaSpecies'];
+        }
     }
 
     /**
