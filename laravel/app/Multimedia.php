@@ -472,10 +472,10 @@ class Multimedia extends Model
      */
     public function getNotes($record) : string
     {
-        if (empty($record['NteText0'])) {
+        if (empty($record['NteText0'][0])) {
             return "";
         } else {
-            return $record['NteText0'];
+            return $record['NteText0'][0];
         }
     }
 
