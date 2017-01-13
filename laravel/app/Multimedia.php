@@ -212,8 +212,14 @@ class Multimedia extends Model
      */
     public static function fixThumbnailURL($record) : string
     {
-        $irn = $record['irn'];
         $filename = $record['thumbnail']['identifier'];
+
+        // Let's check if we have a thumbnail filename first.
+        if (empty($filename)) {
+            return "";
+        }
+
+        $irn = $record['irn'];
         $url = "";
         $url = "/" . substr($irn, -3, 3) . $url;
         $irn = substr_replace($irn, '', -3, 3);
