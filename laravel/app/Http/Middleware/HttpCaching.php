@@ -59,7 +59,7 @@ class HttpCaching
     public function setCacheControl($request, $response)
     {
         if ($request->isMethod('get')) {
-            $response->header('Cache-Control', 'public, max-age=86400');
+            $response->header('Cache-Control', 'public, max-age=604800');
         }
 
         return $response;
