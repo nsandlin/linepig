@@ -23,12 +23,14 @@
 
   <div class="container items flex-container subset blue">
     @foreach ($searchResults as $result)
-      <div class="item flex-item">
-        <p class="species-item">{{ $result->genus }} {{ $result->species }}</p>
-        <a href="/multimedia/{{ $result->irn }}" class="species-link">
-          <img src="{{ $result->thumbnailURL }}" class="species-thumbnail">
-        </a>
-      </div>
+      @if (!empty($result->thumbnailURL))
+        <div class="item flex-item">
+          <p class="species-item">{{ $result->genus }} {{ $result->species }}</p>
+            <a href="/multimedia/{{ $result->irn }}" class="species-link">
+              <img src="{{ $result->thumbnailURL }}" class="species-thumbnail">
+            </a>
+        </div>
+      @endif
     @endforeach
   </div><!-- container-->
 
