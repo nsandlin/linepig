@@ -318,7 +318,7 @@ class Process implements \IteratorAggregate
      * @param callable|null $callback A PHP callback to run whenever there is some
      *                                output available on STDOUT or STDERR
      *
-     * @return Process The new process
+     * @return $this
      *
      * @throws RuntimeException When process can't be launched
      * @throws RuntimeException When process is already running
@@ -398,7 +398,7 @@ class Process implements \IteratorAggregate
      *
      * @param int $signal A valid POSIX signal (see http://www.php.net/manual/en/pcntl.constants.php)
      *
-     * @return Process
+     * @return $this
      *
      * @throws LogicException   In case the process is not running
      * @throws RuntimeException In case --enable-sigchild is activated and the process can't be killed
@@ -414,7 +414,7 @@ class Process implements \IteratorAggregate
     /**
      * Disables fetching output and error output from the underlying process.
      *
-     * @return Process
+     * @return $this
      *
      * @throws RuntimeException In case the process is already running
      * @throws LogicException   if an idle timeout is set
@@ -436,7 +436,7 @@ class Process implements \IteratorAggregate
     /**
      * Enables fetching output and error output from the underlying process.
      *
-     * @return Process
+     * @return $this
      *
      * @throws RuntimeException In case the process is already running
      */
@@ -557,6 +557,7 @@ class Process implements \IteratorAggregate
                 yield self::OUT => '';
             }
 
+            $this->checkTimeout();
             $this->readPipesForOutput(__FUNCTION__, $blocking);
         }
     }
@@ -564,7 +565,7 @@ class Process implements \IteratorAggregate
     /**
      * Clears the process output.
      *
-     * @return Process
+     * @return $this
      */
     public function clearOutput()
     {
@@ -623,7 +624,7 @@ class Process implements \IteratorAggregate
     /**
      * Clears the process output.
      *
-     * @return Process
+     * @return $this
      */
     public function clearErrorOutput()
     {
@@ -976,8 +977,16 @@ class Process implements \IteratorAggregate
         if ('\\' === DIRECTORY_SEPARATOR && $tty) {
             throw new RuntimeException('TTY mode is not supported on Windows platform.');
         }
-        if ($tty && (!file_exists('/dev/tty') || !is_readable('/dev/tty'))) {
-            throw new RuntimeException('TTY mode requires /dev/tty to be readable.');
+        if ($tty) {
+            static $isTtySupported;
+
+            if (null === $isTtySupported) {
+                $isTtySupported = (bool) @proc_open('echo 1 >/dev/null', array(array('file', '/dev/tty', 'r'), array('file', '/dev/tty', 'w'), array('file', '/dev/tty', 'w')), $pipes);
+            }
+
+            if (!$isTtySupported) {
+                throw new RuntimeException('TTY mode requires /dev/tty to be read/writable.');
+            }
         }
 
         $this->tty = (bool) $tty;
@@ -1241,7 +1250,7 @@ class Process implements \IteratorAggregate
             return $result = false;
         }
 
-        return $result = (bool) @proc_open('echo 1', array(array('pty'), array('pty'), array('pty')), $pipes);
+        return $result = (bool) @proc_open('echo 1 >/dev/null', array(array('pty'), array('pty'), array('pty')), $pipes);
     }
 
     /**

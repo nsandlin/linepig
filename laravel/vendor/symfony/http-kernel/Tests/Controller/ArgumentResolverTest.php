@@ -190,7 +190,7 @@ class ArgumentResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetArgumentWithoutArray()
     {
         $factory = new ArgumentMetadataFactory();
-        $valueResolver = $this->getMock(ArgumentValueResolverInterface::class);
+        $valueResolver = $this->getMockBuilder(ArgumentValueResolverInterface::class)->getMock();
         $resolver = new ArgumentResolver($factory, array($valueResolver));
 
         $valueResolver->expects($this->any())->method('supports')->willReturn(true);
@@ -201,6 +201,17 @@ class ArgumentResolverTest extends \PHPUnit_Framework_TestCase
         $request->attributes->set('bar', 'foo');
         $controller = array($this, 'controllerWithFooAndDefaultBar');
         $resolver->getArguments($request, $controller);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testIfExceptionIsThrownWhenMissingAnArgument()
+    {
+        $request = Request::create('/');
+        $controller = array($this, 'controllerWithFoo');
+
+        self::$resolver->getArguments($request, $controller);
     }
 
     /**

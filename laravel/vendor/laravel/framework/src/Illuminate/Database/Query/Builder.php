@@ -1663,7 +1663,7 @@ class Builder
 
         $total = $this->getCountForPagination($columns);
 
-        $results = $total ? $this->forPage($page, $perPage)->get($columns) : [];
+        $results = $total ? $this->forPage($page, $perPage)->get($columns) : collect();
 
         return new LengthAwarePaginator($results, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -1730,7 +1730,7 @@ class Builder
     }
 
     /**
-     * Backup some fields for the pagination count.
+     * Backup then remove some fields for the pagination count.
      *
      * @return void
      */
@@ -1847,7 +1847,9 @@ class Builder
         $lastId = 0;
 
         do {
-            $results = $this->forPageAfterId($count, $lastId, $column)->get();
+            $clone = clone $this;
+
+            $results = $clone->forPageAfterId($count, $lastId, $column)->get();
 
             $countResults = $results->count();
 
@@ -1876,7 +1878,7 @@ class Builder
      */
     public function each(callable $callback, $count = 1000)
     {
-        if (is_null($this->orders) && is_null($this->unionOrders)) {
+        if (empty($this->orders) && empty($this->unionOrders)) {
             throw new RuntimeException('You must specify an orderBy clause when using the "each" function.');
         }
 
@@ -2160,12 +2162,10 @@ class Builder
      */
     public function update(array $values)
     {
-        $bindings = array_values(array_merge($values, $this->getBindings()));
-
         $sql = $this->grammar->compileUpdate($this, $values);
 
         return $this->connection->update($sql, $this->cleanBindings(
-            $this->grammar->prepareBindingsForUpdate($bindings, $values)
+            $this->grammar->prepareBindingsForUpdate($this->bindings, $values)
         ));
     }
 

@@ -345,6 +345,17 @@ class Event
     }
 
     /**
+     * Schedule the event to run hourly at a given offset in the hour.
+     *
+     * @param  int  $offset
+     * @return $this
+     */
+    public function hourlyAt($offset)
+    {
+        return $this->spliceIntoPosition(1, $offset);
+    }
+
+    /**
      * Schedule the event to run daily.
      *
      * @return $this
@@ -844,7 +855,7 @@ class Event
     protected function getEmailSubject()
     {
         if ($this->description) {
-            return 'Scheduled Job Output ('.$this->description.')';
+            return $this->description;
         }
 
         return 'Scheduled Job Output';

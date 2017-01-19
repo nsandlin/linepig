@@ -372,6 +372,10 @@ class ErrorHandler
             return $type && $log;
         }
 
+        if (isset($context['GLOBALS']) && ($this->scopedErrors & $type)) {
+            unset($context['GLOBALS']);
+        }
+
         if (null !== $backtrace && $type & E_ERROR) {
             // E_ERROR fatal errors are triggered on HHVM when
             // hhvm.error_handling.call_user_handler_on_fatals=1
@@ -525,7 +529,11 @@ class ErrorHandler
             }
         }
         if ($this->loggedErrors & $type) {
-            $this->loggers[$type][0]->log($this->loggers[$type][1], $message, $e);
+            try {
+                $this->loggers[$type][0]->log($this->loggers[$type][1], $message, $e);
+            } catch (\Exception $handlerException) {
+            } catch (\Throwable $handlerException) {
+            }
         }
         if ($exception instanceof FatalErrorException && !$exception instanceof OutOfMemoryException && $error) {
             foreach ($this->getFatalErrorHandlers() as $handler) {

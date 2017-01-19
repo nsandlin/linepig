@@ -13,8 +13,8 @@ use League\Flysystem\FilesystemInterface;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Adapter\Local as LocalAdapter;
-use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
+use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Contracts\Filesystem\FileNotFoundException as ContractFileNotFoundException;
 
 class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
@@ -287,9 +287,16 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
 
             return $adapter->getClient()->getObjectUrl($adapter->getBucket(), $path);
         } elseif ($adapter instanceof LocalAdapter) {
+            $config = $this->driver->getConfig();
+
+            if ($config->has('url')) {
+                return $config->get('url').'/'.$path;
+            }
+
             $path = '/storage/'.$path;
 
-            return Str::contains($path, '/storage/public') ? Str::replaceFirst('/public', '', $path) : $path;
+            return Str::contains($path, '/storage/public/') ?
+                        Str::replaceFirst('/public/', '/', $path) : $path;
         } else {
             throw new RuntimeException('This driver does not support retrieving URLs.');
         }

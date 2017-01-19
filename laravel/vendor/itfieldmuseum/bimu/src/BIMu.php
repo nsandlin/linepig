@@ -44,7 +44,6 @@ class BIMu {
         $this->moduleName = $moduleName;
         $this->session = new \IMuSession($this->ip, $this->port);
         $this->module = new \IMuModule($this->moduleName, $this->session);
-        $this->terms = new \IMuTerms();
     }
 
     /**
@@ -54,7 +53,8 @@ class BIMu {
      *   The machine name of the field we're searching on.
      *
      * @param mixed $value
-     *   The value we're searching for.
+     *   The value we're searching for. If an array provided, we're going to assume
+     *   that an OR search condition is requested.
      *
      * @param array $fields
      *   The machine names of the field we want to retrieve from the Module.
@@ -65,7 +65,18 @@ class BIMu {
     public function search(string $fieldToSearch, $value, array $fields) : BIMu
     {
         $this->fields = $fields;
-        $this->terms->add($fieldToSearch, $value);
+
+        if (is_array($value)) {
+            $this->terms = new \IMuTerms('OR');
+
+            foreach ($value as $v) {
+                $this->terms->add($fieldToSearch, $v);
+            }
+        } else {
+            $this->terms = new \IMuTerms();
+            $this->terms->add($fieldToSearch, $value);
+        }
+
         $this->hits = $this->module->findTerms($this->terms);
 
         return $this;
