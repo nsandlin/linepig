@@ -98,6 +98,7 @@ class ComposerStaticInit9c19256e1ea27279b40a6fbd0706509e
         ),
         'C' => 
         array (
+            'Cron\\' => 5,
             'Collective\\Html\\' => 16,
             'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
@@ -263,6 +264,10 @@ class ComposerStaticInit9c19256e1ea27279b40a6fbd0706509e
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
+        ),
         'Collective\\Html\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravelcollective/html/src',
@@ -316,13 +321,6 @@ class ComposerStaticInit9c19256e1ea27279b40a6fbd0706509e
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
-            ),
-        ),
-        'C' => 
-        array (
-            'Cron' => 
-            array (
-                0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
             ),
         ),
     );
@@ -1880,7 +1878,7 @@ class ComposerStaticInit9c19256e1ea27279b40a6fbd0706509e
         'PHPUnit_Framework_Constraint_TraversableContains' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/TraversableContains.php',
         'PHPUnit_Framework_Constraint_TraversableContainsOnly' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/TraversableContainsOnly.php',
         'PHPUnit_Framework_Constraint_Xor' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Xor.php',
-        'PHPUnit_Framework_CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/PHPUnit_Framework_CoveredCodeNotExecutedException.php',
+        'PHPUnit_Framework_CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/CoveredCodeNotExecutedException.php',
         'PHPUnit_Framework_Error' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Error.php',
         'PHPUnit_Framework_Error_Deprecated' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Error/Deprecated.php',
         'PHPUnit_Framework_Error_Notice' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Error/Notice.php',
@@ -1892,7 +1890,7 @@ class ComposerStaticInit9c19256e1ea27279b40a6fbd0706509e
         'PHPUnit_Framework_IncompleteTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/IncompleteTestCase.php',
         'PHPUnit_Framework_IncompleteTestError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/IncompleteTestError.php',
         'PHPUnit_Framework_InvalidCoversTargetException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/InvalidCoversTargetException.php',
-        'PHPUnit_Framework_MissingCoversAnnotationException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/PHPUnit_Framework_MissingCoversAnnotationException.php',
+        'PHPUnit_Framework_MissingCoversAnnotationException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MissingCoversAnnotationException.php',
         'PHPUnit_Framework_MockObject_BadMethodCallException' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/Framework/MockObject/Exception/BadMethodCallException.php',
         'PHPUnit_Framework_MockObject_Builder_Identity' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/Framework/MockObject/Builder/Identity.php',
         'PHPUnit_Framework_MockObject_Builder_InvocationMocker' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/Framework/MockObject/Builder/InvocationMocker.php',
