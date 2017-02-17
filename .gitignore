@@ -1,3 +1,4 @@
 laravel/vendor/*
 laravel/node_modules
+laravel/composer.lock
 .env
