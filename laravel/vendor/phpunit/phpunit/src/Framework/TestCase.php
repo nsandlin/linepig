@@ -573,7 +573,6 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
      * @throws PHPUnit_Framework_Exception
      *
      * @since Method available since Release 4.3.0
-     *
      * @deprecated Method deprecated since Release 5.6.0; use expectExceptionMessageRegExp() instead
      */
     public function setExpectedExceptionRegExp($exception, $messageRegExp = '', $code = null)
@@ -613,6 +612,10 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
      */
     public function expectExceptionCode($code)
     {
+        if (!$this->expectedException) {
+            $this->expectedException = \Exception::class;
+        }
+
         if (!is_int($code) && !is_string($code)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer or string');
         }
@@ -629,6 +632,10 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
      */
     public function expectExceptionMessage($message)
     {
+        if (!$this->expectedException) {
+            $this->expectedException = \Exception::class;
+        }
+
         if (!is_string($message)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
@@ -814,7 +821,9 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $result->convertErrorsToExceptions($this->useErrorHandler);
         }
 
-        if (!$this instanceof PHPUnit_Framework_WarningTestCase && !$this->handleDependencies()) {
+        if (!$this instanceof PHPUnit_Framework_WarningTestCase &&
+            !$this instanceof PHPUnit_Framework_SkippedTestCase &&
+            !$this->handleDependencies()) {
             return;
         }
 
@@ -1118,7 +1127,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
         if (isset($e)) {
             $checkException = false;
 
-            if (is_string($this->expectedException)) {
+            if (!($e instanceof PHPUnit_Framework_SkippedTestError) && is_string($this->expectedException)) {
                 $checkException = true;
 
                 if ($e instanceof PHPUnit_Framework_Exception) {
@@ -2208,6 +2217,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
                 }
 
                 if (!isset($passedKeys[$dependency])) {
+                    $this->result->startTest($this);
                     $this->result->addError(
                         $this,
                         new PHPUnit_Framework_SkippedTestError(
@@ -2218,6 +2228,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
                         ),
                         0
                     );
+                    $this->result->endTest($this, 0);
 
                     return false;
                 }
@@ -2407,7 +2418,8 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
     {
         $backupGlobals = $this->backupGlobals === null || $this->backupGlobals === true;
 
-        if ($this->runTestInSeparateProcess || $this->inIsolation ||
+        if ($this->runTestInSeparateProcess ||
+            $this->inIsolation ||
             (!$backupGlobals && !$this->backupStaticAttributes)) {
             return;
         }

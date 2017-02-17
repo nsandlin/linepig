@@ -1235,11 +1235,17 @@ class PHPUnit_Framework_TestResult implements Countable
     /**
      * Returns whether the entire test was successful or not.
      *
+     * @param bool $includeWarnings
+     *
      * @return bool
      */
-    public function wasSuccessful()
+    public function wasSuccessful($includeWarnings = true)
     {
-        return empty($this->errors) && empty($this->failures) && empty($this->warnings);
+        if ($includeWarnings) {
+            return empty($this->errors) && empty($this->failures) && empty($this->warnings);
+        } else {
+            return empty($this->errors) && empty($this->failures);
+        }
     }
 
     /**
@@ -1253,7 +1259,7 @@ class PHPUnit_Framework_TestResult implements Countable
      */
     public function setTimeoutForSmallTests($timeout)
     {
-        if (!is_integer($timeout)) {
+        if (!is_int($timeout)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer');
         }
 
@@ -1271,7 +1277,7 @@ class PHPUnit_Framework_TestResult implements Countable
      */
     public function setTimeoutForMediumTests($timeout)
     {
-        if (!is_integer($timeout)) {
+        if (!is_int($timeout)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer');
         }
 
@@ -1289,7 +1295,7 @@ class PHPUnit_Framework_TestResult implements Countable
      */
     public function setTimeoutForLargeTests($timeout)
     {
-        if (!is_integer($timeout)) {
+        if (!is_int($timeout)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer');
         }
 
