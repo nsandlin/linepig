@@ -38,7 +38,7 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of the Multimedia record.
      */
-    public function getRecord($irn) : array
+    public function getRecord($irn): array
     {
         // Create a Session and selecting the module we want to query.
         $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
@@ -88,7 +88,7 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of all of the Multimedia records.
      */
-    public function getRecords() : \Illuminate\Support\Collection
+    public function getRecords(): \Illuminate\Support\Collection
     {
         $records = DB::table('search')
                            ->orderBy('genus', 'asc')
@@ -112,7 +112,7 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of records for the subset.
      */
-    public function getSubset($type, $taxonomyIRN) : array
+    public function getSubset($type, $taxonomyIRN): array
     {
         $rows = array();
         $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
@@ -152,7 +152,7 @@ class Multimedia extends Model
      * @return int
      *   An integer of the count.
      */
-    public function getCount() : int
+    public function getCount(): int
     {
         return $this->count;
     }
@@ -166,7 +166,7 @@ class Multimedia extends Model
      * @return string
      *  Returns a string of the new title
      */
-    public static function fixSpeciesTitle($record) : string
+    public static function fixSpeciesTitle($record): string
     {
         $title = $record['MulTitle'];
         $newTitle = str_replace(" female epigynum", "", $title);
@@ -185,7 +185,7 @@ class Multimedia extends Model
      * @return string
      *   Returns string with the corrected URL
      */
-    public static function fixImageURL($record) : string
+    public static function fixImageURL($record): string
     {
         $irn = $record['irn'];
         $filename = $record['MulIdentifier'];
@@ -210,7 +210,7 @@ class Multimedia extends Model
      * @return string
      *   Returns string with the corrected URL
      */
-    public static function fixThumbnailURL($record) : string
+    public static function fixThumbnailURL($record): string
     {
         $filename = $record['thumbnail']['identifier'];
 
@@ -240,10 +240,10 @@ class Multimedia extends Model
      * @return string
      *   Returns a string of the Genus, Species name.
      */
-    public function getGenusSpecies($record) : string
+    public function getGenusSpecies($record): string
     {
         if (empty($record['etaxonomy:MulMultiMediaRef_tab'][0])) {
-            return null;
+            return "";
         }
 
         $taxonomyRecord = $record['etaxonomy:MulMultiMediaRef_tab'][0];
@@ -264,10 +264,10 @@ class Multimedia extends Model
      * @return string
      *   Returns a string of the author for the record.
      */
-    public function getAuthor($record) : string
+    public function getAuthor($record): string
     {
         if (empty($record['etaxonomy:MulMultiMediaRef_tab'][0]['AutAuthorString'])) {
-            return null;
+            return "";
         } else {
             return $record['etaxonomy:MulMultiMediaRef_tab'][0]['AutAuthorString'];
         }
@@ -282,10 +282,10 @@ class Multimedia extends Model
      * @return string
      *   Returns a string of the rights.
      */
-    public function getRights($record) : string
+    public function getRights($record): string
     {
         if (empty($record['DetMediaRightsRef']['SummaryData'])) {
-            return null;
+            return "";
         }
 
         $emuRights = $record['DetMediaRightsRef']['SummaryData'];
@@ -310,7 +310,7 @@ class Multimedia extends Model
      * @return array $record
      *   Returns an array of the old multimedia information.
      */
-    public function getOldMultimedia($record) : array
+    public function getOldMultimedia($record): array
     {
         $taxonomyIRN = "";
         $oldMultimedia = null;
@@ -403,7 +403,7 @@ class Multimedia extends Model
      * @return string
      *   The BOLD URL.
      */
-    public function getBOLD($record) : string
+    public function getBOLD($record): string
     {
         $genusSpecies = DB::table('bold')->where('genus_species', $record['genus_species'])->value('genus_species');
 
@@ -426,7 +426,7 @@ class Multimedia extends Model
      * @return string
      *   Returns a string of HTML containing the URL.
      */
-    public function getWSCLink($record) : string
+    public function getWSCLink($record): string
     {
         if (empty($record['etaxonomy:MulMultiMediaRef_tab'][0])) {
             return "";
@@ -453,7 +453,7 @@ class Multimedia extends Model
      *   Returns a string of the URL of the collection record, either external or internal
      *   Catalogue record.
      */
-    public function getCollectionRecordURL($record) : string
+    public function getCollectionRecordURL($record): string
     {
         // If the attached Multimedia record is an external link, return that URL.
         if (!empty($record['RelRelatedMediaRef_tab'][0])) {
@@ -476,7 +476,7 @@ class Multimedia extends Model
      * @return string $notes
      *   Returns the notes field.
      */
-    public function getNotes($record) : string
+    public function getNotes($record): string
     {
         if (empty($record['NteText0'][0])) {
             return "";
@@ -495,7 +495,7 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of subset items checked values (true|false)
      */
-    public function checkSubsets($taxonomyIRN) : array
+    public function checkSubsets($taxonomyIRN): array
     {
         $subsets = config('emuconfig.subsets_to_check');
         $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
