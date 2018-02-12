@@ -5,14 +5,14 @@
  */
 
 return [
-    'emuserver' => '10.20.1.71',
+    'emuserver' => 'ross.fm.pri', // Using the fm.pri syntax so IP resolves properly, internally
     'emuport' => 40107,
     'website_domain' => 'http://linepig.fieldmuseum.org/',
     'website_links' => [
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery',
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help',
     ],
-    'multimedia_server' => 'cornelia.fieldmuseum.org',
+    'multimedia_server' => 'ross.fieldmuseum.org', // MM referenced at full Ross IP address
     'BOLD_import_url' => 'http://boldsystems.org/index.php/TaxBrowser_TaxonPage/SpeciesSummary?taxid=1266',
     'home_multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'MulMimeType', 'thumbnail'
