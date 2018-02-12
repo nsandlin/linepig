@@ -5,7 +5,7 @@
  */
 
 return [
-    'emuserver' => 'ross.fm.pri', // Using the fm.pri syntax so IP resolves properly, internally
+    'emuserver' => '10.20.1.72', // Updated with internal IP reference to Ross server
     'emuport' => 40107,
     'website_domain' => 'http://linepig.fieldmuseum.org/',
     'website_links' => [
