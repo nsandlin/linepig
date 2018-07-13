@@ -465,6 +465,8 @@ class Multimedia extends Model
         } else {
             return "";
         }
+
+        return "";
     }
 
     /**
