@@ -8,6 +8,7 @@
   <meta name="description" content="@yield('description')">
   <meta name="author" content="LinEpig, Field Museum of Natural History">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="msvalidate.01" content="D512583DCEDCD8C1A6782DA0D384235F" />
   <link rel="icon" type="image" href="/images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif" rel="stylesheet">
   <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
