@@ -22,6 +22,8 @@ docker stop $(docker ps -aq)
 
 Then, quit Docker and start it back up again. Run the Docker run command again.
 
+Visit the website here: http://localhost:8080/
+
 .......................................
 ####  CONCEPTUAL STRUCTURE  ####
 
