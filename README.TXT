@@ -9,6 +9,18 @@ KE Software's KE EMu - http://emu.kesoftware.com/
 About LinEpig - http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery
 LinEpig - http://linepig.fieldmuseum.org/ 
 
+.......................................
+####  RUNNING DOCKER LOCALLY  ####
+- Be sure you have your .env file set up
+- Run these commands to build and run the container (in Windows 10)
+
+docker build -t nsandlin/linepig:1.0 .
+docker run -it -d -p 8080:80 nsandlin/linepig:1.0
+
+If you get errors running the container, stop all Docker containers:
+docker stop $(docker ps -aq)
+
+Then, quit Docker and start it back up again. Run the Docker run command again.
 
 .......................................
 ####  CONCEPTUAL STRUCTURE  ####
