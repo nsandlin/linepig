@@ -14,8 +14,11 @@ LinEpig - http://linepig.fieldmuseum.org/
 - Be sure you have your .env file set up
 - Run these commands to build and run the container (in Windows 10)
 
+### BUILD IT ###
 docker build -t nsandlin/linepig:1.0 .
-docker run -it -d -p 8080:80 nsandlin/linepig:1.0
+
+### RUN IT (Be sure to change volume sharing to your local directory) ###
+docker run -it -d -p 8080:80 -v C:/Users/Nina/Sites/linepig/laravel:/var/www/html nsandlin/linepig:1.0
 
 If you get errors running the container, stop all Docker containers:
 docker stop $(docker ps -aq)
