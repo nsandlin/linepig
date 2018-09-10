@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 LABEL Description="Ubuntu 16.04 LTS LAMP stack, PHP7." \
 	License="Apache License 2.0" \
-	Usage="docker run -d -p [HOST WWW PORT NUMBER]:80" \
+	Usage="docker run -it -d -p [HOST PORT]:80 -v [LOCAL LARAVEL DIR]:/var/www/html nsandlin/linepig:[VERSION NUMBER]" \
 	Version="1.0"
 
 ENV DEBIAN_FRONTEND noninteractive
