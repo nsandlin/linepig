@@ -13,12 +13,13 @@ LinEpig - http://linepig.fieldmuseum.org/
 ####  RUNNING DOCKER LOCALLY  ####
 - Be sure you have your .env file set up
 - Run these commands to build and run the container (in Windows 10)
+- BE SURE TO INSTALL YOUR COMPOSER REQUIREMENTS LOCALLY FIRST, run "composer install" in the Laravel directory
 
 ### BUILD IT ###
 docker build -t nsandlin/linepig:1.0 .
 
-### RUN IT (Be sure to change volume sharing to your local directory) ###
-docker run -it -d -p 8080:80 -v C:/Users/Nina/Sites/linepig/laravel:/var/www/html nsandlin/linepig:1.0
+### RUN IT (Be sure to change volume sharing to your local Laravel directory) ###
+docker run -it -d -p 8080:80 --name linepig -v C:/Users/Nina/Sites/linepig/laravel:/var/www/html nsandlin/linepig:1.0
 
 If you get errors running the container, stop all Docker containers:
 docker stop $(docker ps -aq)
@@ -28,10 +29,7 @@ Then, quit Docker and start it back up again. Run the Docker run command again.
 Visit the website here: http://localhost:8080/
 
 You can SSH into the container by running this command (Windows 10 needs winpty):
-winpty docker exec -it container_id bash
-
-To get the container id for your container, use this command:
-docker ps
+winpty docker exec -it linepig bash
 
 .......................................
 ####  CONCEPTUAL STRUCTURE  ####
