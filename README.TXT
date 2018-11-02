@@ -18,7 +18,8 @@ LinEpig - http://linepig.fieldmuseum.org/
 ### BUILD IT ###
 docker build -t nsandlin/linepig:1.0 .
 
-### RUN IT (Be sure to change volume sharing to your local Laravel directory) ###
+### RUN IT (Be sure to change volume sharing to your local Laravel directory)  ###
+### this, like all Docker cmds need to be run from where Dockerfile lives ###
 docker run -it -d -p 8080:80 --name linepig -v C:/Users/Nina/Sites/linepig/laravel:/var/www/html nsandlin/linepig:1.0
 
 If you get errors running the container, stop all Docker containers:
