@@ -28,9 +28,12 @@ Then, quit Docker and start it back up again. Run the Docker run command again.
 
 Visit the website here: http://localhost:8080/
 
-You can SSH into the container by running this command (Windows 10 needs winpty):
-winpty docker exec -it linepig bash
+You can SSH into the container  (Windows 10 needs winpty):
+# Get the docker container name or ID
+$ docker ps 
 
+# SSH into the container
+$ winpty docker exec -it linepig //bin//sh
 .......................................
 ####  CONCEPTUAL STRUCTURE  ####
 
