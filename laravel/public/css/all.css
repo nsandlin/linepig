@@ -31,9 +31,8 @@ body.home #topnav {
 }
 .fieldmuseum-logo {
   max-width: 150px;
-  background-color: #84a726;
-  padding: 10px;
-  border-radius: 4px;
+  background-color: #ffffff;
+  margin: 0 30px 0 0;
 }
 .container {
   padding-right: 0;
@@ -70,12 +69,12 @@ ul {
   white-space: nowrap;
   color: #FFF;
 }
-.species-thumbnail:hover, .species-thumbnail:active {
-  border: 1px solid #FFF;
-  width: 178px;
-}
 .species-thumbnail {
-  width: 180px;
+    border: 2px solid #006699;
+    width: 180px;
+  }
+.species-thumbnail:hover, .species-thumbnail:active {
+  border: 2px solid #FFF;
 }
 
 

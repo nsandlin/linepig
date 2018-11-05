@@ -20,7 +20,7 @@ docker build -t nsandlin/linepig:1.0 .
 
 ### RUN IT (Be sure to change volume sharing to your local Laravel directory)  ###
 ### this, like all Docker cmds need to be run from where Dockerfile lives ###
-docker run -it -d -p 8080:80 --name linepig -v C:/Users/Nina/Sites/linepig/laravel:/var/www/html nsandlin/linepig:1.0
+docker run -it -d -p 8080:80 --name linepig -v C:/Users/nsandlin.FM/Sites/linepig/laravel:/var/www/html linepig:1.0
 
 If you get errors running the container, stop all Docker containers:
 docker stop $(docker ps -aq)
@@ -35,6 +35,7 @@ $ docker ps
 
 # SSH into the container
 $ winpty docker exec -it linepig //bin//sh
+
 .......................................
 ####  CONCEPTUAL STRUCTURE  ####
 
@@ -42,7 +43,6 @@ Currently three main page types:
 Home   - thumbnails of epigynum of each species available
 Detail - large view of epigynum, with links to related images, taxonomic references, and collection record if available
 Subset - home-like page of images selected from Detail links or Search
-
 
 .......................................
 ####    IMPLEMENTATION    ####

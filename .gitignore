@@ -1,4 +1,8 @@
 laravel/vendor/*
 laravel/node_modules
 laravel/composer.lock
+laravel/package-lock.json
+laravel/public/build/rev-manifest.json
+laravel/public/build/css/all-*.css
+laravel/public/build/js/all-*.js
 .env

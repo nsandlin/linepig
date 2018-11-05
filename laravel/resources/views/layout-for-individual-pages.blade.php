@@ -18,7 +18,7 @@
   <div class="container container-top">
     <p style="float:right;">
       <a href="https://fieldmuseum.org" target="_blank">
-        <img src="/images/field-logo.svg" class="fieldmuseum-logo">
+        <img src="/images/fmnh-logo.png" class="fieldmuseum-logo">
       </a>
     </p>
     <br clear="both">

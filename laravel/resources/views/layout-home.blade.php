@@ -18,14 +18,14 @@
   <div class="container container-top">
     <p style="float:right;">
       <a href="https://fieldmuseum.org" target="_blank">
-        <img src="/images/field-logo.svg" class="fieldmuseum-logo">
+        <img src="/images/fmnh-logo.png" class="fieldmuseum-logo">
       </a>
     </p>
     <br clear="both">
     <h1>Welcome to LinEpig</h1>
     <p>
-      Get help identifying the erigonines languishing in your collection.
-      <br>We have epigynal images for <b>@yield('count') species</b> of Erigoninae so far.
+      Get help identifying the erigonines languishing in your collection. We have epigynal images for <b>@yield('count') species</b> of Erigoninae so far.
+      <br>We also have some palps, habitus, and other non-epigynal images. Check them out via the <a href="/search">Search</a> page.
     </p>
   </div><!--.container container-top-->
 

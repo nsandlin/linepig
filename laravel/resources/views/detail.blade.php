@@ -50,7 +50,7 @@
       <h2>Material</h2>
       <p>{{ $record['DetSource'] }}&nbsp;
       @if (!empty($record['collection_record_url']))
-        <a href="{{ $record['collection_record_url'] }}">View collection record</a>
+        <a href="{{ $record['collection_record_url'] }}" target="_blank">View collection record</a>
       @endif
     </p>
     <p>Image {!! $record['rights'] !!}</p>
