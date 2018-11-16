@@ -455,9 +455,11 @@ class Multimedia extends Model
      */
     public function getCollectionRecordURL($record): string
     {
+        $firstfour = "";
         // If the attached Multimedia record is an external link, return that URL.
         if (!empty($record['RelRelatedMediaRef_tab'][0])) {
-            if ($record['RelRelatedMediaRef_tab'][0]['MulMimeType'] == "x-url") {
+            $firstfour = substr($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'], 0, 4);
+            if ($firstfour == "http") {
                 return $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
             }
         } elseif (!empty($record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'])) {
