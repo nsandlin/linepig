@@ -37,6 +37,12 @@ $ docker ps
 $ winpty docker exec -it linepig //bin//sh
 
 .......................................
+####  CSS  ####
+edit laravel/resources/assets/css/styles.css
+gulp --production aggregates all CSS listed in gulpfile.js into laravel\public\css\all.css 
+Don't edit the all.css file, it gets blown away by "gulp --production"
+
+.......................................
 ####  CONCEPTUAL STRUCTURE  ####
 
 Currently three main page types:

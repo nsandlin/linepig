@@ -24,7 +24,7 @@ return [
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
         '<ecatalogue:MulMultiMediaRef_tab>.(
-            irn, SummaryData, MulMultiMediaRef_tab.(irn, thumbnail)
+            irn, SummaryData, DarGlobalUniqueIdentifier, MulMultiMediaRef_tab.(irn, thumbnail)
          )',
         'MulOtherNumberSource_tab',
     ],

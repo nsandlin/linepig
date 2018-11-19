@@ -73,8 +73,9 @@ class Multimedia extends Model
         $record['notes'] = $this->getNotes($record);
         $record['taxonomy_irn'] = empty($record['MulOtherNumber_tab'][0]) ? "" :
                                         $record['MulOtherNumber_tab'][0];
-
         $record['subsets'] = $this->checkSubsets($record['taxonomy_irn']);
+        $record['catirn'] = str_replace("/catalogue/","",$record['collection_record_url']);
+        $record['guid'] = $this->getGUID($record);
 
         // Set the individual Multimedia record.
         $this->record = $record;
@@ -467,10 +468,29 @@ class Multimedia extends Model
         } else {
             return "";
         }
-
         return "";
     }
 
+    /**
+     * Retrieves the guid (Catalogue).
+     *
+     * @param array $record
+     *   The EMu Multimedia record.
+     *
+     * @return string $guid
+     *   Returns a string of the guid of the Catalog collection record.
+     */
+    public function getGUID ($record): string
+    {
+    if (!empty($record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'])) {
+            return  $record['ecatalogue:MulMultiMediaRef_tab'][0]['DarGlobalUniqueIdentifier'];
+        } else {
+            return "";
+        }
+        return "";
+    }
+
+ 
     /**
      * Retrieves the Multimedia notes for a record.
      *
