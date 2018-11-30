@@ -106,7 +106,8 @@ body.home .flex-item p {
 .detail p { 
   font-size: 100%;
 }
-..blue .flex-item {
+
+.blue .flex-item {
   margin-left: 10px;
 }
 
