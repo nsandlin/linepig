@@ -22,7 +22,7 @@
       </a>
     </p>
     <br clear="both">
-    <h1><a href="/">LinEpig</a>: <em>{{ $record['species_name'] }}</em></h1>
+    <h1><a href="/">LinEpig</a>: <em>@yield('species_name')</em></h1>
   </div><!--.container container-top-->
 
   <div id="topnav" class="container container-top">
