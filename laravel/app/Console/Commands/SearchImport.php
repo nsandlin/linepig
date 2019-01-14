@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Multimedia;
+use BIMu\BIMu;
 
 class SearchImport extends Command
 {
@@ -21,7 +22,7 @@ class SearchImport extends Command
      *
      * @var array $records
      */
-    protected $records = array();
+    protected $records;
 
     /**
      * The name and signature of the console command.
@@ -69,28 +70,28 @@ class SearchImport extends Command
      */
     public function addRecords()
     {
-        // Create a Session.
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('emultimedia', $session);
-
-        // Adding our search terms.
-        $terms = new \IMuTerms();
-        $terms->add('MulMultimediaCreatorRef_tab', '177281');
-        $columns = config('emuconfig.search_fields');
-
-        // Fetching results.
-        $hits = $module->findTerms($terms);
-        $results = $module->fetch('start', 0, -1, $columns);
-        $this->records = $results->rows;
+        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "emultimedia");
+        $bimu->search(['MulMultimediaCreatorRef_tab' => '177281'], config('emuconfig.search_fields'));
+        $this->records = $bimu->getAll();
         $i = 1;
+        $bimu = null;
 
         foreach ($this->records as $record) {
 
             // Process the record for insertion into search table.
             $irn = (int) $record['irn'];
             $module = "emultimedia";
-            $genus = $this->getGenus($record);
-            $species = $this->getSpecies($record);
+
+            // If the attached Taxonomy isn't present then grab the Genus
+            // and Species from the old Other Number method.
+            if (empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
+                $genus = $this->getGenus($record);
+                $species = $this->getSpecies($record);
+            } else {
+                $genus = $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
+                $species = $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaSpecies'];
+            }
+
             $keywords = $this->combineArrayForSearch($record['DetSubject_tab']);
             $title = $record['MulTitle'];
             $description = $record['MulDescription'];
@@ -141,29 +142,22 @@ class SearchImport extends Command
         if (empty($record['MulOtherNumber_tab'])) {
             Log::error("No Taxonomy IRN included with Multimedia, IRN: $irn");
             print("No Taxonomy IRN included with Multimedia, IRN: $irn" . PHP_EOL);
-            exit;
+            return "";
         } else {
             $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
         }
 
-        // Create a Session.
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('etaxonomy', $session);
+        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "etaxonomy");
+        $bimu->search(['irn' => $irn], ['irn', 'ClaGenus']);
+        $record = $bimu->getOne();
+        $bimu = null;
 
-        // Adding our search terms.
-        $terms = new \IMuTerms();
-        $terms->add('irn', $irn);
-
-        // Fetching results.
-        $hits = $module->findTerms($terms);
-        $results = $module->fetch('start', 0, 1, array("irn", "ClaGenus"));
-
-        if (empty($results->rows[0]['ClaGenus'])) {
+        if (empty($record['ClaGenus'])) {
             Log::error("Could NOT find Genus info for this record, IRN: $irn");
             print("Could NOT find Genus info for this record, IRN: $irn" . PHP_EOL);
             return "";
         } else {
-            return $results->rows[0]['ClaGenus'];
+            return $record['ClaGenus'];
         }
     }
 
@@ -193,29 +187,22 @@ class SearchImport extends Command
         if (empty($record['MulOtherNumber_tab'])) {
             Log::error("No Taxonomy IRN included with Multimedia, IRN: $irn");
             print("No Taxonomy IRN included with Multimedia, IRN: $irn" . PHP_EOL);
-            exit;
+            return "";
         } else {
             $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
         }
 
-        // Create a Session.
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('etaxonomy', $session);
+        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "etaxonomy");
+        $bimu->search(['irn' => $irn], ['irn', 'ClaSpecies']);
+        $record = $bimu->getOne();
+        $bimu = null;
 
-        // Adding our search terms.
-        $terms = new \IMuTerms();
-        $terms->add('irn', $irn);
-
-        // Fetching results.
-        $hits = $module->findTerms($terms);
-        $results = $module->fetch('start', 0, 1, array("irn", "ClaSpecies"));
-
-        if (empty($results->rows[0]['ClaSpecies'])) {
+        if (empty($record['ClaSpecies'])) {
             Log::error("Could NOT find Species info for this record, IRN: $irn");
             print("Could NOT find Species info for this record, IRN: $irn" . PHP_EOL);
             return "";
         } else {
-            return $results->rows[0]['ClaSpecies'];
+            return $record['ClaSpecies'];
         }
     }
 
@@ -226,19 +213,10 @@ class SearchImport extends Command
      */
     public function findCount()
     {
-        // Create a Session.
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('emultimedia', $session);
-
-        // Adding our search terms.
-        $terms = new \IMuTerms();
-        $terms->add('MulMultimediaCreatorRef_tab', '177281');
-
-        // Fetching results.
-        $hits = $module->findTerms($terms);
-        $results = $module->fetch('start', 0, -1, 'irn');
-
-        $this->count = $results->count;
+        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "emultimedia");
+        $bimu->search(['MulMultimediaCreatorRef_tab' => 177281], ['irn']);
+        $this->count = $bimu->hits();
+        $bimu = null;
 
         $message = "We have " . $this->count . " records to process." . PHP_EOL;
         Log::info($message);
