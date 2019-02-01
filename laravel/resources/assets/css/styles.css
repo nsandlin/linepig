@@ -1,15 +1,15 @@
-/* STYLE-BASIC.CSS - stylesheet for LinEpig linepig.fieldmuseum.org */
-/*  hat tip to getskeleton.com, and gratitude to Flexbox */
+/* resources\assets\css\styles.css - stylesheet for LinEpig linepig.fieldmuseum.org */
 
 html {
   font-size: 62.5%;
+  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
 }
 body {
   font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   color: #222;
 }
-body.detail-page {
+body.detail-page, body.subset-page {
   max-width: 1024px;
   margin: auto;
 }
@@ -19,12 +19,12 @@ body.home .container-top, body.home .flex-container, body.home #bottomnav, body.
   margin: auto;
   padding: 15px;
 }
+#topnav {
+  margin-bottom: 0!important;
+}
 body.home #topnav {
   padding-top: 0;
   padding-bottom: 5px;
-}
-.detail-page #topnav {
-  margin-bottom: 0;
 }
 .container-top {
   margin-top: 0;
@@ -37,10 +37,6 @@ body.home #topnav {
 .container {
   padding-right: 0;
 }
-/* Typography */
-body *, body.home * {
-  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
-}
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 0;
@@ -49,7 +45,7 @@ h1 {
   font-size: 3em;
   font-weight: 200;
 }
-a, a:visited {
+a, a:visited  {
   color: #006699;
 }
 h1 a, h1 a:visited, #bottomnav a, #bottomnav a:visited, #topnav a, #topnav a:visited {
@@ -69,12 +65,12 @@ ul {
   white-space: nowrap;
   color: #FFF;
 }
-.species-thumbnail {
-  border: 2px solid #006699!;
+div.blue .flex-item a.species-link img.species-thumbnail {
+  border: 6px solid #006699;
   width: 180px;
 }
-.species-thumbnail:hover, .species-thumbnail:active {
-  border: 2px solid #FFF;
+div.blue .flex-item a.species-link:hover img.species-thumbnail, div.blue .flex-item a.species-link:active img.species-thumbnail {
+  border: 6px solid #0099e6;
   width: 180px;
 }
 
@@ -90,40 +86,26 @@ ul {
   background: #E0EBEB;
 }
 
-body.home .flex-items-default {
-
-}
 body.home .flex-item p {
-
   font-size: 80%
 }
-.flex-item img, .detail p {
+.flex-item img {
   max-width: 500px;
 }
-.detail, container-top {
-  padding: 15px;
-}
-.detail p { 
-  font-size: 100%;
-}
-
 .blue .flex-item {
   margin-left: 10px;
 }
 
 /* Home page CSS */
-.home .flex-container {
+body.home .flex-container {
   border-radius: 10px;
 }
 
 /* Detail page CSS **/
-.detail-page .flex-container {
-  background-color: #fff;
-}
-body.detail-page .blue a:hover {
+body.detail-page .blue a:hover,
+body.subset-page .blue a:hover {
   color: #006699;
   background: #fff;
-  padding: 2px;
 }
 .species-title {
   margin-top: 30px;
@@ -132,16 +114,14 @@ body.detail-page .blue a:hover {
 .species-links {
   padding-left: 25px;
 }
-.detail-page .subset .flex-item {
-  margin-right: 10px;
-}
-.detail-page .subset .species-link {
+.blue .subset-list-links .species-link {
   border-radius: 0;
   padding: 0;
   color: #006699;
   background-color: #006699;
 }
-.detail-page .subset .species-link:hover, .detail-page .subset .species-link:active {
+body.detail-page .blue .species-link:hover, body.detail-page .blue .species-link:active,
+body.subset-page .blue .species-link:hover, body.subset-page .blue .species-link:active {
   color: #006699;
   background-color: #006699;
   width: 178px;
@@ -153,12 +133,12 @@ body.detail-page .blue a:hover {
   color: #fff;
   text-decoration: none;
 }
-body.home .blue, body.detail-page .blue {
+.blue {
   background: #006699;
   color: #fff;
   border-radius: 10px;
 }
-body.detail-page .blue div, body.detail-page .blue div a {
+body.detail-page .blue div a {
   background: #006699;
   color: #fff;
   border-radius: 4px;
@@ -179,9 +159,6 @@ body.detail-page .additional-info p span.label {
   display: block;
   font-size: 85%;
   font-weight: bold;
-}
-body.subset div.item p {
-  margin-right: .5em;
 }
 body.detail-page .flex-item img.detail-pic {
   padding-top: 12px;
