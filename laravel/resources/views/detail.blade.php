@@ -3,12 +3,22 @@
 @section('description', 'A visual aid for identifying the difficult spiders in family Linyphiidae.')
 @section('species_name', $record['genus_species'])
 
+@section('bodyclass')
+<body class="detail-page">
+@endsection
+
 @section('content')
   <div class="flex-container blue">  
     <div class="flex-item">
           <h4 style="margin:30px 0 0 0;">{{ $record['MulTitle'] }}</h4>
           <img src="{{ $record['image_url'] }}" class="detail-pic">
           <p><i>{{ $record['genus_species'] }}</i> {{ $record['author'] }}</p>
+          <p>{{ $record['DetSource'] }}&nbsp;
+            @if (!empty($record['collection_record_url']))
+              <a href="{{ $record['collection_record_url'] }}" target="_blank">View collection record</a>
+            @endif
+          </p>
+    <p>Image {!! $record['rights'] !!}</p>
     </div><!--.flex-item blue-->
  
     <div class="flex-item species-links">
@@ -29,12 +39,6 @@
                 </a>
               </li>
             </ul>
-     </div><!--.flex-item species-links-->
-  </div><!--.flex-container blue-->
-
-
-  <div class="additional-info">
-    <h2>Taxonomy</h2>
 
     @if (!empty($record['bold_url']))
       <p class="bold-systems">
@@ -45,15 +49,11 @@
     <p class="wsc">
       <a href="{{ $record['world_spider_catalog_url'] }}" target="_blank">World Spider Catalog lookup</a>
     </p>
+     </div><!--.flex-item species-links-->
+  </div><!--.flex-container blue-->
 
-    <p>
-      <h2>Material</h2>
-      <p>{{ $record['DetSource'] }}&nbsp;
-      @if (!empty($record['collection_record_url']))
-        <a href="{{ $record['collection_record_url'] }}" target="_blank">View collection record</a>
-      @endif
-    </p>
-    <p>Image {!! $record['rights'] !!}</p>
+
+  <div class="additional-info">
 
       <!-- Link to old/bad previous multimedia -->
       @if (!empty($record['wrong_multimedia']))

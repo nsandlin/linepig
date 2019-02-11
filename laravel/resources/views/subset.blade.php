@@ -3,6 +3,10 @@
 @section('description', "Microscopy images of " . $genus_species . " (family Linyphiidae)")
 @section('species_name', $genus_species)
 
+@section('bodyclass')
+<body class="subset-page">
+@endsection
+
 @section('content')
   <p>Displaying all available <em>{{ $type }}</em> images.</p>
   <div class="container items flex-container subset blue">

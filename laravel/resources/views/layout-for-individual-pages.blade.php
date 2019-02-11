@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
   <script src="{{ elixir('js/all.js') }}"></script>
 </head>
-<body class="detail-page">
+@yield('bodyclass')
   <div class="container container-top">
     <p style="float:right;">
       <a href="https://fieldmuseum.org" target="_blank">

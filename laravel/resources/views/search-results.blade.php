@@ -3,6 +3,10 @@
 @section('description', 'A visual aid for identifying the difficult spiders in family Linyphiidae.')
 @section('species_name', 'Search Results')
 
+@section('bodyclass')
+<body class="subset-page">
+@endsection
+
 @section('content')
   @if (empty($searchResults))
     <p>No search results, sorry.</p>
