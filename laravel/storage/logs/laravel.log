@@ -999,3 +999,11 @@ Stack trace:
 #27 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(117): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #28 /var/www/html/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #29 {main}  
+[2019-02-01 10:23:06] prod.ERROR: Symfony\Component\Console\Exception\CommandNotFoundException: There are no commands defined in the "responsecache" namespace. in /var/www/science-and-education/linepig/laravel/vendor/symfony/console/Application.php:488
+Stack trace:
+#0 /var/www/science-and-education/linepig/laravel/vendor/symfony/console/Application.php(520): Symfony\Component\Console\Application->findNamespace('responsecache')
+#1 /var/www/science-and-education/linepig/laravel/vendor/symfony/console/Application.php(182): Symfony\Component\Console\Application->find('responsecache:c...')
+#2 /var/www/science-and-education/linepig/laravel/vendor/symfony/console/Application.php(116): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /var/www/science-and-education/linepig/laravel/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /var/www/science-and-education/linepig/laravel/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 {main}  
