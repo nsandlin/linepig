@@ -1,5 +1,9 @@
 FROM php:7.2-apache
 
+# Enable Apache mods
+RUN a2enmod rewrite
+RUN a2enmod headers
+
 # Set the working directory to /var/www/html
 WORKDIR /var/www/html
 
