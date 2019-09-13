@@ -43,7 +43,7 @@
     <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a> - 
     <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a><br>
-    <p style="font-size:80%;">Cite: <b>LinEpig:</b> An ID Galley for Female Erigoninae. Field Museum of Natural History, Chicago. Online at https://linepig.fieldmuseum.org/, accessed on {date of access}.</p> 
+    <p style="font-size:80%;">Cite: <b>LinEpig:</b> An ID Gallery for Female Erigoninae. Field Museum of Natural History, Chicago. Online at https://linepig.fieldmuseum.org/, accessed on {date of access}.</p> 
   </div><!--bottomnav-->
 
 <script>
