@@ -22,7 +22,7 @@
       </a>
     </p>
     <br clear="both">
-    <h1>Welcome to LinEpig</h1>
+    <h1>LinEpig: An ID Galley for Female Erigoninae</h1>
     <p>
       Get help identifying the erigonines languishing in your collection. We have epigynal images for <b>@yield('count') species</b> of Erigoninae so far.
       <br>We also have some palps, habitus, and other non-epigynal images. Check them out via the <a href="/search">Search</a> page.
@@ -46,7 +46,8 @@
     <a href="/search">Search</a> - 
     <a href="http://blogs.scientificamerican.com/guest-blog/internet-porn-fills-gap-in-spider-taxonomy/" target="_blank">At SciAm</a> - 
     <a href="http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help" target="_blank">Contribute specimens/images</a> - 
-    <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a>
+    <a href="https://github.com/nsandlin/linepig" target="_blank">GitHub</a><br>
+    <p style="font-size:80%;">Cite: <b>LinEpig:</b> An ID Galley for Female Erigoninae. Field Museum of Natural History, Chicago. Online at https://linepig.fieldmuseum.org/, accessed on {date of access}.</p> 
   </div><!--bottomnav-->
 
 <script>
