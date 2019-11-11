@@ -4,7 +4,7 @@
 @section('species_name', $record['genus_species'])
 
 @section('content')
-  <div class="flex-container blue">  
+  <div class="flex-container blue" style="padding:0 5px 19px 5px;">  
     <div class="flex-item">
 
       {{-- Catalogue Images container --}}
@@ -62,6 +62,11 @@
     </div><!--.flex-item blue-->
   </div><!--.flex-container blue-->
 
-  </div>
+
+    @if (!empty($record['guid']))
+      <div class="notes" style="background:#ccc;border-bottom:solid 2px #069; border-radius:10px;">
+       <br clear="both"><p style="text-align:right;margin-right:20px;color:#888;">OccurrenceID: {{ $record['guid'] }}</p>
+      </div>
+    @endif
 </div><!--item-picbox-->
 @endsection
