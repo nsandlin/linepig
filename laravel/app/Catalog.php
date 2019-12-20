@@ -63,6 +63,7 @@ class Catalog extends Model
         $record['lng'] = $record['DarLongitude'] ?? null;
         $record['elevation'] = $record['DarMinimumElevation'] ?? null;
         $record['habitat'] = $this->getHabitat($record) ?? null;
+        $record['guid'] = $this->getGUID($record) ?? null;
 
         // Attached Multimedia processing.
         if (!empty($record['MulMultiMediaRef_tab'])) {
@@ -101,6 +102,27 @@ class Catalog extends Model
         }
 
         return $semaphoronts;
+    }
+
+    /**
+     * Returns guid.
+     *
+     * @param array $record
+     *   The catalogue record array.
+     *
+     * @return array $guid
+     *  
+     */
+    public function getGUID($record)
+    {
+        $guid = "";
+        if (!empty($record['AdmGUIDValue_tab'][0])) {
+            if ($record['AdmGUIDIsPreferred_tab'][0] == 'Yes') {
+                $guid = $record['AdmGUIDValue_tab'][0];
+            }
+        }
+
+        return $guid;
     }
 
     /**

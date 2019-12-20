@@ -12,6 +12,7 @@ return [
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery',
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help',
     ],
+    'database_filename' => 'linepig.sqlite',
     'multimedia_server' => 'ross.fieldmuseum.org', // MM referenced at full Ross IP address
     'BOLD_import_url' => 'http://boldsystems.org/index.php/TaxBrowser_TaxonPage/SpeciesSummary?taxid=1266',
     'home_multimedia_fields' => [
@@ -29,7 +30,7 @@ return [
         'MulOtherNumberSource_tab',
     ],
     'catalog_fields' => [
-        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber',
+        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber', 'AdmGUIDValue_tab', 'AdmGUIDIsPreferred_tab',
         'LotTotalCount', 'LotSemaphoront_tab', 'LotWetCount_tab',
         'IdeIdentifiedByRef_nesttab.(SummaryData)', 'IdeDateIdentified0',
         'ColCollectionEventRef.(

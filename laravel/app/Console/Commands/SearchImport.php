@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use App\Multimedia;
 use BIMu\BIMu;
 
@@ -56,6 +57,7 @@ class SearchImport extends Command
      */
     public function handle()
     {
+        $this->createSqliteFile();
         $this->createSearchTable();
         $this->findCount();
         $this->addRecords();
@@ -251,6 +253,20 @@ class SearchImport extends Command
         );
     }
 
+    /**
+     * Creates the Sqlite database file if it doesn't exist.
+     *
+     * @return void
+     */
+    public function createSqliteFile(): void
+    {
+        $exists = Storage::disk('database')->exists(config('emuconfig.database_filename'));
+
+        if (!$exists) {
+            $location = database_path() . "/" . config('emuconfig.database_filename');
+            touch($location);
+        }
+    }
 
     /**
      * Combines record array elements into one string, for DB search purposes.
