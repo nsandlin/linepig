@@ -13,6 +13,10 @@
 
     RewriteEngine On
 
+    # BLOCK USER AGENTS
+    RewriteCond %{HTTP_USER_AGENT} Mb2345Browser|PiplBot|SemrushBot|LMY47V|HUAWEIFRD|OPPO|LieBaoFast|zh-CN|MicroMessenger|zh_CN|YandexBot|Kinza [NC]
+    RewriteRule ^ - [R=403,L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
