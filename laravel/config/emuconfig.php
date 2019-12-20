@@ -30,7 +30,7 @@ return [
         'MulOtherNumberSource_tab',
     ],
     'catalog_fields' => [
-        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber',
+        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber', 'AdmGUIDValue_tab', 'AdmGUIDIsPreferred_tab',
         'LotTotalCount', 'LotSemaphoront_tab', 'LotWetCount_tab',
         'IdeIdentifiedByRef_nesttab.(SummaryData)', 'IdeDateIdentified0',
         'ColCollectionEventRef.(
