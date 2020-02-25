@@ -47,6 +47,7 @@ class Multimedia extends Model
         // Adding our search terms.
         $terms = new \IMuTerms();
         $terms->add('irn', $irn);
+        $terms->add('AdmPublishWebNoPassword', 'Yes');
 
         // Fetching results.
         $module->findTerms($terms);
@@ -120,6 +121,7 @@ class Multimedia extends Model
         $module = new \IMuModule('emultimedia', $session);
 
         $terms = new \IMuTerms();
+        $terms->add('AdmPublishWebNoPassword', 'Yes');
         $terms->add('MulOtherNumber_tab', $taxonomyIRN);
         $terms->add('MulMimeType', 'image');
 
@@ -344,6 +346,7 @@ class Multimedia extends Model
         $module = new \IMuModule('etaxonomy', $session);
         $terms = new \IMuTerms();
         $terms->add('irn', $taxonomyIRN);
+        $terms->add('AdmPublishWebNoPassword', 'Yes');
         $hits = $module->findTerms($terms);
         $columns = array(
             'irn',
@@ -527,6 +530,7 @@ class Multimedia extends Model
 
         foreach ($subsets as $key => $value) {
             $terms = new \IMuTerms();
+            $terms->add('AdmPublishWebNoPassword', 'Yes');
             $terms->add('MulOtherNumber_tab', $taxonomyIRN);
             $terms->add('DetSubject_tab', $key);
 

@@ -20,7 +20,7 @@ return [
     ],
     'multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
-        'DetMediaRightsRef.(SummaryData)', 'NteText0',
+        'AdmPublishWebNoPassword', 'DetMediaRightsRef.(SummaryData)', 'NteText0',
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',
@@ -30,7 +30,8 @@ return [
         'MulOtherNumberSource_tab',
     ],
     'catalog_fields' => [
-        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber', 'AdmGUIDValue_tab', 'AdmGUIDIsPreferred_tab',
+        'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber',
+        'AdmPublishWebNoPassword', 'AdmGUIDValue_tab', 'AdmGUIDIsPreferred_tab',
         'LotTotalCount', 'LotSemaphoront_tab', 'LotWetCount_tab',
         'IdeIdentifiedByRef_nesttab.(SummaryData)', 'IdeDateIdentified0',
         'ColCollectionEventRef.(

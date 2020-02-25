@@ -32,6 +32,7 @@ class Catalog extends Model
         // Adding our search terms.
         $terms = new \IMuTerms();
         $terms->add('irn', $irn);
+        $terms->add('AdmPublishWebNoPassword', 'Yes');
 
         // Fetching results.
         $module->findTerms($terms);
@@ -148,6 +149,7 @@ class Catalog extends Model
         // Adding our search terms.
         $terms = new \IMuTerms();
         $terms->add('irn', $record['ColCollectionEventRef']['ColSiteRef']['irn']);
+        $terms->add('AdmPublishWebNoPassword', 'Yes');
 
         // Fetching results.
         $module->findTerms($terms);
