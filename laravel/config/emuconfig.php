@@ -5,7 +5,7 @@
  */
 
 return [
-    'emuserver' => '10.20.1.72', // Updated with internal IP reference to Ross server
+    'emuserver' => '10.10.10.25',
     'emuport' => 40107,
     'website_domain' => 'http://linepig.fieldmuseum.org/',
     'website_links' => [

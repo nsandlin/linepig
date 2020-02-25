@@ -6745,3 +6745,78 @@ Server panic.) [500]
 [2019-12-20 17:01:01] prod.ERROR: EngineError (Cannot write to fifo) [500]  
 [2019-12-20 17:03:57] prod.ERROR: EngineError (Cannot write to fifo) [500]  
 [2019-12-20 17:06:01] prod.ERROR: EngineError (Cannot write to fifo) [500]  
+[2020-02-24 11:44:27] development.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Type error: Return value of BIMu\BIMu::search() must be an instance of BIMu\BIMu, null returned in /Users/peteherbst/Documents/linepig/laravel/vendor/itfieldmuseum/bimu/src/BIMu.php:115
+Stack trace:
+#0 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(76): BIMu\BIMu->search(Array, Array)
+#1 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(63): App\Console\Commands\SearchImport->addRecords()
+#2 [internal function]: App\Console\Commands\SearchImport->handle()
+#3 /Users/peteherbst/Documents/linepig/laravel/bootstrap/cache/compiled.php(1375): call_user_func_array(Array, Array)
+#4 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#5 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Command/Command.php(261): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(817): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(185): Symfony\Component\Console\Application->doRunCommand(Object(App\Console\Commands\SearchImport), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(116): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/peteherbst/Documents/linepig/laravel/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 {main}  
+[2020-02-24 11:45:01] development.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Type error: Return value of BIMu\BIMu::search() must be an instance of BIMu\BIMu, null returned in /Users/peteherbst/Documents/linepig/laravel/vendor/itfieldmuseum/bimu/src/BIMu.php:115
+Stack trace:
+#0 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(76): BIMu\BIMu->search(Array, Array)
+#1 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(63): App\Console\Commands\SearchImport->addRecords()
+#2 [internal function]: App\Console\Commands\SearchImport->handle()
+#3 /Users/peteherbst/Documents/linepig/laravel/bootstrap/cache/compiled.php(1375): call_user_func_array(Array, Array)
+#4 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#5 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Command/Command.php(261): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(817): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(185): Symfony\Component\Console\Application->doRunCommand(Object(App\Console\Commands\SearchImport), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(116): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/peteherbst/Documents/linepig/laravel/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 {main}  
+[2020-02-24 11:50:14] development.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Type error: Return value of BIMu\BIMu::search() must be an instance of BIMu\BIMu, null returned in /Users/peteherbst/Documents/linepig/laravel/vendor/itfieldmuseum/bimu/src/BIMu.php:115
+Stack trace:
+#0 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(76): BIMu\BIMu->search(Array, Array)
+#1 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(63): App\Console\Commands\SearchImport->addRecords()
+#2 [internal function]: App\Console\Commands\SearchImport->handle()
+#3 /Users/peteherbst/Documents/linepig/laravel/bootstrap/cache/compiled.php(1375): call_user_func_array(Array, Array)
+#4 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#5 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Command/Command.php(261): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(817): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(185): Symfony\Component\Console\Application->doRunCommand(Object(App\Console\Commands\SearchImport), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(116): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/peteherbst/Documents/linepig/laravel/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 {main}  
+[2020-02-24 11:50:41] development.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Type error: Return value of BIMu\BIMu::search() must be an instance of BIMu\BIMu, null returned in /Users/peteherbst/Documents/linepig/laravel/vendor/itfieldmuseum/bimu/src/BIMu.php:115
+Stack trace:
+#0 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(76): BIMu\BIMu->search(Array, Array)
+#1 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(63): App\Console\Commands\SearchImport->addRecords()
+#2 [internal function]: App\Console\Commands\SearchImport->handle()
+#3 /Users/peteherbst/Documents/linepig/laravel/bootstrap/cache/compiled.php(1375): call_user_func_array(Array, Array)
+#4 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#5 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Command/Command.php(261): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(817): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(185): Symfony\Component\Console\Application->doRunCommand(Object(App\Console\Commands\SearchImport), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(116): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/peteherbst/Documents/linepig/laravel/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 {main}  
+[2020-02-24 11:55:32] development.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Type error: Return value of BIMu\BIMu::search() must be an instance of BIMu\BIMu, null returned in /Users/peteherbst/Documents/linepig/laravel/vendor/itfieldmuseum/bimu/src/BIMu.php:115
+Stack trace:
+#0 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(76): BIMu\BIMu->search(Array, Array)
+#1 /Users/peteherbst/Documents/linepig/laravel/app/Console/Commands/SearchImport.php(63): App\Console\Commands\SearchImport->addRecords()
+#2 [internal function]: App\Console\Commands\SearchImport->handle()
+#3 /Users/peteherbst/Documents/linepig/laravel/bootstrap/cache/compiled.php(1375): call_user_func_array(Array, Array)
+#4 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#5 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Command/Command.php(261): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(817): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(185): Symfony\Component\Console\Application->doRunCommand(Object(App\Console\Commands\SearchImport), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/peteherbst/Documents/linepig/laravel/vendor/symfony/console/Application.php(116): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/peteherbst/Documents/linepig/laravel/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/peteherbst/Documents/linepig/laravel/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 {main}  
