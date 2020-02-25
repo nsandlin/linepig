@@ -197,7 +197,7 @@ class Multimedia extends Model
         $irn = substr_replace($irn, '', -3, 3);
         $url = "/" . $irn . $url;
 
-        $url = "http://" . config('emuconfig.multimedia_server') . $url .
+        $url = "https://" . config('emuconfig.multimedia_server') . $url .
                  "/" . $record['MulIdentifier'];
 
         return $url;
@@ -228,7 +228,7 @@ class Multimedia extends Model
         $irn = substr_replace($irn, '', -3, 3);
         $url = "/" . $irn . $url;
 
-        $url = "http://" . config('emuconfig.multimedia_server') . $url .
+        $url = "https://" . config('emuconfig.multimedia_server') . $url .
                  "/" . $record['thumbnail']['identifier'];
 
         return $url;
