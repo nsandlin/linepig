@@ -5,7 +5,7 @@
  */
 
 return [
-    'emuserver' => '10.10.10.25',
+    'emuserver' => 'ross.fieldmuseum.org',
     'emuport' => 40107,
     'website_domain' => 'http://linepig.fieldmuseum.org/',
     'website_links' => [
