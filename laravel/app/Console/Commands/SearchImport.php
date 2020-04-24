@@ -129,6 +129,8 @@ class SearchImport extends Command
      */
     public function getGenus($record) : string
     {
+        $multimediaIRN = $record['irn'];
+
         // We need to figure out which array element to grab the Taxonomy IRN from.
         $taxonomyArrayKey = null;
 
@@ -142,8 +144,8 @@ class SearchImport extends Command
 
         // Now let's get the Taxonomy IRN from the MulOtherNumber_tab field.
         if (empty($record['MulOtherNumber_tab'])) {
-            Log::error("No Taxonomy IRN included with Multimedia, IRN: $irn");
-            print("No Taxonomy IRN included with Multimedia, IRN: $irn" . PHP_EOL);
+            Log::error("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN");
+            print("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN" . PHP_EOL);
             return "";
         } else {
             $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
@@ -174,6 +176,8 @@ class SearchImport extends Command
      */
     public function getSpecies($record) : string
     {
+        $multimediaIRN = $record['irn'];
+
         // We need to figure out which array element to grab the Taxonomy IRN from.
         $taxonomyArrayKey = null;
 
@@ -187,8 +191,8 @@ class SearchImport extends Command
 
         // Now let's get the Taxonomy IRN from the MulOtherNumber_tab field.
         if (empty($record['MulOtherNumber_tab'])) {
-            Log::error("No Taxonomy IRN included with Multimedia, IRN: $irn");
-            print("No Taxonomy IRN included with Multimedia, IRN: $irn" . PHP_EOL);
+            Log::error("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN");
+            print("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN" . PHP_EOL);
             return "";
         } else {
             $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
