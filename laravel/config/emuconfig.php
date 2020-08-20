@@ -20,7 +20,7 @@ return [
     ],
     'multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'DetSource', 'MulOtherNumber_tab',
-        'AdmPublishWebNoPassword', 'DetMediaRightsRef.(SummaryData)', 'NteText0',
+        'AdmPublishWebNoPassword', 'DetMediaRightsRef.(SummaryData)', 'NteText0', 'NteType_tab',
         'MulMultimediaCreatorRef_tab.(NamPartyType, ColCollaborationName)',
         '<etaxonomy:MulMultiMediaRef_tab>.(ClaGenus, ClaSpecies, AutAuthorString)',
         'RelRelatedMediaRef_tab.(irn, MulMimeType, MulIdentifier)',

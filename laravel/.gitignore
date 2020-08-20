@@ -1,6 +1,7 @@
 /public/storage
 /public/sitemap.xml
 /storage/*.key
+/storage/*.log
 /.idea
 Homestead.json
 Homestead.yaml

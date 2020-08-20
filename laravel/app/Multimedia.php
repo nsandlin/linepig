@@ -497,6 +497,10 @@ class Multimedia extends Model
     /**
      * Retrieves the Multimedia notes for a record.
      *
+     * Returns the note that has empty/null value in the associated NteType_tab
+     * in the same row, ensuring we aren't grabbing a different value we don't
+     * want.
+     *
      * @param array $record
      *   The Multimedia record.
      *
@@ -508,7 +512,12 @@ class Multimedia extends Model
         if (empty($record['NteText0'][0])) {
             return "";
         } else {
-            return $record['NteText0'][0];
+            $noteKeys = array_keys($record['NteText0']);
+            $noteTypeKeys = array_keys($record['NteType_tab']);
+            $diff = array_diff($noteKeys, $noteTypeKeys);
+            $keyToUse = array_shift($diff);
+
+            return $record['NteText0'][$keyToUse] ?? "";
         }
     }
 
