@@ -9,7 +9,9 @@
       <div class="search-container">
         <div id="search-form">
           <form method="POST" action="/search-handle">
+
             @csrf
+
             <fieldset class="search-fieldset">
               <label for="genus">Genus</label>
               <input name="genus" type="text" id="genus">
