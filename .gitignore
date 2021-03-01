@@ -1,7 +1,5 @@
 vendor
 node_modules
-composer.lock
-package-lock.json
 rev-manifest.json
 all-*.css
 all-*.js
