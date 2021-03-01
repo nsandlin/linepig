@@ -13,6 +13,12 @@ Docker is NO LONGER REQUIRED.
 Run this command from the /laravel directory
 `php artisan serve`
 
+.lock files are now included in the repository, as they should be.  
+Be sure to run `composer install` and then `npm install` to make sure you have your dependencies installed.
+
+To run updates for your CSS/JS, execute this command: `npm run dev`.  
+You can also watch your files for changes with: `npm run watch`.  
+
 ## Editing CSS/JS
 There are new locations for these files.  
 Please edit these file locations instead:  
