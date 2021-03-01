@@ -25,6 +25,9 @@ Please edit these file locations instead:
 `resources/css/app.css`  
 `resources/js/app.js`  
 
+If you are making changes to these files, be sure to run `npm run production` on the server after the 
+files are updated on GitHub so the changes are reflected on the website.
+
 ## Conceptual Structure
 
 Currently three main page types:  
