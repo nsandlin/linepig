@@ -1,5 +1,6 @@
 vendor
 node_modules
+mix-manifest.json
 rev-manifest.json
 all-*.css
 all-*.js
