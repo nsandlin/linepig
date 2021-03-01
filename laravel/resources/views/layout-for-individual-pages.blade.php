@@ -11,8 +11,8 @@
   <meta name="msvalidate.01" content="D512583DCEDCD8C1A6782DA0D384235F" />
   <link rel="icon" type="image" href="/images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif" rel="stylesheet">
-  <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
-  <script src="{{ elixir('js/all.js') }}"></script>
+  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+  <script src="{{ mix('js/app.js') }}"></script>
 </head>
 @yield('bodyclass')
   <div class="container container-top">

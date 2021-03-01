@@ -1,39 +1,21 @@
- # 1 week for image assets
- <FilesMatch ".(ico|jpg|jpeg|png|gif)$">
-    <IfModule mod_headers.c>
-         Header unset Set-Cookie
-         Header set Cache-Control "max-age=604800, public"
-    </IfModule>
- </FilesMatch>
-
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-        Options -MultiViews
+        Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
-
-    # BLOCK USER AGENTS
-    RewriteCond %{HTTP_USER_AGENT} Mb2345Browser|PiplBot|SemrushBot|LMY47V|HUAWEIFRD|OPPO|LieBaoFast|zh-CN|MicroMessenger|zh_CN|YandexBot|Kinza [NC]
-    RewriteRule ^ - [R=403,L]
-
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)/$ /$1 [L,R=301]
-
-    # Handle Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Security
-    Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
-    Header set X-XSS-Protection "1; mode=block"
-    Header set X-Content-Type-Options nosniff
-    Header always set X-Frame-Options "sameorigin"
-    Header set Referrer-Policy: no-referrer-when-downgrade
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
 </IfModule>

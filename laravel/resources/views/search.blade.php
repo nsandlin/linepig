@@ -8,32 +8,33 @@
     <div class="flex-item">
       <div class="search-container">
         <div id="search-form">
-          {!! Form::open(['action' => 'SearchController@handleSearch']) !!}
+          <form method="POST" action="/search-handle">
+            @csrf
             <fieldset class="search-fieldset">
-              {!! Form::label('genus', 'Genus') !!}
-              {!! Form::text('genus') !!}
+              <label for="genus">Genus</label>
+              <input name="genus" type="text" id="genus">
             </fieldset>
 
             <fieldset class="search-fieldset">
-              {!! Form::label('species', 'Species') !!}
-              {!! Form::text('species') !!}
+              <label for="species">Species</label>
+              <input name="species" type="text" id="species">
             </fieldset>
 
             <fieldset class="search-fieldset keywords">
-              {!! Form::label('keywords', 'Keywords') !!}
+              <label for="keywords">Keywords</label>
 
               <ul class="keywords-option-list">
                 @foreach ($keywords as $keyword)
                   <li class="keyword-option-item">
-                    {!! Form::label('keywords', $keyword) !!}
-                    {!! Form::checkbox('keywords[]', $keyword) !!}
+                    <label for="{{ $keyword }}">{{ $keyword }}</label>
+                    <input name="keywords[]" type="checkbox" value="{{ $keyword }}">
                   </li>
                 @endforeach
               </ul>
             </fieldset>
 
-            {!! Form::submit('Search', array('class' => 'search')) !!}
-          {!! Form::close() !!}
+            <input class="search" type="submit" value="Search">
+          </form>
         </div>
       </div>
     </div><!--.flex-item blue-->

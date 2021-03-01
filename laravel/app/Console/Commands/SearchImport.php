@@ -224,7 +224,7 @@ class SearchImport extends Command
         $this->count = $bimu->hits();
         $bimu = null;
 
-        $message = "We have " . $this->count . " records to process." . PHP_EOL;
+        $message = "We have " . number_format($this->count) . " records to process." . PHP_EOL;
         Log::info($message);
         print($message);
     }
