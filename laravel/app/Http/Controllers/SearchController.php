@@ -50,12 +50,12 @@ class SearchController extends Controller
         }
 
         if (!empty($request->input('genus'))) {
-            $genus = trim($request->input('genus'));
+            $genus = ucfirst(trim($request->input('genus')));
         } else {
             $genus = "none";
         }
         if (!empty($request->input('species'))) {
-            $species = trim($request->input('species'));
+            $species = strtolower(trim($request->input('species')));
         } else {
             $species = "none";
         }
