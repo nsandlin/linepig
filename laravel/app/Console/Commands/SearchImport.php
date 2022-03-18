@@ -57,10 +57,37 @@ class SearchImport extends Command
      */
     public function handle()
     {
+        if (!self::isIMuWorking()) {
+            print "IMu is not working properly, exiting...";
+            return;
+        }
+
         $this->createSqliteFile();
         $this->createSearchTable();
         $this->findCount();
         $this->addRecords();
+    }
+
+    /**
+     * This function tests to ensure that IMu is working before we go
+     * ahead with the search import. If IMu is not working properly
+     * we DO NOT want to blow away the current search table, and
+     * should just exit the search import.
+     */
+    public static function isIMuWorking(): bool
+    {
+        try {
+            $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "emultimedia");
+            $bimu->search(['MulMultimediaCreatorRef_tab' => '177281'], config('emuconfig.search_fields'));
+            $testRecords = $bimu->getOne();
+            if (empty($testRecords)) {
+                return false;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
