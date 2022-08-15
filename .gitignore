@@ -5,3 +5,4 @@ rev-manifest.json
 all-*.css
 all-*.js
 .env
+.DS_Store
