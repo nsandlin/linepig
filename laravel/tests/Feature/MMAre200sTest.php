@@ -18,11 +18,6 @@ class MMAre200sTest extends TestCase
      */
     public function test_all_mm_pages_are_200()
     {
-        Notification::route('slack', env('SLACK_HOOK'))
-            ->notify(
-                new MultimediaDetailNotification('Testing two random LinEpig mm detail pages.')
-            );
-
         $multimedia = new Multimedia();
         $records = $multimedia->getRecords();
         $this->assertNotEmpty($records);
@@ -60,20 +55,9 @@ class MMAre200sTest extends TestCase
                 );
 
                 return 1;
-            } else {
-                Notification::route('slack', env('SLACK_HOOK'))
-                ->notify(
-                    new MultimediaDetailNotification("$url loaded successfully.")
-                );
             }
         }
 
-        Notification::route('slack', env('SLACK_HOOK'))
-        ->notify(
-            new MultimediaDetailNotification(
-                "LinEpig two random mm detail pages successfully tested!"
-            )
-        );
         return 0;
     }
 }
