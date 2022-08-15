@@ -45,7 +45,7 @@ class MMAre200sTest extends TestCase
             $recordsToTest[] = $records[$randoKey];
         }
 
-        foreach ($records as $record) {
+        foreach ($recordsToTest as $record) {
             sleep(1);
             $irn = $record->irn;
             $url = "https://linepig.fieldmuseum.org/multimedia/$irn";
@@ -60,6 +60,11 @@ class MMAre200sTest extends TestCase
                 );
 
                 return 1;
+            } else {
+                Notification::route('slack', env('SLACK_HOOK'))
+                ->notify(
+                    new MultimediaDetailNotification("$url loaded successfully.")
+                );
             }
         }
 
