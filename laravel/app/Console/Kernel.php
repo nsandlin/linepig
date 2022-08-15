@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('search:import')->weekly()->mondays()->at('08:15');
         $schedule->command('sitemap:create')->weekly()->mondays()->at('08:35');
-        $schedule->command('test --testsuite=Feature --stop-on-failure')->weekly()->mondays()->at('11:00');
+        $schedule->command('test --testsuite=Feature --stop-on-failure')->hourly();
     }
 
     /**

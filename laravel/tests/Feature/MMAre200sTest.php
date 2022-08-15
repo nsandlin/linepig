@@ -20,7 +20,7 @@ class MMAre200sTest extends TestCase
     {
         Notification::route('slack', env('SLACK_HOOK'))
             ->notify(
-                new MultimediaDetailNotification('Test LinEpig mm detail pages load properly')
+                new MultimediaDetailNotification('Testing two random LinEpig mm detail pages.')
             );
 
         $multimedia = new Multimedia();
@@ -30,16 +30,26 @@ class MMAre200sTest extends TestCase
         if (empty($records)) {
             Notification::route('slack', env('SLACK_HOOK'))
                 ->notify(
-                    new MultimediaDetailNotification("Couldn't get records from IMu (is it down?)")
+                    new MultimediaDetailNotification("Couldn't get records from local sqlite.")
                 );
 
             return 1;
         }
 
+        // Test 2 random pages.
+        $records = $records->toArray();
+        $randomPages = array_rand($records, 2);
+        $recordsToTest = [];
+        
+        foreach($randomPages as $randoKey) {
+            $recordsToTest[] = $records[$randoKey];
+        }
+
         foreach ($records as $record) {
             sleep(1);
             $irn = $record->irn;
-            $response = $this->get("https://linepig.fieldmuseum.org/multimedia/$irn");
+            $url = "https://linepig.fieldmuseum.org/multimedia/$irn";
+            $response = $this->get($url);
             $statusCode = $response->getStatusCode();
             $response->assertStatus(200);
 
@@ -52,5 +62,13 @@ class MMAre200sTest extends TestCase
                 return 1;
             }
         }
+
+        Notification::route('slack', env('SLACK_HOOK'))
+        ->notify(
+            new MultimediaDetailNotification(
+                "LinEpig two random mm detail pages successfully tested!"
+            )
+        );
+        return 0;
     }
 }
