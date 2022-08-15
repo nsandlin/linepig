@@ -20,6 +20,10 @@ class CatalogController extends Controller
         $catalog = new Catalog();
         $record = $catalog->getRecord($irn);
 
+        if (empty($record)) {
+            abort(503);
+        }
+
         $view = view('catalog-detail', [
             'record' => $record,
         ])->render();
