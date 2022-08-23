@@ -9,8 +9,8 @@
   <meta name="author" content="LinEpig, Field Museum of Natural History">
   <link rel="icon" type="image" href="images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif" rel="stylesheet">
-  <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
-  <script src="{{ elixir('js/all.js') }}"></script>
+  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+  <script src="{{ mix('js/app.js') }}"></script>
 </head>
 <body class="home">
   <div class="container container-top">

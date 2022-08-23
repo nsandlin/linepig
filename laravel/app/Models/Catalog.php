@@ -1,9 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Multimedia;
+use Illuminate\Support\Facades\DB;
+use App\Models\Multimedia;
+use MongoDB\Client;
 
 class Catalog extends Model
 {
@@ -15,6 +18,30 @@ class Catalog extends Model
     protected $record;
 
     /**
+     * Retrieves the Catalog record via the Multimedia IRN.
+     *
+     * @param int $multimediaIRN
+     *   The multimedia record IRN
+     *
+     * @return array
+     *   Returns an array of the catalog record
+     */
+    public function getRecordFromMultimediaIRN(int $multimediaIRN): array
+    {
+        // Retrieve MongoDB document
+        $this->mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $ecatalogue = $this->mongo->collections->ecatalogue;
+        $document = $ecatalogue->findOne(['MulMultiMediaRef' => $multimediaIRN]);
+        $record = $document;
+
+        if (is_null($record)) {
+            return [];
+        }
+
+        return $record;
+    }
+
+    /**
      * Retrieves the individual Catalog record.
      *
      * @param int $irn
@@ -23,28 +50,13 @@ class Catalog extends Model
      * @return array
      *   Returns an array of the Catalog record.
      */
-    public function getRecord($irn) : array
+    public function getRecord($irn): array
     {
-        // Create a Session and selecting the module we want to query.
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('ecatalogue', $session);
-
-        // Adding our search terms.
-        $terms = new \IMuTerms();
-        $terms->add('irn', $irn);
-        $terms->add('AdmPublishWebNoPassword', 'Yes');
-
-        // Fetching results.
-        $module->findTerms($terms);
-        $columns = config('emuconfig.catalog_fields');
-        $result = $module->fetch('start', 0, 1, $columns);
-
-        // If there's no record, abort.
-        if (empty($result->rows)) {
-            abort(404);
-        }
-
-        $record = $result->rows[0];
+        // Retrieve MongoDB document
+        $this->mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $ecatalogue = $this->mongo->collections->ecatalogue;
+        $document = $ecatalogue->findOne(['irn' => $irn]);
+        $record = $document;
 
         // Additional record processing.
         $record['genus_species'] = $record['DarGenus'] . " " . $record['DarSpecies'];

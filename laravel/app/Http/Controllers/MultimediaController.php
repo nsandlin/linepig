@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Multimedia;
+use App\Models\Multimedia;
 
 class MultimediaController extends Controller
 {

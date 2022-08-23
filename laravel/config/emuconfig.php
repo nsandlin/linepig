@@ -5,6 +5,7 @@
  */
 
 return [
+    'mongodb_conn_options' => ["typeMap" => ['root' => 'array', 'document' => 'array']],
     'emuserver' => 'ross.fieldmuseum.org',
     'emuport' => 40107,
     'website_domain' => 'http://linepig.fieldmuseum.org/',
