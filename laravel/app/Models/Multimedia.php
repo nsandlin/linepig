@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use App\BacklinkImage;
 use MongoDB\Client;
 use App\Models\Taxonomy;
@@ -59,16 +58,14 @@ class Multimedia extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $emultimedia = $mongo->collections->emultimedia;
         $document = $emultimedia->findOne(['irn' => $irn]);
         $record = $document;
 
-        // Additional record processing.
-        $record['taxonomy_irn'] = $record['MulOtherNumber'] ?? null;
-
         // Get taxonomy record info
         $taxonomy = new Taxonomy();
+        $record['taxonomy_irn'] = $taxonomy->getTaxonomyIRN($record);
         $this->taxonomy = $taxonomy->getRecord($record['taxonomy_irn']);
 
         // Get catalog record info
@@ -100,14 +97,15 @@ class Multimedia extends Model
      * @return array
      *   Returns an array of all of the Multimedia records.
      */
-    public function getRecords(): \Illuminate\Support\Collection
+    public function getHomepageRecords(): array
     {
-        $records = DB::table('search')
-                           ->orderBy('genus', 'asc')
-                           ->orderBy('species', 'asc')
-                           ->get();
-        $this->records = $records;
-        $this->count = DB::table('search')->count();
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $searchCollection = $mongo->linepig->search;
+        $cursor = $searchCollection->find();
+
+        foreach ($cursor as $record) {
+            $this->records[] = $record;
+        }
 
         return $this->records;
     }
@@ -126,7 +124,7 @@ class Multimedia extends Model
      */
     public function getSubset($type, $taxonomyIRN): array
     {
-        $mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $emultimedia = $mongo->collections->emultimedia;
         $cursor = $emultimedia->find(
             [
@@ -323,7 +321,7 @@ class Multimedia extends Model
     public function checkSubsets($taxonomyIRN): array
     {
         $subsets = config('emuconfig.subsets_to_check');
-        $mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
 
         foreach ($subsets as $key => $value) {
             $emultimedia = $mongo->collections->emultimedia;

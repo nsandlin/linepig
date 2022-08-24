@@ -36,11 +36,40 @@ class Taxonomy extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $this->mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $etaxonomy = $this->mongo->collections->etaxonomy;
-        $record = $etaxonomy->findOne(['irn' => $irn]);
-        $this->record = $record;
+        $this->record = $etaxonomy->findOne(['irn' => $irn]);
+
+        if (is_null($this->record)) {
+            return [];
+        }
 
         return $this->record;
+    }
+
+    /**
+     * Gets the Taxonomy IRN based upon the multimedia MulOtherNumberSource.
+     * The array key for MulOtherNumberSource == "etaxonomy irn" should be used
+     * on the MulOtherNumber field to return the etaxonomy irn value.
+     *
+     * @param array $multimediaRecord
+     *
+     * @return string
+     */
+    public static function getTaxonomyIRN(array $multimediaRecord): string
+    {
+        if (!is_array($multimediaRecord['MulOtherNumber'])) {
+            return $multimediaRecord['MulOtherNumber'];
+        }
+
+        if (!is_array($multimediaRecord['MulOtherNumberSource'])) {
+            return $multimediaRecord['MulOtherNumber'][0];
+        }
+
+        foreach ($multimediaRecord['MulOtherNumberSource'] as $key => $value) {
+            if ($value === "etaxonomy irn") {
+                return $multimediaRecord['MulOtherNumber'][$key];
+            }
+        }
     }
 }

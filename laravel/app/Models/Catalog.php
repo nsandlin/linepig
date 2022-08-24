@@ -29,7 +29,7 @@ class Catalog extends Model
     public function getRecordFromMultimediaIRN(int $multimediaIRN): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $this->mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $ecatalogue = $this->mongo->collections->ecatalogue;
         $document = $ecatalogue->findOne(['MulMultiMediaRef' => $multimediaIRN]);
         $record = $document;
@@ -53,7 +53,7 @@ class Catalog extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $this->mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $ecatalogue = $this->mongo->collections->ecatalogue;
         $document = $ecatalogue->findOne(['irn' => $irn]);
         $record = $document;

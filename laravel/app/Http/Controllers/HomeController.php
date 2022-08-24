@@ -15,11 +15,11 @@ class HomeController extends Controller
     public function showHome() 
     {
         $multimedia = new Multimedia();
-        $records = $multimedia->getRecords();
+        $records = $multimedia->getHomepageRecords();
 
         // We only want the "primary" records for the home page.
         foreach ($records as $key => $value) {
-            if (strpos($value->keywords, "primary") === false) {
+            if (strpos($value['keywords'], "primary") === false) {
                 unset($records[$key]);
             }
         }

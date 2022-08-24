@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Multimedia;
-use BIMu\BIMu;
+use App\Models\Taxonomy;
+use MongoDB\Client;
 
 class SearchImport extends Command
 {
@@ -57,37 +58,9 @@ class SearchImport extends Command
      */
     public function handle()
     {
-        if (!self::isIMuWorking()) {
-            print "IMu is not working properly, exiting...";
-            return;
-        }
-
-        $this->createSqliteFile();
-        $this->createSearchTable();
+        $this->deleteAllDocs();
         $this->findCount();
         $this->addRecords();
-    }
-
-    /**
-     * This function tests to ensure that IMu is working before we go
-     * ahead with the search import. If IMu is not working properly
-     * we DO NOT want to blow away the current search table, and
-     * should just exit the search import.
-     */
-    public static function isIMuWorking(): bool
-    {
-        try {
-            $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "emultimedia");
-            $bimu->search(['MulMultimediaCreatorRef_tab' => '177281'], config('emuconfig.search_fields'));
-            $testRecords = $bimu->getOne();
-            if (empty($testRecords)) {
-                return false;
-            }
-        } catch (Exception $e) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -99,144 +72,48 @@ class SearchImport extends Command
      */
     public function addRecords()
     {
-        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "emultimedia");
-        $bimu->search(['MulMultimediaCreatorRef_tab' => '177281'], config('emuconfig.search_fields'));
-        $this->records = $bimu->getAll();
-        $i = 1;
-        $bimu = null;
+        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $emultimedia = $mongo->collections->emultimedia;
+        $cursor = $emultimedia->find(['MulMultimediaCreatorRef' => '177281']);
 
-        foreach ($this->records as $record) {
+        $records = [];
 
-            // Process the record for insertion into search table.
-            $irn = (int) $record['irn'];
-            $module = "emultimedia";
+        $mongoLinepig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $searchCollection = $mongoLinepig->linepig->search;
 
-            // If the attached Taxonomy isn't present then grab the Genus
-            // and Species from the old Other Number method.
-            if (empty($record['etaxonomy:MulMultiMediaRef_tab'])) {
-                $genus = $this->getGenus($record);
-                $species = $this->getSpecies($record);
-            } else {
-                $genus = $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaGenus'];
-                $species = $record['etaxonomy:MulMultiMediaRef_tab'][0]['ClaSpecies'];
+        foreach ($cursor as $record) {
+            if (!isset($record['AudAccessURI'])) {
+                continue;
             }
 
-            $keywords = $this->combineArrayForSearch($record['DetSubject_tab']);
-            $title = $record['MulTitle'];
-            $description = $record['MulDescription'];
-            $thumbnailURL = Multimedia::fixThumbnailURL($record);
-            $searchString = $this->combineArrayForSearch($record);
+            $taxonomy = new Taxonomy();
+            $taxonomyIRN = $taxonomy->getTaxonomyIRN($record);
+            $taxon = $taxonomy->getRecord($taxonomyIRN);
 
-            // Add record to search table.
-            DB::insert(
-                'INSERT INTO search (
-                        irn, module, genus, species, keywords, title,
-                        description, thumbnailURL, search)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [$irn, $module, $genus, $species, $keywords, $title,
-                 $description, $thumbnailURL, $searchString]
-            );
-            Log::info("Added $i records to the search table.");
-            print("Added $i records to the search table." . PHP_EOL);
-            $i++;
-        }
+            $searchDoc = [];
+            $searchDoc['irn'] = $record['irn'];
+            $searchDoc['module'] = "emultimedia";
+            $searchDoc['genus'] = $taxon['ClaGenus'];
+            $searchDoc['species'] = $taxon['ClaSpecies'] ?? ""; // IRN 616726 is an example taxon record with no species
+            $searchDoc['keywords'] = $this->searchKeywords($record['DetSubject']);
+            $searchDoc['title'] = $record['MulTitle'];
+            $searchDoc['description'] = $record['MulDescription'];
+            $searchDoc['thumbnailURL'] = Multimedia::fixThumbnailURL($record['AudAccessURI']);
 
-        Log::info("Done adding records to the search database.");
-        print("Done adding records to the search database." . PHP_EOL);
-    }
-
-    /**
-     * Retrieves the Genus for the record from the MulOtherNumber_tab on the Multimedia record.
-     *
-     * @param array $record
-     *   The Multimedia record array.
-     *
-     * @return string $genus
-     *   Returns a string of the Genus for the record.
-     */
-    public function getGenus($record) : string
-    {
-        $multimediaIRN = $record['irn'];
-
-        // We need to figure out which array element to grab the Taxonomy IRN from.
-        $taxonomyArrayKey = null;
-
-        if (!empty($record['MulOtherNumberSource_tab'])) {
-            foreach ($record['MulOtherNumberSource_tab'] as $key => $value) {
-                if ($value == "etaxonomy irn") {
-                    $taxonomyArrayKey = $key;
-                }
+            // Remove unnecessary data before combining for search
+            foreach (config('emuconfig.mongodb_search_docs_fields_to_exclude') as $field) {
+                unset($record[$field]);
             }
+            $searchDoc['search'] = $this->combineArrayForSearch($record);
+
+            $insertOneResult = $searchCollection->insertOne($searchDoc);
+            $insertId = $insertOneResult->getInsertedId();
+            Log::info("Added $insertId doc to the search collection.");
+            print("Added $insertId doc to the search collection." . PHP_EOL);
         }
 
-        // Now let's get the Taxonomy IRN from the MulOtherNumber_tab field.
-        if (empty($record['MulOtherNumber_tab'])) {
-            Log::error("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN");
-            print("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN" . PHP_EOL);
-            return "";
-        } else {
-            $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
-        }
-
-        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "etaxonomy");
-        $bimu->search(['irn' => $irn], ['irn', 'ClaGenus']);
-        $record = $bimu->getOne();
-        $bimu = null;
-
-        if (empty($record['ClaGenus'])) {
-            Log::error("Could NOT find Genus info for this record, IRN: $irn");
-            print("Could NOT find Genus info for this record, IRN: $irn" . PHP_EOL);
-            return "";
-        } else {
-            return $record['ClaGenus'];
-        }
-    }
-
-    /**
-     * Retrieves the Species for the record from the MulOtherNumber_tab on the Multimedia record.
-     *
-     * @param array $record
-     *   The Multimedia record array.
-     *
-     * @return string $species
-     *   Returns a string of the Species for the record.
-     */
-    public function getSpecies($record) : string
-    {
-        $multimediaIRN = $record['irn'];
-
-        // We need to figure out which array element to grab the Taxonomy IRN from.
-        $taxonomyArrayKey = null;
-
-        if (!empty($record['MulOtherNumberSource_tab'])) {
-            foreach ($record['MulOtherNumberSource_tab'] as $key => $value) {
-                if ($value == "etaxonomy irn") {
-                    $taxonomyArrayKey = $key;
-                }
-            }
-        }
-
-        // Now let's get the Taxonomy IRN from the MulOtherNumber_tab field.
-        if (empty($record['MulOtherNumber_tab'])) {
-            Log::error("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN");
-            print("No Taxonomy IRN included with Multimedia, IRN: $multimediaIRN" . PHP_EOL);
-            return "";
-        } else {
-            $irn = $record['MulOtherNumber_tab'][$taxonomyArrayKey];
-        }
-
-        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "etaxonomy");
-        $bimu->search(['irn' => $irn], ['irn', 'ClaSpecies']);
-        $record = $bimu->getOne();
-        $bimu = null;
-
-        if (empty($record['ClaSpecies'])) {
-            Log::error("Could NOT find Species info for this record, IRN: $irn");
-            print("Could NOT find Species info for this record, IRN: $irn" . PHP_EOL);
-            return "";
-        } else {
-            return $record['ClaSpecies'];
-        }
+        Log::info("Done adding docs to the search collection.");
+        print("Done adding docs to the search collection." . PHP_EOL);
     }
 
     /**
@@ -246,10 +123,9 @@ class SearchImport extends Command
      */
     public function findCount()
     {
-        $bimu = new BIMu(config('emuconfig.emuserver'), config('emuconfig.emuport'), "emultimedia");
-        $bimu->search(['MulMultimediaCreatorRef_tab' => 177281], ['irn']);
-        $this->count = $bimu->hits();
-        $bimu = null;
+        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $emultimedia = $mongo->collections->emultimedia;
+        $this->count = $emultimedia->count(['MulMultimediaCreatorRef' => '177281']);
 
         $message = "We have " . number_format($this->count) . " records to process." . PHP_EOL;
         Log::info($message);
@@ -257,46 +133,33 @@ class SearchImport extends Command
     }
 
     /**
-     * Create the search table.
+     * Deletes all MongoDB docs so we can import fresh.
      *
      * @return void
      */
-    public function createSearchTable()
+    public function deleteAllDocs()
     {
-        Log::info("Dropping search table...");
-        print("Dropping search table..." . PHP_EOL);
-        DB::statement('DROP TABLE IF EXISTS search');
-
-        Log::info("Creating search table...");
-        print("Creating search table..." . PHP_EOL);
-        DB::statement(
-            'CREATE TABLE IF NOT EXISTS search (
-                irn INTEGER NOT NULL,
-                module TEXT NOT NULL,
-                genus TEXT,
-                species TEXT,
-                keywords TEXT,
-                title TEXT NOT NULL,
-                description TEXT NOT NULL,
-                thumbnailURL TEXT NOT NULL,
-                search TEXT
-            )'
-        );
+        Log::info("Deleting all docs in search collection...");
+        print("Deleting all docs in search collection..." . PHP_EOL);
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $searchCollection = $mongo->linepig->search;
+        $deleteResult = $searchCollection->deleteMany([]);
     }
 
     /**
-     * Creates the Sqlite database file if it doesn't exist.
+     * Combines keywords, pipe-delimited
      *
-     * @return void
+     * @param array|string $detsubject
+     *
+     * @return string
      */
-    public function createSqliteFile(): void
+    public function searchKeywords(array|string $detsubject): string
     {
-        $exists = Storage::disk('database')->exists(config('emuconfig.database_filename'));
-
-        if (!$exists) {
-            $location = database_path() . "/" . config('emuconfig.database_filename');
-            touch($location);
+        if (is_array($detsubject)) {
+            return implode("|", $detsubject);
         }
+
+        return $detsubject;
     }
 
     /**

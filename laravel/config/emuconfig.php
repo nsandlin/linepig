@@ -6,6 +6,17 @@
 
 return [
     'mongodb_conn_options' => ["typeMap" => ['root' => 'array', 'document' => 'array']],
+    'mongodb_search_docs_fields_to_exclude' => [
+        'XmpMetadata', 'DocImageType', 'DocNumberPages', 'DocBitsPerPixel', 'MulMultimediaCreatorRef',
+        'DetMediaRightsRef', 'DocNumberColours', 'MulMultimediaCreatorRefLocal1', 'DocFileSize',
+        'DocColourSpace', 'rownum', 'DocHeight', 'MulMultimediaCreatorRefLocal0', 'ExiTag',
+        'DocPlanes', 'ChaImageColorDepth', 'RelIsParent', 'MulMimeFormat', 'AdmGUIDIsPreferred',
+        'SecCanDisplay', 'ExiIfd', 'ChaFileSize', 'DocCompression', 'IptValue', 'MulHasMultimedia',
+        'DocQuality', 'ExiValue', 'ChaImageHeight', 'IptTag', 'DetMediaRightsRefLocal', 'MulOtherNumber',
+        'RepositoryEmpty', 'DocWidth', 'DocMimeFormat', 'ChaImageResolution', 'DetBornDigitalFlag',
+        'DocResolution', 'DocMimeType', 'MulDocumentType', 'ChaImageWidth', 'AdmGUIDType', 'DetResourceType',
+        'SecCanDelete', 'ExtendedData'
+    ],
     'emuserver' => 'ross.fieldmuseum.org',
     'emuport' => 40107,
     'website_domain' => 'http://linepig.fieldmuseum.org/',
