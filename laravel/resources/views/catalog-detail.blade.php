@@ -48,9 +48,13 @@
 
       <div class="collection-event-code">Collection Event Code: {{ $record['collection_event_code'] }}</div>
 
-      <div class="date-visited-from">Date Visited From: {{ $record['date_visited_from'] }}</div>
+      <div class="date-visited-from">Date Visited From:
+        {{ $record['date_visited_from'][0] }}-{{ $record['date_visited_from'][1] }}-{{ $record['date_visited_from'][2] }}
+      </div>
 
-      <div class="date-visited-to">Date Visited To: {{ $record['date_visited_to'] }}</div>
+      <div class="date-visited-to">Date Visited To:
+        {{ $record['date_visited_to'][0] }}-{{ $record['date_visited_to'][1] }}-{{ $record['date_visited_to'][2] }}
+      </div>
 
       <div class="collected-by">Collected by: {{ $record['collected_by'] }}</div>
 
