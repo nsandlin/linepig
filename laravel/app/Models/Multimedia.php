@@ -137,17 +137,20 @@ class Multimedia extends Model
         $records = [];
 
         foreach ($cursor as $record) {
-            $records[] = $record;
+            if ($type === "all") {
+                $records[] = $record;
+            } else {
+                foreach ($record['DetSubject'] as $subject) {
+                    if ($subject == $type) {
+                        $records[] = $record;
+                    }
+                }
+            }
         }
 
         if (empty($records)) {
             abort(404);
         }
-
-        // If we have a type that's not "all", query for that subset.
-        // if ($type !== "all") {
-        //     $terms->add('DetSubject_tab', $type);
-        // }
 
         // Additional processing for each record.
         foreach ($records as $key => $value) {
@@ -320,9 +323,10 @@ class Multimedia extends Model
     public function checkSubsets($taxonomyIRN): array
     {
         $subsets = config('emuconfig.subsets_to_check');
+        $mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
 
         foreach ($subsets as $key => $value) {
-            $emultimedia = $this->mongo->collections->emultimedia;
+            $emultimedia = $mongo->collections->emultimedia;
             $count = $emultimedia->count(
                 [
                     'MulOtherNumber' => $taxonomyIRN,
