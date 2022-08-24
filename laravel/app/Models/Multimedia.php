@@ -70,7 +70,16 @@ class Multimedia extends Model
 
         // Get catalog record info
         $catalog = new Catalog();
-        $this->catalog = $catalog->getRecordFromMultimediaIRN($irn);
+        $this->catalog = $catalog->getRecordFromMultimediaIRN($record['irn']);
+        $record['collection_record_url'] = "";
+        $record['catirn'] = "";
+        $record['guid'] = "";
+
+        if (!is_null($this->catalog)) {
+            $record['collection_record_url'] = "/catalogue/" . $this->catalog['irn'];
+            $record['catirn'] = $this->catalog['irn'];
+            $record['guid'] = $this->catalog['DarGlobalUniqueIdentifier'];
+        }
 
         $record['species_name'] = self::fixSpeciesTitle($record);
         $record['image_url'] = $record['AudAccessURI'];
@@ -79,11 +88,8 @@ class Multimedia extends Model
         $record['rights'] = $record['RightsSummaryDataLocal'];
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($this->taxonomy);
-        $record['collection_record_url'] = $this->getCollectionRecordURL($record);
         $record['notes'] = $record['NteText0'] ?? "";
         $record['subsets'] = $this->checkSubsets($record['taxonomy_irn']);
-        $record['catirn'] = str_replace("/catalogue/", "", $record['collection_record_url']);
-        $record['guid'] = $this->catalog['DarGlobalUniqueIdentifier'] ?? "";
 
         // Set the individual Multimedia record.
         $this->record = $record;
@@ -262,31 +268,6 @@ class Multimedia extends Model
                     "&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s";
 
         return $url;
-    }
-
-    /**
-     * Retrieves the collection record link (Catalogue).
-     *
-     * @param array $record
-     *   The EMu Multimedia record.
-     *
-     * @return string $url
-     *   Returns a string of the URL of the collection record, either external or internal
-     *   Catalogue record.
-     */
-    public function getCollectionRecordURL($record): string
-    {
-        // Get the reverse-attached catalog record detail page
-        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $ecatalogue = $mongo->collections->ecatalogue;
-        $document = $ecatalogue->findOne(['MulMultiMediaRef' => $record['irn']]);
-
-        if (is_null($document)) {
-            return "";
-        }
-
-        $catalogIRN = $document['irn'];
-        return "/catalogue/" . $catalogIRN;
     }
 
     /**

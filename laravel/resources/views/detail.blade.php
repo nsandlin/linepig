@@ -82,7 +82,9 @@
     @endif
 
     @if (!empty($record['guid']))
-       <br clear="both"><p style="text-align:right;margin-right:20px;color:#888;">Catalog irn: {{ $record['catirn'] }}<br>OccurrenceID: {{ $record['guid'] }}</p> 
+       <br clear="both"><p style="text-align:right;margin-right:20px;color:#888;">
+       Catalog irn: {{ $record['catirn'] }}<br>
+       OccurrenceID: {{ $record['guid'] }}</p> 
     @endif
 
   

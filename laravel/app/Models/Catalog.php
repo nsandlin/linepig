@@ -31,7 +31,7 @@ class Catalog extends Model
         // Retrieve MongoDB document
         $this->mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $ecatalogue = $this->mongo->collections->ecatalogue;
-        $document = $ecatalogue->findOne(['MulMultiMediaRef' => $multimediaIRN]);
+        $document = $ecatalogue->findOne(['MulMultiMediaRef' => (string) $multimediaIRN]);
         $record = $document;
 
         if (is_null($record)) {
