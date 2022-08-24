@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use MongoDB\Client;
 
 class SitemapGenerator extends Command
 {
@@ -57,8 +57,11 @@ class SitemapGenerator extends Command
     {
         // First, we're going to get all of the records in the search table and add them to URLs.
         // The search table SHOULD include all of the Multimedia records (pages) for the site.
-        $searchRecords = DB::select('SELECT * FROM search');
-        $this->addSearchRecords($searchRecords);
+        $mongoLinepig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $searchCollection = $mongoLinepig->linepig->search;
+        $docs = $searchCollection->find();
+
+        $this->addSearchRecords($docs);
 
         // Second, we're going to get all of the other links on the site.
         $this->addOtherLinks();
@@ -70,19 +73,19 @@ class SitemapGenerator extends Command
     /**
      * Process Search database records and add them to the URLs array for the Sitemap.
      *
-     * @param array $searchRecords
+     * @param \MongoDB\Driver\Cursor $searchRecords
      *   The records from the Search database.
      *
      * @return void
      */
-    public function addSearchRecords(array $searchRecords) {
+    public function addSearchRecords(\MongoDB\Driver\Cursor $searchRecords) {
 
         foreach ($searchRecords as $record) {
-            switch ($record->module) {
+            switch ($record['module']) {
                 case "emultimedia":
                     $this->urls[] = config('emuconfig.website_domain') .
                                     "multimedia/" .
-                                    $record->irn;
+                                    $record['irn'];
                     break;
                 default:
                     break;

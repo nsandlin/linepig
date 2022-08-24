@@ -19,7 +19,7 @@ return [
     ],
     'emuserver' => 'ross.fieldmuseum.org',
     'emuport' => 40107,
-    'website_domain' => 'http://linepig.fieldmuseum.org/',
+    'website_domain' => 'https://linepig.fieldmuseum.org/',
     'website_links' => [
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery',
         'http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery/can-you-help',
