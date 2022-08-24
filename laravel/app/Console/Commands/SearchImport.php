@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use App\Multimedia;
+use App\Models\Multimedia;
 use BIMu\BIMu;
 
 class SearchImport extends Command
