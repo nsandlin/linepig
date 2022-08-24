@@ -224,13 +224,15 @@ class Multimedia extends Model
      */
     public function getBOLD($record): string
     {
-        $genusSpecies = DB::table('bold')->where('genus_species', $record['genus_species'])->value('genus_species');
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $boldCollection = $mongo->linepig->bold;
+        $document = $boldCollection->findOne(['genus_species' => $record['genus_species']]);
 
-        if (is_null($genusSpecies)) {
+        if (is_null($document)) {
             return "";
         }
 
-        $boldGS = str_replace(" ", "+", $genusSpecies);
+        $boldGS = str_replace(" ", "+", $document['genus_species']);
         $url = "http://www.boldsystems.org/index.php/TaxBrowser_TaxonPage?taxon=" . $boldGS;
 
         return $url;
