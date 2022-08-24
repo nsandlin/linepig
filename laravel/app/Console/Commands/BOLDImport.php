@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Goutte\Client;
 
 class BOLDImport extends Command
 {
@@ -21,7 +20,7 @@ class BOLDImport extends Command
      *
      * @var string
      */
-    protected $description = 'Imports BOLD species list into the local DB.';
+    protected $description = 'Imports BOLD species list into the bold linepig MongoDB collection';
 
     /**
      * Create a new command instance.
@@ -41,51 +40,27 @@ class BOLDImport extends Command
      */
     public function handle()
     {
-        $client = new Client();
+        $client = new \Goutte\Client();
         $crawler = $client->request('GET', config('emuconfig.BOLD_import_url'));
-        $genusSpeciesList = $crawler->filter('img.metaMarker')->each(function ($node) {
-            return $node->attr('filter-identifier');
-        });
+        $resultsTable = $crawler->filter('#resultsTable');
+        $trs = $resultsTable->filter('tr');
+        $tds = $trs->filter('td:nth-of-type(2)');
+        $genusSpeciesList = [];
 
-        $this->createBOLDTable();
-        $this->insertRecords($genusSpeciesList);
-    }
-
-    /**
-     * Create the BOLD table.
-     *
-     * @return void
-     */
-    public function createBOLDTable()
-    {
-        Log::info("Dropping BOLD table...");
-        print("Dropping BOLD table..." . PHP_EOL);
-        DB::statement('DROP TABLE IF EXISTS bold');
-
-        Log::info("Creating BOLD table...");
-        print("Creating BOLD table..." . PHP_EOL);
-        DB::statement(
-            'CREATE TABLE IF NOT EXISTS bold (
-                genus_species TEXT NOT NULL
-            )'
-        );
-    }
-
-    /**
-     * Insert all Genus/Species into the BOLD table.
-     *
-     * @param array $genusSpeciesList
-     *   An array of the Genus/Species list.
-     *
-     * @return void
-     */
-    public function insertRecords($genusSpeciesList)
-    {
-        foreach ($genusSpeciesList as $gs) {
-            DB::insert('INSERT INTO bold (genus_species) VALUES (?)', [$gs]);
+        foreach ($tds as $td) {
+            $genusSpecies = preg_replace('/^\p{Z}+|\p{Z}+$/u', '', $td->textContent);
+            $doc['genus_species'] = $genusSpecies;
+            $genusSpeciesList[] = $doc;
         }
 
-        Log::info("Done adding records to the BOLD table.");
-        print("Done adding records to the BOLD table." . PHP_EOL);
+        // Clear out the bold collection
+        $mongo = new \MongoDB\Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $boldCollection = $mongo->linepig->bold;
+        $deleteResult = $boldCollection->deleteMany([]);
+
+        // Add all new bold docs
+        array_shift($genusSpeciesList);
+        $insertManyResult = $boldCollection->insertMany($genusSpeciesList);
+        printf("Inserted %d document(s)\n", $insertManyResult->getInsertedCount());
     }
 }
