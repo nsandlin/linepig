@@ -75,7 +75,7 @@ class Multimedia extends Model
         $record['catirn'] = "";
         $record['guid'] = "";
 
-        if (!is_null($this->catalog)) {
+        if (!empty($this->catalog)) {
             $record['collection_record_url'] = "/catalogue/" . $this->catalog['irn'];
             $record['catirn'] = $this->catalog['irn'];
             $record['guid'] = $this->catalog['DarGlobalUniqueIdentifier'];
