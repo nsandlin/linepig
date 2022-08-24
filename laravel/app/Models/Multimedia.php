@@ -34,13 +34,6 @@ class Multimedia extends Model
     protected $count;
 
     /**
-     * The MongoDB Client
-     *
-     * @var MongoDB\Client $mongo
-     */
-    protected $mongo;
-
-    /**
      * The associated taxonomy record
      *
      * @var array $taxonomy
@@ -66,8 +59,8 @@ class Multimedia extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $emultimedia = $this->mongo->collections->emultimedia;
+        $mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $emultimedia = $mongo->collections->emultimedia;
         $document = $emultimedia->findOne(['irn' => $irn]);
         $record = $document;
 
@@ -133,37 +126,36 @@ class Multimedia extends Model
      */
     public function getSubset($type, $taxonomyIRN): array
     {
-        $rows = array();
-        $session = new \IMuSession(config('emuconfig.emuserver'), config('emuconfig.emuport'));
-        $module = new \IMuModule('emultimedia', $session);
+        $mongo = new Client(env('MONGO_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $emultimedia = $mongo->collections->emultimedia;
+        $cursor = $emultimedia->find(
+            [
+                'MulOtherNumber' => $taxonomyIRN,
+                'MulMimeType' => 'image'
+            ]
+        );
+        $records = [];
 
-        $terms = new \IMuTerms();
-        $terms->add('AdmPublishWebNoPassword', 'Yes');
-        $terms->add('MulOtherNumber_tab', $taxonomyIRN);
-        $terms->add('MulMimeType', 'image');
-
-        // If we have a type that's not "all", query for that subset.
-        if ($type !== "all") {
-            $terms->add('DetSubject_tab', $type);
+        foreach ($cursor as $record) {
+            $records[] = $record;
         }
 
-        $hits = $module->findTerms($terms);
-        $columns = config('emuconfig.subset_fields');
-        $results = $module->fetch('start', 0, -1, $columns);
-        $rows = $results->rows;
-
-        // If there's no records, abort.
-        if (empty($results->rows)) {
+        if (empty($records)) {
             abort(404);
         }
 
+        // If we have a type that's not "all", query for that subset.
+        // if ($type !== "all") {
+        //     $terms->add('DetSubject_tab', $type);
+        // }
+
         // Additional processing for each record.
-        foreach ($rows as $key => $value) {
-            $rows[$key]['thumbnail_url'] = self::fixThumbnailURL($value);
-            $rows[$key]['species_name'] = self::fixSpeciesTitle($value);
+        foreach ($records as $key => $value) {
+            $records[$key]['thumbnail_url'] = self::fixThumbnailURL($value['AudAccessURI']);
+            $records[$key]['species_name'] = self::fixSpeciesTitle($value);
         }
 
-        return $rows;
+        return $records;
     }
 
     /**
@@ -199,30 +191,24 @@ class Multimedia extends Model
      * Alters the thumbnail Multimedia URL so we have a proper URL reference to the file
      * on the Multimedia server.
      *
-     * @param array $record
-     *   Multimedia record array
+     * @param string $accessURI
+     *   Multimedia accessURI
      *
      * @return string
-     *   Returns string with the corrected URL
+     *   Returns string with the URL to the thumbnail image
      */
-    public static function fixThumbnailURL($record): string
+    public static function fixThumbnailURL($accessURI): string
     {
-        if (!isset($record['thumbnail']['identifier'])) {
+        if (empty($accessURI)) {
             return "";
         }
 
-        $filename = $record['thumbnail']['identifier'];
+        $fileExtension = substr($accessURI, -4);
+        $fileWithoutExtension = str_replace($fileExtension, "", $accessURI);
+        $thumbWithExtension = ".thumb" . $fileExtension;
+        $thumbURL = $fileWithoutExtension . $thumbWithExtension;
 
-        $irn = $record['irn'];
-        $url = "";
-        $url = "/" . substr($irn, -3, 3) . $url;
-        $irn = substr_replace($irn, '', -3, 3);
-        $url = "/" . $irn . $url;
-
-        $url = "https://" . config('emuconfig.multimedia_server') . $url .
-                 "/" . $record['thumbnail']['identifier'];
-
-        return $url;
+        return $thumbURL;
     }
 
     /**

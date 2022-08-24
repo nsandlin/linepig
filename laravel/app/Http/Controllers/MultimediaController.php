@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Multimedia;
+use App\Models\Taxonomy;
 
 class MultimediaController extends Controller
 {
@@ -46,7 +47,10 @@ class MultimediaController extends Controller
     {
         $multimedia = new Multimedia();
         $records = $multimedia->getSubset($type, $taxonomyIRN);
-        $genusSpecies = $multimedia->getGenusSpecies($records[0]);
+
+        $taxonomy = new Taxonomy();
+        $taxon = $taxonomy->getRecord($taxonomyIRN);
+        $genusSpecies = $taxon['ClaGenus'] . " " . $taxon['ClaSpecies'];
 
         $view = view('subset', [
             'genus_species' => $genusSpecies,
