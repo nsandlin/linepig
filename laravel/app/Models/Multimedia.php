@@ -276,38 +276,17 @@ class Multimedia extends Model
      */
     public function getCollectionRecordURL($record): string
     {
-        $firstfour = "";
-        // If the attached Multimedia record is an external link, return that URL.
-        if (!empty($record['RelRelatedMediaRef_tab'][0])) {
-            $firstfour = substr($record['RelRelatedMediaRef_tab'][0]['MulIdentifier'], 0, 4);
-            if ($firstfour == "http") {
-                return $record['RelRelatedMediaRef_tab'][0]['MulIdentifier'];
-            }
-        } elseif (!empty($record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'])) {
-            return "/catalogue/" . $record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'];
-        } else {
-            return "";
-        }
-        return "";
-    }
+        // Get the reverse-attached catalog record detail page
+        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $ecatalogue = $mongo->collections->ecatalogue;
+        $document = $ecatalogue->findOne(['MulMultiMediaRef' => $record['irn']]);
 
-    /**
-     * Retrieves the guid (Catalogue).
-     *
-     * @param array $record
-     *   The EMu Multimedia record.
-     *
-     * @return string $guid
-     *   Returns a string of the guid of the Catalog collection record.
-     */
-    public function getGUID($record): string
-    {
-    if (!empty($record['ecatalogue:MulMultiMediaRef_tab'][0]['irn'])) {
-            return  $record['ecatalogue:MulMultiMediaRef_tab'][0]['DarGlobalUniqueIdentifier'];
-        } else {
+        if (is_null($document)) {
             return "";
         }
-        return "";
+
+        $catalogIRN = $document['irn'];
+        return "/catalogue/" . $catalogIRN;
     }
 
     /**
