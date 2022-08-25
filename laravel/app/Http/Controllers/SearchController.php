@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use MongoDB\Client;
 use App\Multimedia;
 
 class SearchController extends Controller
@@ -22,8 +22,7 @@ class SearchController extends Controller
     public function showSearch()
     {
         // Get available keywords for the search.
-        $records = DB::select('SELECT * FROM search');
-        $keywords = $this->getKeywords($records);
+        $keywords = config('emuconfig.search_keywords');
 
         $view = view('search', [
                 'keywords' => $keywords,
@@ -73,7 +72,7 @@ class SearchController extends Controller
     }
 
     /**
-     * Queries the Sqlite database to retrieve Multimedia
+     * Queries the MongoDB collection to retrieve Multimedia
      * records based upon the search terms entered.
      *
      * @param string $genus
@@ -84,68 +83,49 @@ class SearchController extends Controller
      */
     public function showSearchResults($genus, $species, $keywords)
     {
-        $query = $this->getDBQuery($genus, $species, $keywords);
-        $records = $query->get();
+        $filter = null;
+        $searchConditions = [];
 
-        return view('search-results', [
-            'title' => 'Search results',
-            'description' => 'Search results',
-            'resultsCount' => count($records),
-            'searchConditions' => $this->searchConditions,
-            'searchResults' => $records,
-        ]);
-    }
+        if (!empty($genus) && $genus !== 'none') {
+            $filter['genus'] = trim($genus);
+            $searchConditions[] = $genus;
+        }
 
-    /**
-     * Gets the DB query of the Multimedia records.
-     *
-     * @param string $genus
-     * @param string $species
-     * @param string $keywords
-     *
-     * @return DB
-     *   A DB object of the query.
-     */
-    public function getDBQuery($genus, $species, $keywords)
-    {
-        // Searching the search table.
-        $query = DB::table('search');
+        if (!empty($species) && $species !== 'none') {
+            $filter['species'] = trim($species);
+            $searchConditions[] = $species;
+        }
 
-        // Keywords searching.
-        if ($keywords !== "none") {
+        // TODO: Allow for searching on multiple keywords.
+        if (!empty($keywords) && $keywords !== 'none') {
             $searchValues = explode("+", $keywords);
 
             foreach ($searchValues as $value) {
                 $value = trim($value);
-
-                $query->where(function($q) use ($value) {
-                    $q->orWhere('keywords', 'like', "% $value %");
-                    $q->orWhere('keywords', 'like', "$value %");
-                    $q->orWhere('keywords', 'like', "% $value");
-                    $q->orWhere('keywords', 'like', $value);
-                });
-
-                $this->searchConditions[] = $value;
+                $filter['keywords'] = ['$regex' => ".$value.*"];
+                $searchConditions[] = $value;
             }
         }
 
-        // Genus searching.
-        if ($genus !== "none") {
-            $query->where('genus', '=', trim($genus));
-            $this->searchConditions[] = trim($genus);
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $searchCollection = $mongo->linepig->search;
+        $cursor = $searchCollection->find($filter);
+        $count = $searchCollection->count($filter);
+        $records = [];
+
+        if ($count > 0) {
+            foreach ($cursor as $record) {
+                $records[] = $record;
+            }
         }
 
-        // Species searching.
-        if ($species !== "none") {
-            $query->where('species', '=', trim($species));
-            $this->searchConditions[] = trim($species);
-        }
-
-        // Ordering by Genus, Species.
-        $query->orderBy('genus', 'asc');
-        $query->orderBy('species', 'asc');
-
-        return $query;
+        return view('search-results', [
+            'title' => 'Search results',
+            'description' => 'Search results',
+            'resultsCount' => $count,
+            'searchConditions' => $searchConditions,
+            'searchResults' => $records,
+        ]);
     }
 
     /**
