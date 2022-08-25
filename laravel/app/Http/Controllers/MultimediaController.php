@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Multimedia;
 use App\Models\Taxonomy;
 
@@ -18,8 +19,13 @@ class MultimediaController extends Controller
      */
     public function showMultimedia($irn)
     {
-        $multimedia = new Multimedia();
-        $record = $multimedia->getRecord($irn);
+        $mmId = "multimedia_record_$irn";
+
+        $record = Cache::remember($mmId, config('emuconfig.cache_ttl'), function () use ($irn)
+        {
+            $multimedia = new Multimedia();
+            return $multimedia->getRecord($irn);
+        });
 
         if (empty($record)) {
             abort(503);

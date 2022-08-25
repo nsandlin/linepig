@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Catalog;
 
 class CatalogController extends Controller
@@ -17,8 +18,13 @@ class CatalogController extends Controller
      */
     public function showCatalog($irn)
     {
-        $catalog = new Catalog();
-        $record = $catalog->getRecord($irn);
+        $catalogId = "catalog_record_$irn";
+
+        $record = Cache::remember($catalogId, config('emuconfig.cache_ttl'), function () use ($irn)
+        {
+            $catalog = new Catalog();
+            return $catalog->getRecord($irn);
+        });
 
         if (empty($record)) {
             abort(503);
