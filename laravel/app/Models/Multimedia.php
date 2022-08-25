@@ -80,6 +80,16 @@ class Multimedia extends Model
             $record['collection_record_url'] = "/catalogue/" . $this->catalog['irn'];
             $record['catirn'] = $this->catalog['irn'];
             $record['guid'] = $this->catalog['DarGlobalUniqueIdentifier'];
+        } else {
+            // If there is no reverse-attached catalog record, then there
+            // should be a related multimedia record that includes a link
+            // to boldsystems.org.
+            // 
+            // Query multimedia using the IRN in the RelRelatedMediaRef field.
+            //
+            // Each multimedia detail page should have a link to view a collection record.
+            $relatedMediaDoc = $emultimedia->findOne(['irn' => $record['RelRelatedMediaRef']]);
+            $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'];
         }
 
         $record['species_name'] = self::fixSpeciesTitle($record);
