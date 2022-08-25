@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use App\BacklinkImage;
 use MongoDB\Client;
 use App\Models\Taxonomy;
@@ -85,7 +86,7 @@ class Multimedia extends Model
         $record['image_url'] = $record['AudAccessURI'];
         $record['genus_species'] = $this->taxonomy['ClaGenus'] . " " . $this->taxonomy['ClaSpecies'];
         $record['author'] = $this->taxonomy['AutAuthorString'];
-        $record['rights'] = $record['RightsSummaryDataLocal'];
+        $record['rights'] = $this->getCopyright($record);
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($this->taxonomy);
         $record['notes'] = $record['NteText0'] ?? "";
@@ -218,6 +219,31 @@ class Multimedia extends Model
         $thumbURL = $fileWithoutExtension . $thumbWithExtension;
 
         return $thumbURL;
+    }
+
+    /**
+     * Sets up the copyright info and link
+     *
+     * @param array $record
+     *   The multimedia record data
+     *
+     * @return string
+     */
+    public function getCopyright($record): string
+    {
+        $rights = $record['RightsSummaryDataLocal'];
+
+        if (!Str::contains($rights, "CC BY-NC")) {
+            return $rights;
+        }
+
+        $copyrightWithLink = Str::replace(
+            "CC BY-NC",
+            '<a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank">CC BY-NC</a> (Attribution-NonCommercial) ',
+            $rights
+        );
+
+        return $copyrightWithLink;
     }
 
     /**
