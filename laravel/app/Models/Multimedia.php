@@ -107,7 +107,9 @@ class Multimedia extends Model
     {
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $searchCollection = $mongo->linepig->search;
-        $cursor = $searchCollection->find();
+        $cursor = $searchCollection->find([], [
+            'sort' => ['genus' => 1, 'species' => 1]
+        ]);
 
         foreach ($cursor as $record) {
             $this->records[] = $record;
