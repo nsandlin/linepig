@@ -95,7 +95,7 @@ class SearchImport extends Command
             $searchDoc['module'] = "emultimedia";
             $searchDoc['genus'] = $taxon['ClaGenus'];
             $searchDoc['species'] = $taxon['ClaSpecies'] ?? ""; // IRN 616726 is an example taxon record with no species
-            $searchDoc['keywords'] = $this->searchKeywords($record['DetSubject']);
+            $searchDoc['keywords'] = $record['DetSubject'];
             $searchDoc['title'] = $record['MulTitle'];
             $searchDoc['description'] = $record['MulDescription'];
             $searchDoc['thumbnailURL'] = Multimedia::fixThumbnailURL($record['AudAccessURI']);
@@ -104,7 +104,7 @@ class SearchImport extends Command
             foreach (config('emuconfig.mongodb_search_docs_fields_to_exclude') as $field) {
                 unset($record[$field]);
             }
-            $searchDoc['search'] = $this->combineArrayForSearch($record);
+            $searchDoc['search'] = $record;
 
             $insertOneResult = $searchCollection->insertOne($searchDoc);
             $insertId = $insertOneResult->getInsertedId();
@@ -144,62 +144,5 @@ class SearchImport extends Command
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $searchCollection = $mongo->linepig->search;
         $deleteResult = $searchCollection->deleteMany([]);
-    }
-
-    /**
-     * Combines keywords, pipe-delimited
-     *
-     * @param array|string $detsubject
-     *
-     * @return string
-     */
-    public function searchKeywords(array|string $detsubject): string
-    {
-        if (is_array($detsubject)) {
-            return implode("|", $detsubject);
-        }
-
-        return $detsubject;
-    }
-
-    /**
-     * Combines record array elements into one string, for DB search purposes.
-     *
-     * @param array $array
-     *   The elements to combine.
-     *
-     * @return string
-     *   The string of the concatenated array elements.
-     */
-    public function combineArrayForSearch($array)
-    {
-        if (!isset($array) || empty($array)) {
-            return null;
-        }
-
-        $searchString = "";
-
-        foreach ($array as $element) {
-            if (!is_array($element)) {
-                $searchString .= " | " . $element;
-            }
-            else {
-                foreach ($element as $second) {
-                    if (!is_array($second)) {
-                        $searchString .= " | " . $second;
-                    }
-                    else {
-                        foreach ($second as $third) {
-                            if (!is_array($third)) {
-                                $searchString .= " | " . $third;
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-
-        return $searchString;
     }
 }

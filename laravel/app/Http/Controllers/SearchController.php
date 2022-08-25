@@ -96,13 +96,13 @@ class SearchController extends Controller
             $searchConditions[] = $species;
         }
 
-        // TODO: Allow for searching on multiple keywords.
         if (!empty($keywords) && $keywords !== 'none') {
             $searchValues = explode("+", $keywords);
+            $filter['keywords']['$in'] = [];
 
             foreach ($searchValues as $value) {
                 $value = trim($value);
-                $filter['keywords'] = ['$regex' => ".$value.*"];
+                $filter['keywords']['$in'][] = $value;
                 $searchConditions[] = $value;
             }
         }
