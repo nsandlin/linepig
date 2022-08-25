@@ -88,8 +88,10 @@ class Multimedia extends Model
             // Query multimedia using the IRN in the RelRelatedMediaRef field.
             //
             // Each multimedia detail page should have a link to view a collection record.
-            $relatedMediaDoc = $emultimedia->findOne(['irn' => $record['RelRelatedMediaRef']]);
-            $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'] ?? "";
+            if (isset($record['RelRelatedMediaRef'])) {
+                $relatedMediaDoc = $emultimedia->findOne(['irn' => $record['RelRelatedMediaRef']]);
+                $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'];
+            }
         }
 
         $record['species_name'] = self::fixSpeciesTitle($record);
