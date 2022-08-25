@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Multimedia;
 
 class HomeController extends Controller
@@ -14,8 +15,10 @@ class HomeController extends Controller
      */
     public function showHome() 
     {
-        $multimedia = new Multimedia();
-        $records = $multimedia->getHomepageRecords();
+        $records = Cache::remember('homepage_records', config('emuconfig.cache_ttl'), function () {
+            $multimedia = new Multimedia();
+            return $multimedia->getHomepageRecords();
+        });
 
         // We only want the "primary" records for the home page.
         foreach ($records as $key => $value) {
