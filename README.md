@@ -2,7 +2,7 @@
 
 Field Museum app using MongoDB and Laravel to display images and metadata from the Field Museum's KE EMu database.
 
-Laravel - https://laravel.com/  
+Laravel - https://laravel.com/docs/8.x  
 KE Software's KE EMu - http://emu.kesoftware.com/  
 About LinEpig - http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery  
 LinEpig - http://linepig.fieldmuseum.org/  
@@ -38,7 +38,7 @@ Subset - home-like page of images selected from Detail links or Search
 
 [MongoDB PHP docs](https://www.mongodb.com/docs/php-library/v1.2/tutorial/)
 
-MongoDB connection string info is kept in the .env file and should never be committed to the repo.
+MongoDB connection string info is kept in the `.env` file and should never be committed to the repo.
 
 ## Implementation
 
