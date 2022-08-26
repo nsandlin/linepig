@@ -15,7 +15,8 @@
         "laravel/framework": "^8.12",
         "laravel/slack-notification-channel": "^2.4",
         "laravel/tinker": "^2.5",
-        "mongodb/mongodb": "^1.13"
+        "mongodb/mongodb": "^1.13",
+        "predis/predis": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
