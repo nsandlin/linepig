@@ -1,9 +1,8 @@
 # LINEPIG DOCUMENTATION
 
-Field Museum app using IMu API and Laravel to display images and metadata from the Field Museum's KE EMu database.
+Field Museum app using MongoDB and Laravel to display images and metadata from the Field Museum's KE EMu database.
 
 Laravel - https://laravel.com/  
-IMu API for PHP - http://imu.mel.kesoftware.com/doc/api/php  
 KE Software's KE EMu - http://emu.kesoftware.com/  
 About LinEpig - http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery  
 LinEpig - http://linepig.fieldmuseum.org/  
@@ -39,11 +38,13 @@ Subset - home-like page of images selected from Detail links or Search
 
 [MongoDB PHP docs](https://www.mongodb.com/docs/php-library/v1.2/tutorial/)
 
+MongoDB connection string info is kept in the .env file and should never be committed to the repo.
+
 ## Implementation
 
 Laravel 8, PHP 7.4 or 8
 
-MODELS (/app/)  
+MODELS (/app/Models)  
 Multimedia.php grabs from EMu getRecord
 
 CONTROLLERS (/app/Http/Controllers/)  
@@ -61,6 +62,5 @@ search.results.blade.php - displays Subset if called from Search
 subset.blade.php - displays Subset if called from link  
 
 Environment: /.env  
-Database: /config/database.php  
-database_path: /database/linepig.sqlite  
+Database: /config/database.php (no longer used, only useful for default redis settings)  
 styling: Laravel Eloquent ORM  
