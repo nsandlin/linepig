@@ -36,8 +36,8 @@ class Taxonomy extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $etaxonomy = $this->mongo->collections->etaxonomy;
+        $this->mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $etaxonomy = $this->mongo->emu->etaxonomy;
         $this->record = $etaxonomy->findOne(['irn' => $irn]);
 
         if (is_null($this->record)) {

@@ -29,8 +29,8 @@ class Catalog extends Model
     public function getRecordFromMultimediaIRN(int $multimediaIRN): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $ecatalogue = $this->mongo->collections->ecatalogue;
+        $this->mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $ecatalogue = $this->mongo->emu->ecatalogue;
         $document = $ecatalogue->findOne(['MulMultiMediaRef' => (string) $multimediaIRN]);
         $record = $document;
 
@@ -53,8 +53,8 @@ class Catalog extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $ecatalogue = $this->mongo->collections->ecatalogue;
+        $this->mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $ecatalogue = $this->mongo->emu->ecatalogue;
         $document = $ecatalogue->findOne(['irn' => $irn]);
         $record = $document;
 
@@ -86,7 +86,7 @@ class Catalog extends Model
 
         // Attached Multimedia processing.
         if (!empty($record['MulMultiMediaRef'])) {
-            $emultimedia = $this->mongo->collections->emultimedia;
+            $emultimedia = $this->mongo->emu->emultimedia;
 
             foreach ($record['MulMultiMediaRef'] as $multimediaIRN) {
                 $document = $emultimedia->findOne(['irn' => $multimediaIRN]);
@@ -139,7 +139,7 @@ class Catalog extends Model
             return [];
         }
 
-        $ecollectionevents = $this->mongo->collections->ecollectionevents;
+        $ecollectionevents = $this->mongo->emu->ecollectionevents;
         $document = $ecollectionevents->findOne(['irn' => $irn]);
         $record = $document;
 

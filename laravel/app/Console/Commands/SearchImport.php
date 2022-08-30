@@ -72,8 +72,8 @@ class SearchImport extends Command
      */
     public function addRecords()
     {
-        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $emultimedia = $mongo->collections->emultimedia;
+        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $emultimedia = $mongo->emu->emultimedia;
         $cursor = $emultimedia->find(['MulMultimediaCreatorRef' => '177281']);
 
         $records = [];
@@ -123,8 +123,8 @@ class SearchImport extends Command
      */
     public function findCount()
     {
-        $mongo = new Client(env('MONGO_COLLECTIONS_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $emultimedia = $mongo->collections->emultimedia;
+        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $emultimedia = $mongo->emu->emultimedia;
         $this->count = $emultimedia->count(['MulMultimediaCreatorRef' => '177281']);
 
         $message = "We have " . number_format($this->count) . " records to process." . PHP_EOL;
