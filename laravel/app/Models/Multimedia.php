@@ -90,13 +90,13 @@ class Multimedia extends Model
             // Each multimedia detail page should have a link to view a collection record.
             if (isset($record['RelRelatedMediaRef'])) {
                 $relatedMediaDoc = $emultimedia->findOne(['irn' => $record['RelRelatedMediaRef']]);
-                $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'];
+                $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'] ?? "";
             }
         }
 
         $record['species_name'] = self::fixSpeciesTitle($record);
         $record['image_url'] = $record['AudAccessURI'];
-        $record['genus_species'] = $this->taxonomy['ClaGenus'] . " " . $this->taxonomy['ClaSpecies'];
+        $record['genus_species'] = $this->getTaxonomyGenusSpecies();
         $record['author'] = $this->taxonomy['AutAuthorString'];
         $record['rights'] = $this->getCopyright($record);
         $record['bold_url'] = $this->getBOLD($record);
@@ -300,11 +300,17 @@ class Multimedia extends Model
         }
 
         $genus = $taxonomy['ClaGenus'];
+
+        if (!isset($taxonomy['ClaSpecies'])) {
+            $url = "http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=$genus&gMt=exact" .
+                    "&multiPurpose=slsid&mMt=begin&searchSpec=s";
+
+            return $url;
+        }
+
         $species = $taxonomy['ClaSpecies'];
-        $url = "http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=" . 
-                    $genus .
-                    "&gMt=exact&sSpecies=" .
-                    $species .
+        $url = "http://www.wsc.nmbe.ch/search?sFamily=&fMt=begin&sGenus=$genus&gMt=exact" .
+                    "&sSpecies=" . $species .
                     "&sMt=exact&multiPurpose=slsid&mMt=begin&searchSpec=s";
 
         return $url;
@@ -343,5 +349,26 @@ class Multimedia extends Model
         }
 
         return $subsets;
+    }
+
+    /**
+     * Returns the Genus species of a taxonomy.
+     *
+     * @return string
+     *   Returns a string of the genus and species combined
+     */
+    public function getTaxonomyGenusSpecies(): string
+    {
+        $genusSpecies = "";
+
+        if (isset($this->taxonomy['ClaGenus'])) {
+            $genusSpecies .= $this->taxonomy['ClaGenus'];
+        }
+
+        if (isset($this->taxonomy['ClaSpecies'])) {
+            $genusSpecies .= " " . $this->taxonomy['ClaSpecies'];
+        }
+
+        return $genusSpecies;
     }
 }
