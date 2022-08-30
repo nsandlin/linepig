@@ -18,13 +18,6 @@ class Taxonomy extends Model
     protected $record;
 
     /**
-     * The MongoDB Client
-     *
-     * @var MongoDB\Client $mongo
-     */
-    protected $mongo;
-
-    /**
      * Retrieves the individual Taxonomy record.
      *
      * @param int $irn
@@ -36,9 +29,9 @@ class Taxonomy extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $this->mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $etaxonomy = $this->mongo->emu->etaxonomy;
-        $this->record = $etaxonomy->findOne(['irn' => $irn]);
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $taxonomy = $mongo->linepig->taxonomy;
+        $this->record = $taxonomy->findOne(['irn' => $irn]);
 
         if (is_null($this->record)) {
             return [];
@@ -58,6 +51,10 @@ class Taxonomy extends Model
      */
     public static function getTaxonomyIRN(array $multimediaRecord): string
     {
+        if (empty($multimediaRecord)) {
+            return "";
+        }
+
         if (!is_array($multimediaRecord['MulOtherNumber'])) {
             return $multimediaRecord['MulOtherNumber'];
         }

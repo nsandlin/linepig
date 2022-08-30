@@ -23,7 +23,12 @@ class CatalogController extends Controller
         $record = Cache::remember($catalogId, config('emuconfig.cache_ttl'), function () use ($irn)
         {
             $catalog = new Catalog();
-            return $catalog->getRecord($irn);
+            $record = $catalog->getRecord($irn);
+            if (empty($record)) {
+                abort(404);
+            }
+
+            return $record;
         });
 
         if (empty($record)) {

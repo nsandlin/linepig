@@ -59,10 +59,14 @@ class Multimedia extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $emultimedia = $mongo->emu->emultimedia;
-        $document = $emultimedia->findOne(['irn' => $irn]);
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $multimedia = $mongo->linepig->multimedia;
+        $document = $multimedia->findOne(['irn' => $irn]);
         $record = $document;
+
+        if (empty($record)) {
+            return [];
+        }
 
         // Get taxonomy record info
         $taxonomy = new Taxonomy();
@@ -89,7 +93,7 @@ class Multimedia extends Model
             //
             // Each multimedia detail page should have a link to view a collection record.
             if (isset($record['RelRelatedMediaRef'])) {
-                $relatedMediaDoc = $emultimedia->findOne(['irn' => $record['RelRelatedMediaRef']]);
+                $relatedMediaDoc = $multimedia->findOne(['irn' => $record['RelRelatedMediaRef']]);
                 $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'] ?? "";
             }
         }
@@ -145,9 +149,9 @@ class Multimedia extends Model
      */
     public function getSubset($type, $taxonomyIRN): array
     {
-        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $emultimedia = $mongo->emu->emultimedia;
-        $cursor = $emultimedia->find(
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $multimedia = $mongo->linepig->multimedia;
+        $cursor = $multimedia->find(
             [
                 'MulOtherNumber' => $taxonomyIRN,
                 'MulMimeType' => 'image'
@@ -329,11 +333,11 @@ class Multimedia extends Model
     public function checkSubsets($taxonomyIRN): array
     {
         $subsets = config('emuconfig.subsets_to_check');
-        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
 
         foreach ($subsets as $key => $value) {
-            $emultimedia = $mongo->emu->emultimedia;
-            $count = $emultimedia->count(
+            $multimedia = $mongo->linepig->multimedia;
+            $count = $multimedia->count(
                 [
                     'MulOtherNumber' => $taxonomyIRN,
                     'DetSubject' => $key

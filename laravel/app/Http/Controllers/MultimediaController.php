@@ -24,7 +24,12 @@ class MultimediaController extends Controller
         $record = Cache::remember($mmId, config('emuconfig.cache_ttl'), function () use ($irn)
         {
             $multimedia = new Multimedia();
-            return $multimedia->getRecord($irn);
+            $record = $multimedia->getRecord($irn);
+            if (empty($record)) {
+                abort(404);
+            }
+
+            return $record;
         });
 
         if (empty($record)) {
@@ -53,6 +58,10 @@ class MultimediaController extends Controller
     {
         $multimedia = new Multimedia();
         $records = $multimedia->getSubset($type, $taxonomyIRN);
+
+        if (empty($records)) {
+            abort(404);
+        }
 
         $taxonomy = new Taxonomy();
         $taxon = $taxonomy->getRecord($taxonomyIRN);
