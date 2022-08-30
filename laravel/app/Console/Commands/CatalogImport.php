@@ -89,23 +89,6 @@ class CatalogImport extends Command
     }
 
     /**
-     * Finds total count of records to retrieve.
-     *
-     * @return int
-     *   number of catalog documents found
-     */
-    public function findCount()
-    {
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $multimediaCollection = $mongo->linepig->multimedia;
-        $count = $multimediaCollection->count([
-            'catirn' => ['$exists' => true, '$ne' => ""]
-        ]);
-
-        return $count;
-    }
-
-    /**
      * Deletes all MongoDB docs so we can import fresh.
      *
      * @return int
