@@ -88,8 +88,14 @@ class Catalog extends Model
         if (!empty($record['MulMultiMediaRef'])) {
             $emultimedia = $this->mongo->emu->emultimedia;
 
-            foreach ($record['MulMultiMediaRef'] as $multimediaIRN) {
-                $document = $emultimedia->findOne(['irn' => $multimediaIRN]);
+            if (is_array($record['MulMultiMediaRef'])) {
+                foreach ($record['MulMultiMediaRef'] as $multimediaIRN) {
+                    $document = $emultimedia->findOne(['irn' => $multimediaIRN]);
+                    $document['thumbnail_url'] = Multimedia::fixThumbnailURL($document['AudAccessURI']);
+                    $record['multimedia'][] = $document;
+                }
+            } else {
+                $document = $emultimedia->findOne(['irn' => $record['MulMultiMediaRef']]);
                 $document['thumbnail_url'] = Multimedia::fixThumbnailURL($document['AudAccessURI']);
                 $record['multimedia'][] = $document;
             }
@@ -116,8 +122,14 @@ class Catalog extends Model
         }
 
         $semaphoronts = [];
-        $total = count($record['LotSemaphoront']);
 
+        if (!is_array($record['LotSemaphoront'])) {
+            $semaphoronts[$record['LotSemaphoront'][0]] = $record['LotWetCount'][0];
+
+            return $semaphoronts;
+        }
+
+        $total = count($record['LotSemaphoront']);
         for ($i = 0; $i < $total; $i++) {
             $semaphoronts[$record['LotSemaphoront'][$i]] = $record['LotWetCount'][$i];
         }

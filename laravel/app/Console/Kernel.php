@@ -24,9 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('search:import')->withoutOverlapping()->weekly()->mondays()->at('08:15');
+        $schedule->command('search:import')->withoutOverlapping()->weekly()->mondays()->at('08:00');
         $schedule->command('multimedia:import')->withoutOverlapping()->weekly()->mondays()->at('08:30');
-        $schedule->command('sitemap:create')->withoutOverlapping()->weekly()->mondays()->at('08:45');
+        $schedule->command('catalog:import')->withoutOverlapping()->weekly()->mondays()->at('09:00');
+        $schedule->command('sitemap:create')->withoutOverlapping()->weekly()->mondays()->at('09:10');
     }
 
     /**
