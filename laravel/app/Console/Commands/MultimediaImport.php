@@ -75,7 +75,7 @@ class MultimediaImport extends Command
             }
 
             $multimedia = new Multimedia();
-            $record = $multimedia->getRecord($emultimediaRecord['irn']);
+            $record = $multimedia->getRecord($emultimediaRecord['irn'], true);
             $insertOneResult = $multimediaCollection->insertOne($record);
             $insertId = $insertOneResult->getInsertedId();
             Log::info("Added $insertId doc to the multimedia collection.");

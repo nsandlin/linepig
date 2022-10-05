@@ -50,18 +50,29 @@ class Multimedia extends Model
     /**
      * Retrieves the individual Multimedia record.
      *
-     * @param int $irn
-     *   The IRN of the Multimedia record to return.
+     * @param string $irn
+     *   The IRN of the Multimedia record to return
+     *
+     * @param bool $isImport
+     *   Is the function being called for the MultimediaImport command
      *
      * @return array
-     *   Returns an array of the Multimedia record.
+     *   Returns an array of the Multimedia record
      */
-    public function getRecord($irn): array
+    public function getRecord($irn, $isImport = false): array
     {
-        // Retrieve MongoDB document
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $multimedia = $mongo->linepig->multimedia;
-        $document = $multimedia->findOne(['irn' => $irn]);
+        $mongo = null;
+        $multimediaCollection = null;
+
+        if ($isImport) {
+            $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+            $multimediaCollection = $mongo->emu->emultimedia;
+        } else {
+            $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+            $multimediaCollection = $mongo->linepig->multimedia;
+        }
+
+        $document = $multimediaCollection->findOne(['irn' => (string) $irn]);
         $record = $document;
 
         if (empty($record)) {
@@ -93,7 +104,7 @@ class Multimedia extends Model
             //
             // Each multimedia detail page should have a link to view a collection record.
             if (isset($record['RelRelatedMediaRef'])) {
-                $relatedMediaDoc = $multimedia->findOne(['irn' => $record['RelRelatedMediaRef']]);
+                $relatedMediaDoc = $multimediaCollection->findOne(['irn' => $record['RelRelatedMediaRef']]);
                 $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'] ?? "";
             }
         }

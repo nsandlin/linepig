@@ -29,8 +29,8 @@ class Catalog extends Model
     public function getRecordFromMultimediaIRN(int $multimediaIRN): array
     {
         // Retrieve MongoDB document
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $catalog = $mongo->linepig->catalog;
+        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $catalog = $mongo->emu->ecatalogue;
         $document = $catalog->findOne(['MulMultiMediaRef' => (string) $multimediaIRN]);
         $record = $document;
 
