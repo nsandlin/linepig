@@ -29,8 +29,8 @@ class Taxonomy extends Model
     public function getRecord($irn): array
     {
         // Retrieve MongoDB document
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $taxonomy = $mongo->linepig->taxonomy;
+        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $taxonomy = $mongo->emu->etaxonomy;
         $this->record = $taxonomy->findOne(['irn' => $irn]);
 
         if (is_null($this->record)) {
@@ -41,31 +41,45 @@ class Taxonomy extends Model
     }
 
     /**
-     * Gets the Taxonomy IRN based upon the multimedia MulOtherNumberSource.
+     *
+     * Gets the Taxonomy IRN based upon the MulMultiMediaRef field in the
+     * etaxonomy module, MulMultiMediaRef should be equal to the current multimedia page.
+     *
+     * As a fallback, gets the Taxonomy IRN based upon the multimedia MulOtherNumberSource.
      * The array key for MulOtherNumberSource == "etaxonomy irn" should be used
      * on the MulOtherNumber field to return the etaxonomy irn value.
      *
-     * @param array $multimediaRecord
+     * @param array $multimedia
      *
      * @return string
      */
-    public static function getTaxonomyIRN(array $multimediaRecord): string
+    public static function getTaxonomyIRN(array $multimedia): string
     {
-        if (empty($multimediaRecord)) {
+        if (empty($multimedia)) {
             return "";
         }
 
-        if (!is_array($multimediaRecord['MulOtherNumber'])) {
-            return $multimediaRecord['MulOtherNumber'];
+        // If we have an attached Multimedia record, use that first.
+        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $etaxonomy = $mongo->emu->etaxonomy;
+        $taxonomy = $etaxonomy->findOne(['MulMultiMediaRef' => $multimedia['irn']]);
+
+        if (!empty($taxonomy)) {
+            return $taxonomy['irn'];
         }
 
-        if (!is_array($multimediaRecord['MulOtherNumberSource'])) {
-            return $multimediaRecord['MulOtherNumber'][0];
+        // MulOtherNumber fallback
+        if (!is_array($multimedia['MulOtherNumber'])) {
+            return $multimedia['MulOtherNumber'];
         }
 
-        foreach ($multimediaRecord['MulOtherNumberSource'] as $key => $value) {
+        if (!is_array($multimedia['MulOtherNumberSource'])) {
+            return $multimedia['MulOtherNumber'][0];
+        }
+
+        foreach ($multimedia['MulOtherNumberSource'] as $key => $value) {
             if ($value === "etaxonomy irn") {
-                return $multimediaRecord['MulOtherNumber'][$key];
+                return $multimedia['MulOtherNumber'][$key];
             }
         }
     }
