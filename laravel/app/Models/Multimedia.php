@@ -240,9 +240,10 @@ class Multimedia extends Model
             return "";
         }
 
-        $fileExtension = substr($accessURI, -4);
-        $fileWithoutExtension = str_replace($fileExtension, "", $accessURI);
-        $thumbWithExtension = ".thumb" . $fileExtension;
+        // The file extension should actually ALWAYS be .jpg
+        // So we shouldn't use the original file extension for the thumbnail
+        $fileWithoutExtension = str_replace([".jpg", ".JPG", ".png", ".PNG"], "", $accessURI);
+        $thumbWithExtension = ".thumb.jpg";
         $thumbURL = $fileWithoutExtension . $thumbWithExtension;
 
         return $thumbURL;
