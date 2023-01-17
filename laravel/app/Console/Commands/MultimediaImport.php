@@ -67,8 +67,6 @@ class MultimediaImport extends Command
         $mongoLinepig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $multimediaCollection = $mongoLinepig->linepig->multimedia;
 
-        $records = [];
-
         foreach ($cursor as $emultimediaRecord) {
             if (!isset($emultimediaRecord['AudAccessURI'])) {
                 continue;

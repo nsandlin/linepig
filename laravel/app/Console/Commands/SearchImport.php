@@ -76,8 +76,6 @@ class SearchImport extends Command
         $emultimedia = $mongo->emu->emultimedia;
         $cursor = $emultimedia->find(['MulMultimediaCreatorRef' => '177281']);
 
-        $records = [];
-
         $mongoLinepig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $searchCollection = $mongoLinepig->linepig->search;
 

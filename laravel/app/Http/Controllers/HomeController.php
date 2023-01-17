@@ -22,14 +22,17 @@ class HomeController extends Controller
 
         // We only want the "primary" records for the home page.
         foreach ($records as $key => $value) {
-            if (!is_array($value['keywords'])) {
-                if ($value['keywords'] !== "primary") {
-                    unset($records[$key]);
-                    continue;
-                }
+            if (empty($value['keywords'])) {
+                unset($records[$key]);
             }
 
-            if (!in_array("primary", $value['keywords'])) {
+            $keywords = (array) $value['keywords'];
+
+            foreach ($keywords as $k => $v) {
+                $keywords[$k] = strtolower($v);
+            }
+
+            if (!in_array("primary", $keywords)) {
                 unset($records[$key]);
             }
         }
