@@ -2,14 +2,15 @@
 
 Field Museum app using MongoDB and Laravel to display images and metadata from the Field Museum's KE EMu database.
 
-Laravel - https://laravel.com/docs/8.x  
-KE Software's KE EMu - http://emu.kesoftware.com/  
-About LinEpig - http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery  
-LinEpig - http://linepig.fieldmuseum.org/  
+[Laravel](https://laravel.com/docs/8.x)  
+[KE Software's KE EMu](http://emu.kesoftware.com/)  
+[About LinEpig](http://www.fieldmuseum.org/science/special-projects/dwarf-spider-id-gallery)  
+[LinEpig](http://linepig.fieldmuseum.org/)  
 
 ## Running the site locally
+
 Docker is NO LONGER REQUIRED.  
-Run this command from the /laravel directory
+Run this command from the base directory
 `php artisan serve`
 
 .lock files are now included in the repository, as they should be.  
@@ -19,12 +20,13 @@ To run updates for your CSS/JS, execute this command: `npm run dev`.
 You can also watch your files for changes with: `npm run watch`.  
 
 ## Editing CSS/JS
+
 There are new locations for these files.  
 Please edit these file locations instead:  
 `resources/css/app.css`  
 `resources/js/app.js`  
 
-If you are making changes to these files, be sure to run `npm run production` on the server after the 
+If you are making changes to these files, be sure to run `npm run production` on the server after the
 files are updated on GitHub so the changes are reflected on the website.
 
 ## Conceptual Structure
