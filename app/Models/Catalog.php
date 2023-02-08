@@ -47,14 +47,23 @@ class Catalog extends Model
      * @param int $irn
      *   The IRN of the Catalog record to return.
      *
+     * @param bool $isImport
+     *   Imports get access to full EMu ecatalogue module,
+     *   vs. a regular Catalog get which should be limited to the linepig collection
+     *
      * @return array
      *   Returns an array of the Catalog record.
      */
-    public function getRecord($irn): array
+    public function getRecord($irn, $isImport = false): array
     {
-        // Retrieve MongoDB document
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $catalog = $mongo->linepig->catalog;
+        if ($isImport) {
+            $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+            $catalog = $mongo->emu->ecatalogue;
+        } else {
+            $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+            $catalog = $mongo->linepig->catalog;
+        }
+
         $document = $catalog->findOne(['irn' => $irn]);
         $record = $document;
 
@@ -90,7 +99,8 @@ class Catalog extends Model
 
         // Attached Multimedia processing.
         if (!empty($record['MulMultiMediaRef'])) {
-            $multimedia = $mongo->linepig->multimedia;
+            $mongoLinEpig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+            $multimedia = $mongoLinEpig->linepig->multimedia;
 
             if (is_array($record['MulMultiMediaRef'])) {
                 foreach ($record['MulMultiMediaRef'] as $multimediaIRN) {
