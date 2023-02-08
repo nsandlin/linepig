@@ -15,9 +15,13 @@ yarn-error.log
 
 vendor
 node_modules
+composer.lock
+package-lock.json
 mix-manifest.json
 rev-manifest.json
 all-*.css
+public/css/app.css
 all-*.js
+public/js/app.js
 .env
 .DS_Store
