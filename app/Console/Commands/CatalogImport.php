@@ -77,7 +77,7 @@ class CatalogImport extends Command
         // Finally, find and insert the catalog docs into MongoDB
         foreach ($catalogIRNs as $irn) {
             $catalog = new Catalog();
-            $record = $catalog->getRecord($irn);
+            $record = $catalog->getRecord($irn, true); // Setting getRecord to be import
             $insertOneResult = $catalogCollection->insertOne($record);
             $insertId = $insertOneResult->getInsertedId();
             Log::info("Added $insertId doc to the catalog collection.");
