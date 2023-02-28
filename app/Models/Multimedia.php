@@ -112,7 +112,7 @@ class Multimedia extends Model
         $record['species_name'] = self::fixSpeciesTitle($record);
         $record['image_url'] = $record['AudAccessURI'];
         $record['genus_species'] = $this->getTaxonomyGenusSpecies();
-        $record['author'] = $this->taxonomy['AutAuthorString'];
+        $record['author'] = $this->taxonomy['AutAuthorString'] ?? "";
         $record['rights'] = $this->getCopyright($record);
         $record['bold_url'] = $this->getBOLD($record);
         $record['world_spider_catalog_url'] = $this->getWSCLink($this->taxonomy);
