@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Notification;
+use App\Notifications\SlackNotification;
 use MongoDB\Client;
 
 class SitemapGenerator extends Command
@@ -55,6 +57,9 @@ class SitemapGenerator extends Command
      */
     public function handle()
     {
+        Notification::route('slack', env('SLACK_HOOK'))
+                    ->notify(new SlackNotification($this->getName()));
+
         // First, we're going to get all of the records in the search table and add them to URLs.
         // The search table SHOULD include all of the Multimedia records (pages) for the site.
         $mongoLinepig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));

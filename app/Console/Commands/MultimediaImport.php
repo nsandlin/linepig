@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Notification;
+use App\Notifications\SlackNotification;
 use App\Models\Multimedia;
 use MongoDB\Client;
 
@@ -48,6 +50,9 @@ class MultimediaImport extends Command
      */
     public function handle()
     {
+        Notification::route('slack', env('SLACK_HOOK'))
+                    ->notify(new SlackNotification($this->getName()));
+
         $this->deleteAllDocs();
         $this->findCount();
         $this->addRecords();

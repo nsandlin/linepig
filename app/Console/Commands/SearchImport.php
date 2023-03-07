@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Notification;
+use App\Notifications\SlackNotification;
 use App\Models\Multimedia;
 use App\Models\Taxonomy;
 use MongoDB\Client;
@@ -58,6 +60,9 @@ class SearchImport extends Command
      */
     public function handle()
     {
+        Notification::route('slack', env('SLACK_HOOK'))
+                    ->notify(new SlackNotification($this->getName()));
+
         $this->deleteAllDocs();
         $this->findCount();
         $this->addRecords();
