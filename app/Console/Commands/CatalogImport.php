@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Notification;
+use App\Notifications\SlackNotification;
 use App\Models\Catalog;
 use MongoDB\Client;
 
@@ -41,6 +43,9 @@ class CatalogImport extends Command
      */
     public function handle()
     {
+        Notification::route('slack', env('SLACK_HOOK'))
+                    ->notify(new SlackNotification($this->getName()));
+
         $numDeletedDocs = $this->deleteAllDocs();
         $deletedMsg = "Deleted " . number_format($numDeletedDocs) . " from catalog collection." . PHP_EOL;
         Log::info($deletedMsg);

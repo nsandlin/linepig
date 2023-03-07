@@ -8,27 +8,28 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
 
-class MultimediaDetailNotification extends Notification
+class SlackNotification extends Notification
 {
     use Queueable;
 
     /**
-     * protected string $message
-     *   Message for Slack
+     * The name of the command.
+     *
+     * @var string
      */
-    protected $message;
+    protected $commandName;
 
     /**
      * Create a new notification instance.
-     *
-     * @param string $message
-     *   Message to send to Slack
+     * 
+     * @param string $commandName
+     *   The name of the command we're running
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct(string $commandName)
     {
-        $this->message = $message;
+        $this->commandName = $commandName;
     }
 
     /**
@@ -50,21 +51,10 @@ class MultimediaDetailNotification extends Notification
      */
     public function toSlack($notifiable)
     {
+        $cmd = $this->commandName;
+
         return (new SlackMessage)
                     ->from("LinEpig")
-                    ->content($this->message);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+                    ->content("Artisan Command: $cmd, has started running.");
     }
 }
