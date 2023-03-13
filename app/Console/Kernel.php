@@ -13,7 +13,12 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\SearchImport::class,
+        Commands\MultimediaImport::class,
+        Commands\CatalogImport::class,
+        Commands\TaxonomyImport::class,
+        Commands\SitemapGenerator::class,
+        Commands\BOLDImport::class,
     ];
 
     /**
@@ -24,22 +29,30 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('search:import')->weeklyOn(1, '11:00');
-        $schedule->command('multimedia:import')->weeklyOn(1, '11:10');
-        $schedule->command('catalog:import')->weeklyOn(1, '11:20');
-        $schedule->command('taxonomy:import')->weeklyOn(1, '11:30');
-        $schedule->command('sitemap:create')->weeklyOn(1, '11:40');
+        $schedule->command('search:import')->weeklyOn(1, '10:00');
+        $schedule->command('multimedia:import')->weeklyOn(1, '10:05');
+        $schedule->command('catalog:import')->weeklyOn(1, '10:10');
+        $schedule->command('taxonomy:import')->weeklyOn(1, '10:15');
+        $schedule->command('sitemap:create')->weeklyOn(1, '10:20');
     }
 
     /**
-     * Register the commands for the application.
+     * Register the Closure based commands for the application.
      *
      * @return void
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
+    }
+
+    /**
+     * Get the timezone that should be used by default for scheduled events.
+     *
+     * @return \DateTimeZone|string|null
+     */
+    protected function scheduleTimezone()
+    {
+        return 'America/Chicago';
     }
 }
