@@ -104,6 +104,8 @@ class Multimedia extends Model
             //
             // Each multimedia detail page should have a link to view a collection record.
             if (isset($record['RelRelatedMediaRef'])) {
+                $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+                $multimediaCollection = $mongo->emu->emultimedia;
                 $relatedMediaDoc = $multimediaCollection->findOne(['irn' => $record['RelRelatedMediaRef']]);
                 $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'] ?? "";
             }
