@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MongoDB\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use App\Multimedia;
 
 class SearchController extends Controller
@@ -83,43 +83,68 @@ class SearchController extends Controller
      */
     public function showSearchResults($genus, $species, $keywords)
     {
-        $filter = null;
         $searchConditions = [];
+        $query = null;
+        $musts = [];
 
         if (!empty($genus) && $genus !== 'none') {
-            $filter['genus'] = trim($genus);
+            $genus = trim($genus);
             $searchConditions[] = $genus;
+            $musts[] = ['match' => ['genus' => $genus]];
         }
 
         if (!empty($species) && $species !== 'none') {
-            $filter['species'] = trim($species);
+            $species = trim($species);
             $searchConditions[] = $species;
+            $musts[] = ['match' => ['species' => $species]];
         }
 
         if (!empty($keywords) && $keywords !== 'none') {
-            $searchValues = explode("+", $keywords);
-            $filter['keywords']['$in'] = [];
+            $keywordsArray = explode("+", $keywords);
 
-            foreach ($searchValues as $value) {
-                $value = trim($value);
-                $filter['keywords']['$in'][] = $value;
-                $searchConditions[] = $value;
+            foreach ($keywordsArray as $kw) {
+                $kw = trim($kw);
+                $searchConditions[] = $kw;
+                $musts[] = ['match' => ['keywords' => $kw]];
             }
         }
 
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $searchCollection = $mongo->linepig->search;
-        $options = [
-            'sort' => ['genus' => 1, 'species' => 1],
+        $client = ClientBuilder::create()
+            ->setHosts([env('ES_URL')])
+            ->setApiKey(env('ES_API_KEY'))
+            ->build();
+
+        if (!empty($musts)) {
+            $query['bool']['must'] = $musts;
+        }
+
+        $params = [
+            'index' => 'linepig.search',
+            'body' => [
+                "from" => 0,
+                "size" => 1300,
+                'query' => $query,
+            ]
         ];
-        $cursor = $searchCollection->find($filter, $options);
-        $count = $searchCollection->count($filter);
+
+        $response = $client->search($params);
+        $response = $response->asArray();
+        $count = 0;
         $records = [];
 
-        if ($count > 0) {
-            foreach ($cursor as $record) {
-                $records[] = $record;
+        if ($response['hits']['hits']) {
+            $count = $response['hits']['total']['value'];
+
+            foreach ($response['hits']['hits'] as $hit) {
+                $records[] = $hit['_source'];
             }
+
+            usort($records, function ($a, $b) {
+                if ($a['genus'] == $b['genus']) {
+                    return $a['species'] <=> $b['species'];
+                }
+                return $a['genus'] <=> $b['genus'];
+            });
         }
 
         return view('search-results', [
