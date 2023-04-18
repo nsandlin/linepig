@@ -121,8 +121,9 @@ class SearchController extends Controller
         $params = [
             'index' => 'linepig.search',
             'body' => [
-                "from" => 0,
-                "size" => 1300,
+                'from' => 0,
+                'size' => 1300,
+                'collapse' => ['field' => 'irn.keyword'],
                 'query' => $query,
             ]
         ];
@@ -133,7 +134,6 @@ class SearchController extends Controller
         $records = [];
 
         if ($response['hits']['hits']) {
-            $count = $response['hits']['total']['value'];
 
             foreach ($response['hits']['hits'] as $hit) {
                 $records[] = $hit['_source'];
@@ -146,6 +146,8 @@ class SearchController extends Controller
                 return $a['genus'] <=> $b['genus'];
             });
         }
+
+        $count = count($records);
 
         return view('search-results', [
             'title' => 'Search results',
