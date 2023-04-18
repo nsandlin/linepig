@@ -95,6 +95,11 @@ div.blue .flex-item a.species-link:hover img.species-thumbnail, div.blue .flex-i
   width: 180px;
 }
 
+/* Detail page */
+.wrong-multimedia-thumb {
+  max-width: 150px;
+}
+
 
 /* Flexbox */
 .flex-container {

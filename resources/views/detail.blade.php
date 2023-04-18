@@ -62,6 +62,7 @@
           <p>
             @if (!empty($record['wrong_multimedia']['thumbnail_url']))
               <img src="{{ $record['wrong_multimedia']['thumbnail_url'] }}"
+                   class="wrong-multimedia-thumb"
                    alt="{{ $record['wrong_multimedia']['taxon_to_display'] }}"
                    title="{{ $record['wrong_multimedia']['taxon_to_display'] }}" >
             @endif
