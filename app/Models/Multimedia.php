@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use App\BacklinkImage;
 use MongoDB\Client;
 use App\Models\Taxonomy;
+use App\Models\Narrative;
 use App\Models\Catalog;
 
 class Multimedia extends Model
 {
+    use HasFactory;
+
     /**
      * The Multimedia record array, for an individual record.
      *
@@ -41,6 +45,13 @@ class Multimedia extends Model
     protected $taxonomy;
 
     /**
+     * The associated narrative record (reverse-attached to the taxonomy record)
+     *
+     * @var array $narrative
+     */
+    protected $narrative;
+
+    /**
      * The associated catalog record
      *
      * @var array $catalog
@@ -61,6 +72,7 @@ class Multimedia extends Model
      */
     public function getRecord($irn, $isImport = false): array
     {
+        $environment = App::environment();
         $mongo = null;
         $multimediaCollection = null;
 
@@ -69,7 +81,12 @@ class Multimedia extends Model
             $multimediaCollection = $mongo->emu->emultimedia;
         } else {
             $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-            $multimediaCollection = $mongo->linepig->multimedia;
+
+            if ($environment === "production") {
+                $multimediaCollection = $mongo->linepig->multimedia;
+            } else {
+                $multimediaCollection = $mongo->linepig->multimedia_dev;
+            }
         }
 
         $document = $multimediaCollection->findOne(['irn' => (string) $irn]);
@@ -83,6 +100,30 @@ class Multimedia extends Model
         $taxonomy = new Taxonomy();
         $record['taxonomy_irn'] = $taxonomy->getTaxonomyIRN($record);
         $this->taxonomy = $taxonomy->getRecord($record['taxonomy_irn']);
+
+        // Get narrative record info -- (Corrections)
+        if ($record['taxonomy_irn']) {
+            $narrativeModel = new Narrative();
+            $this->narrative = null;
+            $narrative = $narrativeModel->getRecordByTaxonomyIRN($record['taxonomy_irn']);
+
+            // Set up "wrong multimedia" for detail page
+            if ($narrative) {
+                $this->narrative = $narrative;
+                $record['narrative'] = $narrative;
+                $narrativeMultimedia = (array) $narrative['MulMultiMediaRef'];
+                $narrativeMultimediaIRN = $narrativeMultimedia[0] ?? "";
+
+                // Get the old/wrong multimedia
+                $mongoEMu = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+                $emultimedia = $mongoEMu->emu->emultimedia;
+                $wrongMultimedia = $emultimedia->findOne(['irn' => $narrativeMultimediaIRN]);
+
+                $record['wrong_multimedia']['narrative'] = implode(" ", (array) $narrative['NarNarrative']);
+                $record['wrong_multimedia']['thumbnail_url'] = $wrongMultimedia['AudAccessURI'] ?? "#";
+                $record['wrong_multimedia']['taxon_to_display'] = $wrongMultimedia['MulDescription'] ?? "";
+            }
+        }
 
         // Get catalog record info
         $catalog = new Catalog();
