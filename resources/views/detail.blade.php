@@ -58,7 +58,7 @@
       <!-- Link to old/bad previous multimedia -->
       @if (!empty($record['wrong_multimedia']))
         <div class="wrong-multimedia"><hr>
-          <p>{!! $record['wrong_multimedia']['enarratives:TaxTaxaRef_tab'][0]['NarNarrative'] or "" !!}</p>
+          <p>{!! $record['wrong_multimedia']['narrative'] !!}</p>
           <p>
             @if (!empty($record['wrong_multimedia']['thumbnail_url']))
               <img src="{{ $record['wrong_multimedia']['thumbnail_url'] }}"
