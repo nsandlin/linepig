@@ -26,7 +26,7 @@ class Narrative extends Model
      * @return array|null
      *   Returns an array of the Taxonomy record.
      */
-    public function getRecordByTaxonomyIRN(string $taxonomyIRN): array|null
+    public function getRecordByTaxonomyIRN(string $taxonomyIRN)
     {
         $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $narrative = $mongo->emu->enarratives;
