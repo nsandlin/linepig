@@ -95,12 +95,6 @@ div.blue .flex-item a.species-link:hover img.species-thumbnail, div.blue .flex-i
   width: 180px;
 }
 
-/* Detail page */
-.wrong-multimedia-thumb {
-  max-width: 150px;
-}
-
-
 /* Flexbox */
 .flex-container {
   display:flex;
@@ -125,6 +119,31 @@ body.home .flex-item p {
 /* Home page CSS */
 body.home .flex-container {
   border-radius: 10px;
+}
+
+/* Home page -- pagination */
+nav ul.pagination {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+nav ul.pagination > li {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+nav ul.pagination a.page-link {
+  color: #FFF;
+  text-decoration: none;
+}
+
+nav ul.pagination a.page-link:hover {
+  color: #1ab9ff; 
+}
+
+nav ul.pagination li.active span {
+  text-decoration: underline;
 }
 
 /* Detail page CSS **/
@@ -196,6 +215,10 @@ body.detail-page .flex-item img.detail-pic {
   margin-top: 10px;
   margin-bottom: 25px;
 }
+.wrong-multimedia-thumb {
+  max-width: 150px;
+}
+
 /* Search CSS */
 .search-fieldset {
   border: none;

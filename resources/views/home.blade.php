@@ -17,7 +17,11 @@
           </a>
         </div>
       @endforeach
-    </div>
     <!-- End items -->
+
+    <div class="container flex-container blue">
+      {{ $records->links() }}
+    </div>
+
   </div><!-- container-->
 @endsection
