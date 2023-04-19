@@ -218,6 +218,12 @@ body.detail-page .flex-item img.detail-pic {
 .wrong-multimedia-thumb {
   max-width: 150px;
 }
+.detail-nav-link {
+  text-decoration: none;
+}
+.detail-nav-link.prev {
+  margin-right: 2rem;
+}
 
 /* Search CSS */
 .search-fieldset {

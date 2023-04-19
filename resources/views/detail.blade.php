@@ -22,6 +22,17 @@
     </div><!--.flex-item blue-->
  
     <div class="flex-item species-links">
+      <!-- Previous and Next links -->
+        @if (!empty($prev_next))
+          @if (!empty($prev_next['prev']))
+            <a href="{{ $prev_next['prev'] }}" class="detail-nav-link prev">&lt;&lt; previous</a>
+          @endif
+          @if (!empty($prev_next['next']))
+            <a href="{{ $prev_next['next'] }}" class="detail-nav-link next">&gt;&gt; next</a>
+          @endif
+        @endif
+      <!-- END - Previous and Next links -->
+
           <h4 class="species-title">Show all <i>{{ $record['genus_species'] }}</i>:</h4>
             <ul class="subset-list-links">
               @foreach ($record['subsets'] as $key => $value)

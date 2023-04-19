@@ -190,6 +190,35 @@ class Multimedia extends Model
     }
 
     /**
+     * Retrieves the previous/next links for a multimedia detail page.
+     *
+     * @param array $records
+     *   All records on the LinEpig website
+     * @param string $irn
+     *   IRN of current multimedia detail page
+     *
+     * @return array
+     *   Array of the previous/next hyperlinks
+     */
+    public function getDetailPrevNextLinks(array $records, string $irn): array
+    {
+        $links = [];
+
+        foreach ($records as $k => $record) {
+            if ($record['irn'] == $irn) {
+                if (isset($records[$k-1])) {
+                    $links['prev'] = "/multimedia/" . $records[$k-1]['irn'];
+                }
+                if (isset($records[$k+1])) {
+                    $links['next'] = "/multimedia/" . $records[$k+1]['irn'];
+                }
+            }
+        }
+
+        return $links;
+    }
+
+    /**
      * Retrieves Multimedia records for a type of subset.
      *
      * @param string $type
