@@ -35,16 +35,16 @@ class MultimediaController extends Controller
             abort(503);
         }
 
-        // Retrieve and store in cache all records so we don't have to re-query MongoDB later
-        $records = Cache::remember('homepage_records', config('emuconfig.cache_ttl'), function () {
+        // Retrieve and store in cache all primary records so we don't have to re-query MongoDB later
+        $primaryRecords = Cache::remember('primary_records', config('emuconfig.cache_ttl'), function () {
             $multimediaModel = new Multimedia();
-            return $multimediaModel->getHomepageRecords();
+            return $multimediaModel->getPrimaryRecords();
         });
 
         // Find the previous/next links for this detail page, to navigate through them all
         // without having to go back to the homepage.
         $multimediaModel = new Multimedia();
-        $prevNextLinks = $multimediaModel->getDetailPrevNextLinks($records, $irn);
+        $prevNextLinks = $multimediaModel->getDetailPrevNextLinks($primaryRecords, $irn);
 
         $view = view('detail', [
             'record' => $record,

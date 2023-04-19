@@ -190,6 +190,29 @@ class Multimedia extends Model
     }
 
     /**
+     * Retrieves all "primary" Multimedia records.
+     *
+     * @return array
+     *   Returns an array of all of the "primary" Multimedia records
+     */
+    public function getPrimaryRecords(): array
+    {
+        $records = [];
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $searchCollection = $mongo->linepig->search;
+        $cursor = $searchCollection->find(
+            ['search.DetSubject' => 'primary'],
+            ['sort' => ['genus' => 1, 'species' => 1]]
+        );
+
+        foreach ($cursor as $record) {
+            $records[] = $record;
+        }
+
+        return $records;
+    }
+
+    /**
      * Retrieves the previous/next links for a multimedia detail page.
      *
      * @param array $records
