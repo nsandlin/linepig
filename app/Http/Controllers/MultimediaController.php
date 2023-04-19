@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Multimedia;
 use App\Models\Taxonomy;
@@ -36,9 +35,21 @@ class MultimediaController extends Controller
             abort(503);
         }
 
+        // Retrieve and store in cache all records so we don't have to re-query MongoDB later
+        $records = Cache::remember('homepage_records', config('emuconfig.cache_ttl'), function () {
+            $multimediaModel = new Multimedia();
+            return $multimediaModel->getHomepageRecords();
+        });
+
+        // Find the previous/next links for this detail page, to navigate through them all
+        // without having to go back to the homepage.
+        $multimediaModel = new Multimedia();
+        $prevNextLinks = $multimediaModel->getDetailPrevNextLinks($records, $irn);
+
         $view = view('detail', [
             'record' => $record,
-        ])->render();
+            'prev_next' => $prevNextLinks,
+        ]);
 
         return $view;
     }
