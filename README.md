@@ -42,6 +42,11 @@ Subset - home-like page of images selected from Detail links or Search
 
 MongoDB connection string info is kept in the `.env` file and should never be committed to the repo.
 
+## Elasticsearch
+
+Elasticsearch is used for search on the website. The `ElasticsearchImport` Laravel Command is run on Monday
+mornings to import all of the MongoDB search documents into Elasticsearch on a weekly basis.
+
 ## Implementation
 
 Laravel 8, PHP 7.4 or 8

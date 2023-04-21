@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
-use App\BacklinkImage;
 use MongoDB\Client;
 use App\Models\Taxonomy;
 use App\Models\Narrative;

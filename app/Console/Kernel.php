@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\MultimediaImport::class,
         Commands\CatalogImport::class,
         Commands\TaxonomyImport::class,
+        Commands\ElasticsearchImport::class,
         Commands\SitemapGenerator::class,
         Commands\BOLDImport::class,
     ];
@@ -34,6 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('catalog:import')->weeklyOn(1, '10:10');
         $schedule->command('taxonomy:import')->weeklyOn(1, '10:15');
         $schedule->command('sitemap:create')->weeklyOn(1, '10:20');
+        $schedule->command('elasticsearch:import')->weeklyOn(1, '10:25');
     }
 
     /**
