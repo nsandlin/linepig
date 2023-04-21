@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Elastic\Elasticsearch\ClientBuilder;
-use App\Multimedia;
 
 class SearchController extends Controller
 {
