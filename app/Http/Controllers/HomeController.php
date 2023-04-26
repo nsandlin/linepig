@@ -41,7 +41,7 @@ class HomeController extends Controller
         $count = count($records);
 
         // Set up pagination
-        $perPage = 56;
+        $perPage = config('emuconfig.homepage_pagination_per_page');
         $currentPage = $request->input('page', 1);
         $paginator = new LengthAwarePaginator(
             $records->forPage($currentPage, $perPage),
