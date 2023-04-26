@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use MongoDB\Client;
 use App\Models\Taxonomy;
 use App\Models\Narrative;
@@ -254,17 +255,24 @@ class Multimedia extends Model
      */
     public function getSubset($type, $taxonomyIRN): array
     {
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $multimedia = $mongo->linepig->multimedia;
-        $cursor = $multimedia->find(
-            [
-                'MulOtherNumber' => $taxonomyIRN,
-                'MulMimeType' => 'image'
-            ]
-        );
         $records = [];
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $taxonomyCollection = $mongo->linepig->taxonomy;
+        $taxonomy = $taxonomyCollection->findOne(['irn' => $taxonomyIRN]);
+        $multimediaCollection = $mongo->linepig->multimedia;
 
-        foreach ($cursor as $record) {
+        if (empty($taxonomy)) {
+            abort(404);
+        }
+
+        $multimediaRefs = Arr::wrap($taxonomy['MulMultiMediaRef']);
+
+        foreach ($multimediaRefs as $irn) {
+            $record = $multimediaCollection->findOne(['irn' => $irn]);
+            if (is_null($record)) {
+                continue;
+            }
+
             if ($type === "all") {
                 $records[] = $record;
             } else {

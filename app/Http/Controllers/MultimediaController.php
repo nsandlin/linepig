@@ -82,7 +82,7 @@ class MultimediaController extends Controller
             'genus_species' => $genusSpecies,
             'type' => $type,
             'records' => $records,
-        ])->render();
+        ]);
 
         return $view;
     }
