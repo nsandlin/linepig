@@ -5,7 +5,7 @@
  */
 
 return [
-    'cache_ttl' => 345600, // 4 days
+    'cache_ttl' => 86400, // 1 day
     'homepage_pagination_per_page' => 105,
     'mongodb_conn_options' => ["typeMap" => ['root' => 'array', 'document' => 'array']],
     'mongodb_search_docs_fields_to_exclude' => [
