@@ -3,14 +3,14 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Notification;
 use App\Notifications\SlackNotification;
 use App\Models\Multimedia;
 use App\Models\Taxonomy;
 use MongoDB\Client;
+use Carbon\Carbon;
+use Notification;
 
 class SearchImport extends Command
 {
@@ -20,6 +20,20 @@ class SearchImport extends Command
      * @var int $count
      */
     protected $count;
+
+    /**
+     * MongoDB connection to LinEpig database.
+     *
+     * @var \MongoDB\Client $mongoLinepig
+     */
+    protected $mongoLinepig;
+
+    /**
+     * MongoDB search collection.
+     *
+     * @var mixed $searchCollection
+     */
+    protected $searchCollection;
 
     /**
      * All of the LinEpig EMu records.
@@ -51,6 +65,14 @@ class SearchImport extends Command
     {
         parent::__construct();
         date_default_timezone_set('America/Chicago');
+
+        $this->mongoLinepig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+
+        if (App::environment() === "production") {
+            $this->searchCollection = $this->mongoLinepig->linepig->search;
+        } else {
+            $this->searchCollection = $this->mongoLinepig->linepig->search_dev;
+        }
     }
 
     /**
@@ -60,11 +82,17 @@ class SearchImport extends Command
      */
     public function handle()
     {
-        Notification::route('slack', env('SLACK_HOOK'))
-                    ->notify(new SlackNotification($this->getName()));
+        if (App::environment() === "production") {
+            Notification::route('slack', env('SLACK_HOOK'))
+                        ->notify(new SlackNotification($this->getName()));
+        }
 
-        $this->deleteAllDocs();
         $this->findCount();
+
+        if ($this->count > 100) {
+            $this->deleteAllDocs();
+        }
+
         $this->addRecords();
     }
 
@@ -80,13 +108,17 @@ class SearchImport extends Command
         $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $emultimedia = $mongo->emu->emultimedia;
         $cursor = $emultimedia->find(['MulMultimediaCreatorRef' => '177281']);
-
-        $mongoLinepig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $searchCollection = $mongoLinepig->linepig->search;
+        $searchCollectionName = $this->searchCollection->getCollectionName();
+        $i = 0;
 
         foreach ($cursor as $record) {
             if (!isset($record['AudAccessURI'])) {
                 continue;
+            }
+
+            if ($i % 100 === 0) {
+                Log::info("Added $i doc(s) to the $searchCollectionName collection.");
+                print("Added $i doc(s) to the $searchCollectionName collection." . PHP_EOL);
             }
 
             $taxonomy = new Taxonomy();
@@ -103,16 +135,18 @@ class SearchImport extends Command
             $searchDoc['description'] = $record['MulDescription'];
             $searchDoc['thumbnailURL'] = Multimedia::fixThumbnailURL($record['AudAccessURI']);
 
+            // Set up created and modified dates
+            $searchDoc['date_created'] = $this->getMongoDate($record['AdmDateInserted']);
+            $searchDoc['date_modified'] = $this->getMongoDate($record['AdmDateModified']);
+
             // Remove unnecessary data before combining for search
             foreach (config('emuconfig.mongodb_search_docs_fields_to_exclude') as $field) {
                 unset($record[$field]);
             }
             $searchDoc['search'] = $record;
 
-            $insertOneResult = $searchCollection->insertOne($searchDoc);
-            $insertId = $insertOneResult->getInsertedId();
-            Log::info("Added $insertId doc to the search collection.");
-            print("Added $insertId doc to the search collection." . PHP_EOL);
+            $this->searchCollection->insertOne($searchDoc);
+            $i++;
         }
 
         Log::info("Done adding docs to the search collection.");
@@ -142,10 +176,27 @@ class SearchImport extends Command
      */
     public function deleteAllDocs()
     {
-        Log::info("Deleting all docs in search collection...");
-        print("Deleting all docs in search collection..." . PHP_EOL);
-        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $searchCollection = $mongo->linepig->search;
-        $deleteResult = $searchCollection->deleteMany([]);
+        $name = $this->searchCollection->getCollectionName();
+
+        Log::info("Deleting all docs in $name collection...");
+        print("Deleting all docs in $name collection..." . PHP_EOL);
+        $this->searchCollection->deleteMany([]);
+    }
+
+    /**
+     * Gets a Carbon date from the EMu array format.
+     *
+     * @param array $emuDate
+     *   An array of date info from EMu
+     *
+     * @return \MongoDB\BSON\UTCDateTime
+     *   Returns the date
+     */
+    public function getMongoDate(array $emuDate)
+    {
+        $date = Carbon::parse(implode('-', $emuDate), 'UTC');
+        $utcDate = new \MongoDB\BSON\UTCDateTime($date);
+
+        return $utcDate;
     }
 }

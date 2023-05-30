@@ -21,6 +21,9 @@ class HomeController extends Controller
             return $multimedia->getHomepageRecords();
         });
 
+        $multimedia = new Multimedia();
+        $recentRecords = $multimedia->getMostRecentRecords();
+
         // We only want the "primary" records for the home page.
         foreach ($records as $key => $value) {
             if (empty($value['keywords'])) {
@@ -57,6 +60,7 @@ class HomeController extends Controller
         $view = view('home', [
             'count' => $count,
             'records' => $paginator,
+            'recent_records' => $recentRecords,
         ]);
 
         return $view;

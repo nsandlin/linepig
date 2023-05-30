@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use MongoDB\Client;
+use Carbon\Carbon;
 use App\Models\Taxonomy;
 use App\Models\Narrative;
 use App\Models\Catalog;
@@ -187,6 +188,58 @@ class Multimedia extends Model
         }
 
         return $this->records;
+    }
+
+    /**
+     * Retrieves most recently updated/added Multimedia records.
+     *
+     * @return array
+     *   Returns Multimedia records
+     */
+    public function getMostRecentRecords(): array
+    {
+        $documents = [];
+        $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
+
+        if (App::environment() === "production") {
+            $searchCollection = $mongo->linepig->search;
+        } else {
+            $searchCollection = $mongo->linepig->search_dev;
+        }
+
+        $daysAgoCarbon = Carbon::now('UTC')->subDays(config('emuconfig.homepage_days_ago_for_recent_records'));
+        $utcDaysAgo = new \MongoDB\BSON\UTCDateTime($daysAgoCarbon);
+        $filter = [
+            'search.DetSubject' => 'primary',
+            'date_modified' => ['$gte' => $utcDaysAgo],
+        ];
+
+        $cursor = $searchCollection->find($filter);
+        if (is_null($cursor)) {
+            return [];
+        }
+
+        foreach ($cursor as $document) {
+            $documents[] = $document;
+        }
+
+        // Sort the results
+        usort($documents, function($a, $b) {
+            $genusComp = $a['genus'] <=> $b['genus'];
+            if ($genusComp !== 0) {
+                return $genusComp;
+            }
+    
+            return $a['species'] <=> $b['species'];
+        });
+
+        $records = [];
+        foreach ($documents as $document) {
+            $records[] = $document['genus'] . " " . $document['species'];
+        }
+        $records = array_unique($records);
+
+        return $records;
     }
 
     /**
