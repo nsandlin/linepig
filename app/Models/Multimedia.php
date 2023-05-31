@@ -211,7 +211,7 @@ class Multimedia extends Model
         $utcDaysAgo = new \MongoDB\BSON\UTCDateTime($daysAgoCarbon);
         $filter = [
             'keywords' => ['$in' => ['primary']],
-            'date_modified' => ['$gte' => $utcDaysAgo],
+            'date_created' => ['$gte' => $utcDaysAgo],
         ];
 
         $cursor = $searchCollection->find($filter);
@@ -229,7 +229,7 @@ class Multimedia extends Model
             if ($genusComp !== 0) {
                 return $genusComp;
             }
-    
+
             return $a['species'] <=> $b['species'];
         });
 

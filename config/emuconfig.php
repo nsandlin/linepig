@@ -7,7 +7,7 @@
 return [
     'cache_ttl' => 86400, // 1 day
     'homepage_pagination_per_page' => 105,
-    'homepage_days_ago_for_recent_records' => 60,
+    'homepage_days_ago_for_recent_records' => 90,
     'mongodb_conn_options' => ["typeMap" => ['root' => 'array', 'document' => 'array']],
     'mongodb_search_docs_fields_to_exclude' => [
         'XmpMetadata', 'DocImageType', 'DocNumberPages', 'DocBitsPerPixel', 'MulMultimediaCreatorRef',

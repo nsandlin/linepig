@@ -44,9 +44,9 @@
       <br>We also have some palps, habitus, and other non-epigynal images. Check them out via the <a href="/search">Search</a> page.
     </p>
     <!-- Start recent items -->
-    <!-- @if (!empty($recent_records))
+    @if (!empty($recent_records))
       <div class="alert red">
-        <strong>Recently added: </strong>
+        <strong>Recently added or updated: </strong>
         <ul class="alert list">
           @foreach ($recent_records as $gs)
             <li class="alert-li">
@@ -59,7 +59,7 @@
           @endforeach
         </ul>
       </div>
-    @endif -->
+    @endif
     <!-- End recent items -->
   </div><!--.container container-top-->
 
