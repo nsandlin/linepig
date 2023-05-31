@@ -210,7 +210,7 @@ class Multimedia extends Model
         $daysAgoCarbon = Carbon::now('UTC')->subDays(config('emuconfig.homepage_days_ago_for_recent_records'));
         $utcDaysAgo = new \MongoDB\BSON\UTCDateTime($daysAgoCarbon);
         $filter = [
-            'search.DetSubject' => 'primary',
+            'keywords' => ['$in' => ['primary']],
             'date_modified' => ['$gte' => $utcDaysAgo],
         ];
 
