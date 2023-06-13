@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use App\Models\Multimedia;
 use MongoDB\Client;
 
 class Catalog extends Model
@@ -96,24 +93,6 @@ class Catalog extends Model
         $record['lng'] = $record['DarLongitude'] ?? null;
         $record['elevation'] = $record['DarMinimumElevation'] ?? null;
         $record['guid'] = $record['AdmGUIDValue'] ?? null;
-
-        // Attached Multimedia processing.
-        if (!empty($record['MulMultiMediaRef'])) {
-            $mongoLinEpig = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-            $multimedia = $mongoLinEpig->linepig->multimedia;
-
-            if (is_array($record['MulMultiMediaRef'])) {
-                foreach ($record['MulMultiMediaRef'] as $multimediaIRN) {
-                    $document = $multimedia->findOne(['irn' => $multimediaIRN]);
-                    $document['thumbnail_url'] = Multimedia::fixThumbnailURL($document['AudAccessURI']);
-                    $record['multimedia'][] = $document;
-                }
-            } else {
-                $document = $multimedia->findOne(['irn' => $record['MulMultiMediaRef']]);
-                $document['thumbnail_url'] = Multimedia::fixThumbnailURL($document['AudAccessURI']);
-                $record['multimedia'][] = $document;
-            }
-        }
 
         $this->record = $record;
 
