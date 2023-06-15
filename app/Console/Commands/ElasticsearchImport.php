@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\SlackNotification;
@@ -41,14 +42,12 @@ class ElasticsearchImport extends Command
      */
     public function handle()
     {
-        Notification::route('slack', env('SLACK_HOOK'))
-                    ->notify(new SlackNotification($this->getName()));
+        if (App::environment() === 'production') {
+            Notification::route('slack', env('SLACK_HOOK'))
+                ->notify(new SlackNotification($this->getName()));
+        }
 
         $start = now();
-        $client = ClientBuilder::create()
-            ->setHosts([env('ES_URL')])
-            ->setApiKey(env('ES_API_KEY'))
-            ->build();
 
         $multimediaModel = new Multimedia();
         $this->comment("Querying MongoDB for LinEpig search documents.");
@@ -61,18 +60,28 @@ class ElasticsearchImport extends Command
 
         $documentCount = number_format(count($mongoSearchDocuments));
         $this->comment("Found $documentCount MongoDB documents.");
+
+        // First, delete all the old ES documents
+        $this->comment("Deleting all old Elasticsearch documents.");
+        try {
+            $this->deleteOldESDocs();
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $this->error("Error deleting old ES documents: $message");
+        }
+
+        // Second, index all of the new ES documents
         $this->comment("Indexing $documentCount documents.");
+        $client = ClientBuilder::create()
+            ->setHosts([env('ES_URL')])
+            ->setApiKey(env('ES_API_KEY'))
+            ->build();
 
         foreach ($mongoSearchDocuments as $document) {
             $paramsForIndex = $this->setupDocument($document);
             $id = $paramsForIndex['id'];
-            $paramsForDelete = [
-                'index' => env('ES_INDEX'),
-                'id' => $id,
-            ];
 
             try {
-                $client->delete($paramsForDelete);
                 $client->index($paramsForIndex);
             } catch (\Exception $e) {
                 $message = $e->getMessage();
@@ -84,6 +93,30 @@ class ElasticsearchImport extends Command
         $this->comment("Elasticsearch indexing took $end minutes.");
         $this->comment("Done.");
         return 0;
+    }
+
+    /**
+     * Deletes the old Elasticsearch documents
+     *
+     * @return void
+     */
+    public function deleteOldESDocs()
+    {
+        $client = ClientBuilder::create()
+            ->setHosts([env('ES_URL')])
+            ->setApiKey(env('ES_API_KEY'))
+            ->build();
+
+        $params = [
+            'index' => env('ES_INDEX'),
+            'body'  => [
+                'query' => [
+                    'match_all' => (object)[],
+                ]
+            ]
+        ];
+
+        $client->deleteByQuery($params);
     }
 
     /**
@@ -102,6 +135,8 @@ class ElasticsearchImport extends Command
         $id = (string) $document['_id'];
         unset($document['_id']);
         unset($document['search']['_id']);
+        unset($document['date_created']);
+        unset($document['date_modified']);
 
         $params['index'] = env('ES_INDEX');
         $params['id'] = $id;
