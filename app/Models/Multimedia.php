@@ -235,9 +235,17 @@ class Multimedia extends Model
 
         $records = [];
         foreach ($documents as $document) {
-            $records[] = $document['genus'] . " " . $document['species'];
+            $record = [];
+            $genus = $document['genus'];
+            $species = $document['species'];
+            $text = "$genus $species";
+            $link = env('APP_URL', "https://linepig.fieldmuseum.org") .
+                    "/search-results/genus/$genus/species/$species/keywords/none";
+
+            $record['text'] = $text;
+            $record['link']= $link;
+            $records[] = $record;
         }
-        $records = array_unique($records);
 
         return $records;
     }

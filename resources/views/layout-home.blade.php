@@ -48,12 +48,12 @@
       <div class="alert red">
         <strong>Recently added or updated: </strong>
         <ul class="alert list">
-          @foreach ($recent_records as $gs)
+          @foreach ($recent_records as $r)
             <li class="alert-li">
               @if ($loop->last)
-                {{ $gs }}
+                <a href="{{ $r['link'] }}">{{ $r['text'] }}</a>
               @else
-                {{ $gs }},
+                <a href="{{ $r['link'] }}">{{ $r['text'] }}</a>,
               @endif
             </li>
           @endforeach
