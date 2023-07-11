@@ -5,6 +5,11 @@
 
 @section('content')
   <div class="container items flex-container all-epig blue">
+
+    <div class="container flex-container blue">
+      {{ $records->links() }}
+    </div>
+
     <!-- Start items -->
       @foreach ($records as $record)
         <div class="item flex-item">
