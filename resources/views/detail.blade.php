@@ -13,7 +13,11 @@
           <h4 style="margin:30px 0 0 0;">{{ $record['MulTitle'] }}</h4>
           <img src="{{ $record['image_url'] }}" class="detail-pic">
           <p><i>{{ $record['genus_species'] }}</i> {{ $record['author'] }}</p>
-          <p>{{ $record['DetSource'] or "" }}&nbsp;
+          <p>
+            @if (!empty($record['DetSource']))
+              {{ $record['DetSource'] }}
+            @endif
+            &nbsp;
             @if (!empty($record['collection_record_url']))
               <a href="{{ $record['collection_record_url'] }}" target="_blank">View collection record</a>
             @endif
