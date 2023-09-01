@@ -112,17 +112,19 @@ class Multimedia extends Model
             if ($narrative) {
                 $this->narrative = $narrative;
                 $record['narrative'] = $narrative;
-                $narrativeMultimedia = (array) $narrative['MulMultiMediaRef'];
-                $narrativeMultimediaIRN = $narrativeMultimedia[0] ?? "";
-
-                // Get the old/wrong multimedia
-                $mongoEMu = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
-                $emultimedia = $mongoEMu->emu->emultimedia;
-                $wrongMultimedia = $emultimedia->findOne(['irn' => $narrativeMultimediaIRN]);
-
-                $record['wrong_multimedia']['narrative'] = implode(" ", (array) $narrative['NarNarrative']);
-                $record['wrong_multimedia']['thumbnail_url'] = $wrongMultimedia['AudAccessURI'] ?? "#";
-                $record['wrong_multimedia']['taxon_to_display'] = $wrongMultimedia['MulDescription'] ?? "";
+                if (isset($narrative['MulMultiMediaRef'])) {
+                    $narrativeMultimedia = (array) $narrative['MulMultiMediaRef'];
+                    $narrativeMultimediaIRN = $narrativeMultimedia[0] ?? "";
+    
+                    // Get the old/wrong multimedia
+                    $mongoEMu = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+                    $emultimedia = $mongoEMu->emu->emultimedia;
+                    $wrongMultimedia = $emultimedia->findOne(['irn' => $narrativeMultimediaIRN]);
+    
+                    $record['wrong_multimedia']['narrative'] = implode(" ", (array) $narrative['NarNarrative']);
+                    $record['wrong_multimedia']['thumbnail_url'] = $wrongMultimedia['AudAccessURI'] ?? "#";
+                    $record['wrong_multimedia']['taxon_to_display'] = $wrongMultimedia['MulDescription'] ?? "";
+                }
             }
         }
 
