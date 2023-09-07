@@ -90,10 +90,10 @@
       @endif
 
     {{-- Notes section --}}
-    @if (!empty($record['notes']))
+    @if (!empty($record['annotation']))
       <div class="notes">
         <h2>Notes</h2>
-        {{ $record['notes'] }}
+        {{ $record['annotation'] }}
       </div>
     @endif
 
