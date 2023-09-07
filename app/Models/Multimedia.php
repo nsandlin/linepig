@@ -91,54 +91,33 @@ class Multimedia extends Model
         }
 
         $document = $multimediaCollection->findOne(['irn' => (string) $irn]);
-        $record = $document;
-
-        if (empty($record)) {
+        $this->record = $document;
+        if (empty($this->record)) {
             return [];
         }
 
         // Get taxonomy record info
         $taxonomy = new Taxonomy();
-        $record['taxonomy_irn'] = $taxonomy->getTaxonomyIRN($record);
-        $this->taxonomy = $taxonomy->getRecord($record['taxonomy_irn']);
+        $this->record['taxonomy_irn'] = $taxonomy->getTaxonomyIRN($this->record);
+        $this->taxonomy = $taxonomy->getRecord($this->record['taxonomy_irn']);
 
-        // Get narrative record info -- (Corrections)
-        if ($record['taxonomy_irn']) {
-            $narrativeModel = new Narrative();
-            $this->narrative = null;
-            $narrative = $narrativeModel->getRecordByTaxonomyIRN($record['taxonomy_irn']);
+        // Get "old", "wrong" multimedia info
+        $this->record['wrong_multimedia'] = $this->getOldWrongMultimediaInfo();
 
-            // Set up "wrong multimedia" for detail page
-            if ($narrative) {
-                $this->narrative = $narrative;
-                $record['narrative'] = $narrative;
-                if (isset($narrative['MulMultiMediaRef'])) {
-                    $narrativeMultimedia = (array) $narrative['MulMultiMediaRef'];
-                    $narrativeMultimediaIRN = $narrativeMultimedia[0] ?? "";
-    
-                    // Get the old/wrong multimedia
-                    $mongoEMu = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
-                    $emultimedia = $mongoEMu->emu->emultimedia;
-                    $wrongMultimedia = $emultimedia->findOne(['irn' => $narrativeMultimediaIRN]);
-    
-                    $record['wrong_multimedia']['narrative'] = implode(" ", (array) $narrative['NarNarrative']);
-                    $record['wrong_multimedia']['thumbnail_url'] = $wrongMultimedia['AudAccessURI'] ?? "#";
-                    $record['wrong_multimedia']['taxon_to_display'] = $wrongMultimedia['MulDescription'] ?? "";
-                }
-            }
-        }
+        // Get annotations
+        $this->record['annotation'] = $this->getAnnotation();
 
         // Get catalog record info
         $catalog = new Catalog();
-        $this->catalog = $catalog->getRecordFromMultimediaIRN($record['irn']);
-        $record['collection_record_url'] = "";
-        $record['catirn'] = "";
-        $record['guid'] = "";
+        $this->catalog = $catalog->getRecordFromMultimediaIRN($this->record['irn']);
+        $this->record['collection_record_url'] = "";
+        $this->record['catirn'] = "";
+        $this->record['guid'] = "";
 
         if (!empty($this->catalog)) {
-            $record['collection_record_url'] = "/catalogue/" . $this->catalog['irn'];
-            $record['catirn'] = $this->catalog['irn'];
-            $record['guid'] = $this->catalog['DarGlobalUniqueIdentifier'];
+            $this->record['collection_record_url'] = "/catalogue/" . $this->catalog['irn'];
+            $this->record['catirn'] = $this->catalog['irn'];
+            $this->record['guid'] = $this->catalog['DarGlobalUniqueIdentifier'];
         } else {
             // If there is no reverse-attached catalog record, then there
             // should be a related multimedia record that includes a link
@@ -147,26 +126,23 @@ class Multimedia extends Model
             // Query multimedia using the IRN in the RelRelatedMediaRef field.
             //
             // Each multimedia detail page should have a link to view a collection record.
-            if (isset($record['RelRelatedMediaRef'])) {
+            if (isset($this->record['RelRelatedMediaRef'])) {
                 $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
                 $multimediaCollection = $mongo->emu->emultimedia;
-                $relatedMediaDoc = $multimediaCollection->findOne(['irn' => $record['RelRelatedMediaRef']]);
-                $record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'] ?? "";
+                $relatedMediaDoc = $multimediaCollection->findOne(['irn' => $this->record['RelRelatedMediaRef']]);
+                $this->record['collection_record_url'] = $relatedMediaDoc['MulIdentifier'] ?? "";
             }
         }
 
-        $record['species_name'] = self::fixSpeciesTitle($record);
-        $record['image_url'] = $record['AudAccessURI'];
-        $record['genus_species'] = $this->getTaxonomyGenusSpecies();
-        $record['author'] = $this->taxonomy['AutAuthorString'] ?? "";
-        $record['rights'] = $this->getCopyright($record);
-        $record['bold_url'] = $this->getBOLD($record);
-        $record['world_spider_catalog_url'] = $this->getWSCLink($this->taxonomy);
-        $record['notes'] = $record['NteText0'] ?? "";
-        $record['subsets'] = $this->checkSubsets($record['taxonomy_irn']);
-
-        // Set the individual Multimedia record.
-        $this->record = $record;
+        $this->record['species_name'] = self::fixSpeciesTitle($this->record);
+        $this->record['image_url'] = $this->record['AudAccessURI'];
+        $this->record['genus_species'] = $this->getTaxonomyGenusSpecies();
+        $this->record['author'] = $this->taxonomy['AutAuthorString'] ?? "";
+        $this->record['rights'] = $this->getCopyright($this->record);
+        $this->record['bold_url'] = $this->getBOLD($this->record);
+        $this->record['world_spider_catalog_url'] = $this->getWSCLink($this->taxonomy);
+        $this->record['notes'] = $this->record['NteText0'] ?? "";
+        $this->record['subsets'] = $this->checkSubsets($this->record['taxonomy_irn']);
 
         return $this->record;
     }
@@ -551,5 +527,61 @@ class Multimedia extends Model
         }
 
         return $genusSpecies;
+    }
+
+    /**
+     * Gets the "old", "wrong" multimedia for the detail page.
+     *
+     * @return array
+     */
+    public function getOldWrongMultimediaInfo(): array
+    {
+        $wrongMultimedia = [];
+
+        // Get narrative record info -- (Corrections)
+        if ($this->record['taxonomy_irn']) {
+            $narrativeModel = new Narrative();
+            $narrative = $narrativeModel->getRecordByTaxonomyIRN($this->record['taxonomy_irn']);
+            if (empty($narrative)) {
+                return [];
+            }
+
+            // Set up "wrong multimedia" for detail page
+            if (isset($narrative['MulMultiMediaRef'])) {
+                $narrativeMultimedia = (array) $narrative['MulMultiMediaRef'];
+                $narrativeMultimediaIRN = $narrativeMultimedia[0] ?? "";
+
+                // Get the old/wrong multimedia
+                $mongoEMu = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+                $emultimedia = $mongoEMu->emu->emultimedia;
+                $multimedia = $emultimedia->findOne(['irn' => $narrativeMultimediaIRN]);
+
+                $wrongMultimedia['narrative'] = implode(" ", (array) $narrative['NarNarrative']);
+                $wrongMultimedia['thumbnail_url'] = $multimedia['AudAccessURI'] ?? "#";
+                $wrongMultimedia['taxon_to_display'] = $multimedia['MulDescription'] ?? "";
+            }
+        }
+
+        return $wrongMultimedia;
+    }
+
+    /**
+     * Gets the annotation for the multimedia record.
+     *
+     * @return string
+     */
+    public function getAnnotation(): string
+    {
+        $narrativeModel = new Narrative();
+        $narrativeRecord = $narrativeModel->getRecordByTaxonomyIRN($this->record['taxonomy_irn']);
+        if (empty($narrativeRecord)) {
+            return "";
+        }
+
+        if (isset($narrativeRecord['NarNarrative'])) {
+            return $narrativeRecord['NarNarrative'];
+        }
+
+        return "";
     }
 }
