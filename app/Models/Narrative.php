@@ -21,16 +21,38 @@ class Narrative extends Model
      * Retrieves the individual Taxonomy record.
      *
      * @param string $taxonomyIRN
-     *   The IRN of the Taxonomy record to return.
+     *   The IRN of the Taxonomy record
      *
      * @return array|null
-     *   Returns an array of the Taxonomy record.
+     *   Returns the narrative record
      */
     public function getRecordByTaxonomyIRN(string $taxonomyIRN)
     {
         $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
         $narrative = $mongo->emu->enarratives;
         $this->record = $narrative->findOne(['TaxTaxaRef' => $taxonomyIRN]);
+
+        if (is_null($this->record)) {
+            return null;
+        }
+
+        return $this->record;
+    }
+
+    /**
+     * Retrieves the Narrative record associated with the multimedia (IRN)
+     *
+     * @param string $multimediaIRN
+     *   The IRN of the Multimedia record
+     *
+     * @return array|null
+     *   Returns the narrative record
+     */
+    public function getRecordByMultimediaIRN(string $multimediaIRN)
+    {
+        $mongo = new Client(env('MONGO_EMU_CONN'), [], config('emuconfig.mongodb_conn_options'));
+        $narrative = $mongo->emu->enarratives;
+        $this->record = $narrative->findOne(['MulMultiMediaRef' => $multimediaIRN]);
 
         if (is_null($this->record)) {
             return null;
