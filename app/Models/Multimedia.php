@@ -567,21 +567,26 @@ class Multimedia extends Model
 
     /**
      * Gets the annotation for the multimedia record.
+     * Annotations can be taken from the narrative associated with the taxonomy,
+     * and/or the narrative associated directly with the multimedia record.
      *
      * @return string
      */
     public function getAnnotation(): string
     {
+        $annotation = "";
         $narrativeModel = new Narrative();
+
         $narrativeRecord = $narrativeModel->getRecordByTaxonomyIRN($this->record['taxonomy_irn']);
-        if (empty($narrativeRecord)) {
-            return "";
-        }
-
         if (isset($narrativeRecord['NarNarrative'])) {
-            return $narrativeRecord['NarNarrative'];
+            $annotation .= $narrativeRecord['NarNarrative'] . " ";
         }
 
-        return "";
+        $narrativeRecord = $narrativeModel->getRecordByMultimediaIRN($this->record['irn']);
+        if (isset($narrativeRecord['NarNarrative'])) {
+            $annotation .= $narrativeRecord['NarNarrative'];
+        }
+
+        return $annotation;
     }
 }
