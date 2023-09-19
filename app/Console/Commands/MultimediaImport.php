@@ -92,6 +92,15 @@ class MultimediaImport extends Command
                     ->notify(new SlackNotification($this->getName()));
         }
 
+        $this->findCount();
+        if ($this->count < 1000) {
+            Log::info('Not enough records in MongoDB to add to multimedia collection, exiting.');
+            print('Not enough records in MongoDB to add to multimedia collection, exiting.' . PHP_EOL);
+            return;
+        }
+        Log::info('Found ' . number_format($this->count) . ' multimedia to import, proceeding.');
+        print('Found ' . number_format($this->count) . ' multimedia to import, proceeding.' . PHP_EOL);
+
         $this->deleteAllDocs();
         $docs = $this->getEMuDocs();
         $this->addDocs($docs);

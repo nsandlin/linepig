@@ -579,12 +579,14 @@ class Multimedia extends Model
 
         $narrativeRecord = $narrativeModel->getRecordByTaxonomyIRN($this->record['taxonomy_irn']);
         if (isset($narrativeRecord['NarNarrative'])) {
-            $annotation .= $narrativeRecord['NarNarrative'] . " ";
+            $narrative = implode(" ", (array) $narrativeRecord['NarNarrative']);
+            $annotation .= $narrative . " ";
         }
 
         $narrativeRecord = $narrativeModel->getRecordByMultimediaIRN($this->record['irn']);
         if (isset($narrativeRecord['NarNarrative'])) {
-            $annotation .= $narrativeRecord['NarNarrative'];
+            $narrative = implode(" ", (array) $narrativeRecord['NarNarrative']);
+            $annotation .= $narrative;
         }
 
         return $annotation;
