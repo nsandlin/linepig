@@ -9,15 +9,19 @@
       <div class="search-container">
         <div id="search-form">
           <form method="POST" action="/search-handle">
-
             @csrf
 
-            <fieldset class="search-fieldset">
+            <fieldset class="search-fieldset scientific-name">
+              <label for="scientific-name">Scientific&nbsp;Name</label>
+              <input name="scientific-name" type="text" id="scientific-name">
+            </fieldset>
+
+            <fieldset class="search-fieldset genus">
               <label for="genus">Genus</label>
               <input name="genus" type="text" id="genus">
             </fieldset>
 
-            <fieldset class="search-fieldset">
+            <fieldset class="search-fieldset species">
               <label for="species">Species</label>
               <input name="species" type="text" id="species">
             </fieldset>
