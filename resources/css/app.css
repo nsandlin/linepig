@@ -244,9 +244,13 @@ body.detail-page .flex-item img.detail-pic {
   padding-right: 0;
   margin-right: 0;
 }
+.search-fieldset.scientific-name {
+  margin-top: 10px;
+}
 .search-fieldset label {
   display: inline-block;
-  width: 70px;
+  width: auto;
+  margin-right: 15px;
 }
 .search-fieldset input {
   float: right;

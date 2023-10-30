@@ -42,21 +42,42 @@ class SearchController extends Controller
         // Check if we have any search terms entered.
         if (empty($request->input('genus')) &&
             empty($request->input('species')) &&
+            empty($request->input('scientific-name')) &&
             empty($request->input('keywords'))) {
 
                 return back();
         }
 
+        // Scientific Name
+        if (!empty($request->input('scientific-name'))) {
+            $scChunks = explode(" ", $request->input('scientific-name'));
+            if (isset($scChunks[0])) {
+                $genus = ucfirst($scChunks[0]);
+            }
+            if (isset($scChunks[1])) {
+                $species = strtolower($scChunks[1]);
+            }
+        }
+
+        // Genus
         if (!empty($request->input('genus'))) {
             $genus = ucfirst(trim($request->input('genus')));
         } else {
-            $genus = "none";
+            if (empty($genus)) {
+                $genus = "none";
+            }
         }
+
+        // Species
         if (!empty($request->input('species'))) {
             $species = strtolower(trim($request->input('species')));
         } else {
-            $species = "none";
+            if (empty($species)) {
+                $species = "none";
+            }
         }
+
+        // Keywords
         if (!empty($request->input('keywords'))) {
             $keywords = implode("+", $request->input('keywords'));
         } else {
