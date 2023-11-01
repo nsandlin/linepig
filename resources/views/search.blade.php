@@ -12,7 +12,7 @@
             @csrf
 
             <fieldset class="search-fieldset scientific-name">
-              <label for="scientific-name">Scientific&nbsp;Name</label>
+              <label for="scientific-name">Scientific&nbsp;name</label>
               <input name="scientific-name" type="text" id="scientific-name">
             </fieldset>
 
