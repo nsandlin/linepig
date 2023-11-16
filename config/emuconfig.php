@@ -47,7 +47,7 @@ return [
     'catalog_fields' => [
         'irn', 'SummaryData', 'DarGenus', 'DarSpecies', 'DarCatalogNumber',
         'AdmPublishWebNoPassword', 'AdmGUIDValue_tab', 'AdmGUIDIsPreferred_tab',
-        'LotTotalCount', 'LotSemaphoront_tab', 'LotWetCount_tab',
+        'LotTotalCount', 'PheStage_tab', 'PheSex_tab', 'PreCount_tab', 'PrePrepType_tab',
         'IdeIdentifiedByRef_nesttab.(SummaryData)', 'IdeDateIdentified0',
         'ColCollectionEventRef.(
             irn, SummaryData, ColCollectionMethod, ColCollectionEventCode,
