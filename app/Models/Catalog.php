@@ -87,7 +87,15 @@ class Catalog extends Model
             $record['habitat'] = $collectionEvent['HabHabitat'] ?? null;
         }
 
-        $record['identified_by'] = $record['IdeIdentifiedByLocal'] ?? null;
+        $record['identified_by'] = null;
+        if (isset($record['IdeIdentifiedByLocal'])) {
+            if (is_array($record['IdeIdentifiedByLocal'])) {
+                $record['identified_by'] = implode(", ", $record['IdeIdentifiedByLocal']);
+            } else {
+                $record['identified_by'] = $record['IdeIdentifiedByLocal'];
+            }
+        }
+
         $record['date_identified'] = $record['IdeDateIdentified0'][0] ?? null;
         $record['lat'] = $record['DarLatitude'] ?? null;
         $record['lng'] = $record['DarLongitude'] ?? null;
