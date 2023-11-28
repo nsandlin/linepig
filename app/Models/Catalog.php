@@ -118,21 +118,21 @@ class Catalog extends Model
      */
     public function getSemaphoronts($record) : array
     {
-        if (empty($record['LotSemaphoront']) || empty($record['LotWetCount'])) {
+        if (empty($record['PheStage']) || empty($record['PheSex'])) {
             return [];
         }
 
         $semaphoronts = [];
 
-        if (!is_array($record['LotSemaphoront'])) {
-            $semaphoronts[$record['LotSemaphoront'][0]] = $record['LotWetCount'][0];
+        if (!is_array($record['PheStage'])) {
+            $semaphoronts[$record['PheStage'][0]] = $record['PheSex'][0];
 
             return $semaphoronts;
         }
 
-        $total = count($record['LotSemaphoront']);
+        $total = count($record['PreCount']);
         for ($i = 0; $i < $total; $i++) {
-            $semaphoronts[$record['LotSemaphoront'][$i]] = $record['LotWetCount'][$i];
+            $semaphoronts[$record['PrePrepType'][$i]] = $record['PreCount'][$i];
         }
 
         return $semaphoronts;
