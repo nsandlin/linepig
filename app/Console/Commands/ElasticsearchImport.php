@@ -135,6 +135,8 @@ class ElasticsearchImport extends Command
         $id = (string) $document['_id'];
         unset($document['_id']);
         unset($document['search']['_id']);
+        unset($document['search']['AdmDateInsertedUTC']);
+        unset($document['search']['AdmDateModifiedUTC']);
         unset($document['date_created']);
         unset($document['date_modified']);
 
