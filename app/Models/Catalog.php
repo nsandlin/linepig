@@ -70,7 +70,7 @@ class Catalog extends Model
 
         $record['genus_species'] = $record['DarGenus'] . " " . $record['DarSpecies'];
         $record['collection_data'] = $record['ExtendedData'][2];
-        $record['total_count'] = $record['LotTotalCount'];
+        $record['total_count'] = $record['PreTotalCount'];
         $record['semaphoronts'] = $this->getSemaphoronts($record);
 
         // Collection event
@@ -118,21 +118,16 @@ class Catalog extends Model
      */
     public function getSemaphoronts($record) : array
     {
-        if (empty($record['PheStage']) || empty($record['PheSex'])) {
+        if (empty($record['LotSemaphoront']) || empty($record['PreCount'])) {
             return [];
         }
 
         $semaphoronts = [];
+        $sems = (array) $record['LotSemaphoront'];
+        $counts = (array) $record['PreCount'];
 
-        if (!is_array($record['PheStage'])) {
-            $semaphoronts[$record['PheStage'][0]] = $record['PheSex'][0];
-
-            return $semaphoronts;
-        }
-
-        $total = count($record['PreCount']);
-        for ($i = 0; $i < $total; $i++) {
-            $semaphoronts[$record['PrePrepType'][$i]] = $record['PreCount'][$i];
+        for ($i = 0; $i < count($counts); $i++) {
+            $semaphoronts[$sems[$i]] = $counts[$i];
         }
 
         return $semaphoronts;
