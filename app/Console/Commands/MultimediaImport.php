@@ -75,7 +75,7 @@ class MultimediaImport extends Command
                 $this->multimediaCollection = $this->mongoLinEpig->linepig->multimedia;
                 break;
             default:
-                $this->multimediaCollection = $this->mongoLinEpig->linepig->multimedia_dev;
+                $this->multimediaCollection = $this->mongoLinEpig->linepig->multimedia_v2;
                 break;
         }
     }

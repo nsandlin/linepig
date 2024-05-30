@@ -71,7 +71,7 @@ class SearchImport extends Command
         if (App::environment() === "production") {
             $this->searchCollection = $this->mongoLinepig->linepig->search;
         } else {
-            $this->searchCollection = $this->mongoLinepig->linepig->search_dev;
+            $this->searchCollection = $this->mongoLinepig->linepig->search_v2;
         }
     }
 

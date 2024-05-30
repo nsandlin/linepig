@@ -86,7 +86,7 @@ class Multimedia extends Model
             if ($environment === "production") {
                 $multimediaCollection = $mongo->linepig->multimedia;
             } else {
-                $multimediaCollection = $mongo->linepig->multimedia_dev;
+                $multimediaCollection = $mongo->linepig->multimedia_v2;
             }
         }
 
@@ -182,7 +182,7 @@ class Multimedia extends Model
         if (App::environment() === "production") {
             $searchCollection = $mongo->linepig->search;
         } else {
-            $searchCollection = $mongo->linepig->search_dev;
+            $searchCollection = $mongo->linepig->search_v2;
         }
 
         $daysAgoCarbon = Carbon::now('UTC')->subDays(config('emuconfig.homepage_days_ago_for_recent_records'));
