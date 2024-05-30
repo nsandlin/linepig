@@ -13,13 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\SearchImport::class,
-        Commands\MultimediaImport::class,
-        Commands\CatalogImport::class,
-        Commands\TaxonomyImport::class,
-        Commands\ElasticsearchImport::class,
-        Commands\SitemapGenerator::class,
-        Commands\BOLDImport::class,
+        // Commands here
     ];
 
     /**
