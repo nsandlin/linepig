@@ -83,11 +83,7 @@ class Multimedia extends Model
         } else {
             $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
 
-            if ($environment === "production") {
-                $multimediaCollection = $mongo->linepig->multimedia;
-            } else {
-                $multimediaCollection = $mongo->linepig->multimedia_v2;
-            }
+            $multimediaCollection = $mongo->linepig->multimedia_v2;
         }
 
         $document = $multimediaCollection->findOne(['irn' => (string) $irn]);
@@ -156,7 +152,7 @@ class Multimedia extends Model
     public function getHomepageRecords(): array
     {
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $searchCollection = $mongo->linepig->search;
+        $searchCollection = $mongo->linepig->search_v2;
         $cursor = $searchCollection->find([], [
             'sort' => ['genus' => 1, 'species' => 1]
         ]);
@@ -178,12 +174,7 @@ class Multimedia extends Model
     {
         $documents = [];
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-
-        if (App::environment() === "production") {
-            $searchCollection = $mongo->linepig->search;
-        } else {
-            $searchCollection = $mongo->linepig->search_v2;
-        }
+        $searchCollection = $mongo->linepig->search_v2;
 
         $daysAgoCarbon = Carbon::now('UTC')->subDays(config('emuconfig.homepage_days_ago_for_recent_records'));
         $utcDaysAgo = new \MongoDB\BSON\UTCDateTime($daysAgoCarbon);
@@ -238,7 +229,7 @@ class Multimedia extends Model
     {
         $records = [];
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $searchCollection = $mongo->linepig->search;
+        $searchCollection = $mongo->linepig->search_v2;
         $cursor = $searchCollection->find(
             ['search.DetSubject' => 'primary'],
             ['sort' => ['genus' => 1, 'species' => 1]]
@@ -296,9 +287,9 @@ class Multimedia extends Model
     {
         $records = [];
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $taxonomyCollection = $mongo->linepig->taxonomy;
+        $taxonomyCollection = $mongo->linepig->taxonomy_v2;
         $taxonomy = $taxonomyCollection->findOne(['irn' => $taxonomyIRN]);
-        $multimediaCollection = $mongo->linepig->multimedia;
+        $multimediaCollection = $mongo->linepig->multimedia_v2;
 
         if (empty($taxonomy)) {
             abort(404);
@@ -428,7 +419,7 @@ class Multimedia extends Model
     public function getBOLD($record): string
     {
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-        $boldCollection = $mongo->linepig->bold;
+        $boldCollection = $mongo->linepig->bold_v2;
         $document = $boldCollection->findOne(['genus_species' => $record['genus_species']]);
 
         if (is_null($document)) {
@@ -489,7 +480,7 @@ class Multimedia extends Model
         $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
 
         foreach ($subsets as $key => $value) {
-            $multimedia = $mongo->linepig->multimedia;
+            $multimedia = $mongo->linepig->multimedia_v2;
             $count = $multimedia->count(
                 [
                     'MulOtherNumber' => $taxonomyIRN,

@@ -30,12 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('search:import')->weeklyOn(1, '10:00');
-        $schedule->command('multimedia:import')->weeklyOn(1, '10:05');
-        $schedule->command('catalog:import')->weeklyOn(1, '10:10');
-        $schedule->command('taxonomy:import')->weeklyOn(1, '10:15');
-        $schedule->command('sitemap:create')->weeklyOn(1, '10:20');
-        $schedule->command('elasticsearch:import')->weeklyOn(1, '10:25');
+        // Commands here
     }
 
     /**

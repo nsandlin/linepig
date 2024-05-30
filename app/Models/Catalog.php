@@ -58,7 +58,7 @@ class Catalog extends Model
             $catalog = $mongo->emu->ecatalogue;
         } else {
             $mongo = new Client(env('MONGO_LINEPIG_CONN'), [], config('emuconfig.mongodb_conn_options'));
-            $catalog = $mongo->linepig->catalog;
+            $catalog = $mongo->linepig->catalog_v2;
         }
 
         $document = $catalog->findOne(['irn' => $irn]);
