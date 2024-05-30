@@ -139,7 +139,7 @@ class SearchController extends Controller
         }
 
         $params = [
-            'index' => 'linepig.search',
+            'index' => 'linepig.search_v2',
             'body' => [
                 'from' => 0,
                 'size' => 1300,
