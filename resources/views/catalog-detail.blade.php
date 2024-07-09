@@ -8,61 +8,88 @@
     <div class="flex-item">
 
       {{-- Catalogue Images container --}}
-        @if (!empty($record['multimedia']))
-          <div class="multimedia-container">
-            @foreach ($record['multimedia'] as $multimedia)
-              <div class="catalogue-multimedia multimedia">
-                <a href="/multimedia/{{ $multimedia['irn'] }}" class="catalogue-multimedia-link">
-                  <img src="{{ $multimedia['thumbnail_url'] }}"
-                       alt="{{ $multimedia['MulDescription'] }}"
-                       title="{{ $multimedia['MulTitle'] }}">
-                </a>
-              </div>
-            @endforeach
-          </div>
-        @endif
-
-      <div class="collection-data">Collection data: {{ $record['collection_data'] }}</div>
-
-      <div class="total-count">Total count: {{ $record['total_count'] }}</div>
-
-      @if (!empty($record['semaphoronts']))
-      <div class="semaphoronts">
-        <ul class="semaphoronts-list">
-          @foreach($record['semaphoronts'] as $key => $value)
-            <li class="semaphoront">
-              {{ $key }}: {{ $value }}
-            </li>
+      @if (!empty($record['multimedia']))
+        <div class="multimedia-container">
+          @foreach ($record['multimedia'] as $multimedia)
+            <div class="catalogue-multimedia multimedia">
+              <a href="/multimedia/{{ $multimedia['irn'] }}" class="catalogue-multimedia-link">
+                <img src="{{ $multimedia['thumbnail_url'] }}"
+                      alt="{{ $multimedia['MulDescription'] }}"
+                      title="{{ $multimedia['MulTitle'] }}">
+              </a>
+            </div>
           @endforeach
-        </ul>
-      </div>
+        </div>
       @endif
 
-      <div class="identified-by">Identified by: {{ $record['identified_by'] }}</div>
+      @if (!empty($record['collection_data']))
+        <div class="collection-data">Collection data: {{ $record['collection_data'] }}</div>
+      @endif
 
-      <div class="date-identified">Date identified: {{ $record['date_identified'] }}</div>
+      @if (!empty($record['total_count']))
+        <div class="total-count">Total count: {{ $record['total_count'] }}</div>
+      @endif
 
-      <div class="collection-event">Collection Event/locality: {{ $record['collection_event'] }}</div>
+      @if (!empty($record['semaphoronts']))
+        <div class="semaphoronts">
+          <ul class="semaphoronts-list">
+            @foreach($record['semaphoronts'] as $key => $value)
+              <li class="semaphoront">
+                {{ $key }}: {{ $value }}
+              </li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
 
-      <div class="collection-method">Collection Method: {{ $record['collection_method'] }}</div>
+      @if (!empty($record['identified_by']))
+        <div class="identified-by">Identified by: {{ $record['identified_by'] }}</div>
+      @endif
 
-      <div class="collection-event-code">Collection Event Code: {{ $record['collection_event_code'] }}</div>
+      @if (!empty($record['date_identified']))
+        <div class="date-identified">Date identified: {{ $record['date_identified'] }}</div>
+      @endif
 
-      <div class="date-visited-from">Date Visited From:
-        {{ $record['date_visited_from'][0] }}-{{ $record['date_visited_from'][1] }}-{{ $record['date_visited_from'][2] }}
-      </div>
+      @if (!empty($record['collection_event']))
+        <div class="collection-event">Collection Event/locality: {{ $record['collection_event'] }}</div>
+      @endif
 
-      <div class="date-visited-to">Date Visited To:
-        {{ $record['date_visited_to'][0] }}-{{ $record['date_visited_to'][1] }}-{{ $record['date_visited_to'][2] }}
-      </div>
+      @if (!empty($record['collection_method']))
+        <div class="collection-method">Collection Method: {{ $record['collection_method'] }}</div>
+      @endif
 
-      <div class="collected-by">Collected by: {{ $record['collected_by'] }}</div>
+      @if (!empty($record['collection_event_code']))
+        <div class="collection-event-code">Collection Event Code: {{ $record['collection_event_code'] }}</div>
+      @endif
 
-      <div class="lat-lng">Lat/Lng: {{ $record['lat'] }} {{ $record['lng'] }}</div>
+      @if (!empty($record['date_visited_from']))
+        <div class="date-visited-from">Date Visited From:
+          {{ $record['date_visited_from'][0] }}-{{ $record['date_visited_from'][1] }}-{{ $record['date_visited_from'][2] }}
+        </div>
+      @endif
 
-      <div class="elevation">Elevation: {{ $record['elevation'] }} feet</div>
+      @if (!empty($record['date_visited_to']))
+        <div class="date-visited-to">Date Visited To:
+          {{ $record['date_visited_to'][0] }}-{{ $record['date_visited_to'][1] }}-{{ $record['date_visited_to'][2] }}
+        </div>
+      @endif
 
-      <div class="habitat">Habitat: {{ $record['habitat'] }}</div>
+      @if (!empty($record['collected_by']))
+        <div class="collected-by">Collected by: {{ $record['collected_by'] }}</div>
+      @endif
+
+      @if (!empty($record['lat']) && !empty($record['lng']))
+        <div class="lat-lng">Lat/Lng: {{ $record['lat'] }} {{ $record['lng'] }}</div>
+      @endif
+
+      @if (!empty($record['elevation']))
+        <div class="elevation">Elevation: {{ $record['elevation'] }} feet</div>
+      @endif
+
+      @if (!empty($record['habitat']))
+        <div class="habitat">Habitat: {{ $record['habitat'] }}</div>
+      @endif
+
     </div><!--.flex-item blue-->
   </div><!--.flex-container blue-->
 
