@@ -29,7 +29,7 @@ return [
     ],
     'database_filename' => 'linepig.sqlite',
     'multimedia_server' => 'fm-digital-assets.fieldmuseum.org', // MM referenced at full Ross IP address
-    'BOLD_import_url' => 'http://boldsystems.org/index.php/TaxBrowser_TaxonPage/SpeciesSummary?taxid=1266',
+    'BOLD_import_url' => 'https://bench.boldsystems.org/index.php/TaxBrowser_TaxonPage/SpeciesSummary?taxid=1266',
     'home_multimedia_fields' => [
         'irn', 'MulIdentifier', 'MulTitle', 'MulMimeType', 'thumbnail'
     ],
