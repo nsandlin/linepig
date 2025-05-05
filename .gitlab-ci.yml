@@ -1,0 +1,15 @@
+stages:
+  - update_all
+
+update_all:
+  stage: update_all
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: '.ssh/'
+  script:
+    # download-secure-files
+    - curl -s https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer | bash
+    - chmod 600 .ssh/id_ed25519
+    - chmod 644 .ssh/id_ed25519.pub
+    - echo $SSH_CONNECTION
+    # pull latest from github
+    - ssh $SSH_CONNECTION "cd /var/www/repatriation; git pull; cd laravel; php artisan config:cache; php artisan config:clear;"
