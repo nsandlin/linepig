@@ -1,16 +1,15 @@
 stages:
   - update_all
 
-workflow:
-  rules:
-    - if: $CI_COMMIT_BRANCH == "master"
-      variables:
-        SSH_CONNECTION: $SSH_CONNECTION_PROD
-      when: always
-    - if: $CI_COMMIT_BRANCH == "dev"
-      variables:
-        SSH_CONNECTION: $SSH_CONNECTION_DEV
-      when: always
+variables:
+  SSH_CONNECTION: 
+    value: $SSH_CONNECTION_PROD
+    description: "SSH connection string"
+    rules:
+      - if: $CI_COMMIT_BRANCH == "master"
+        value: $SSH_CONNECTION_PROD
+      - if: $CI_COMMIT_BRANCH == "dev"
+        value: $SSH_CONNECTION_DEV
 
 update_all:
   stage: update_all
