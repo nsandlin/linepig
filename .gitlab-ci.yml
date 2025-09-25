@@ -13,9 +13,11 @@ workflow:
     - if: $CI_COMMIT_BRANCH == "master"
       variables:
         SSH_CONNECTION: $SSH_CONNECTION_PROD
+      when: always
     - if: $CI_COMMIT_BRANCH == "dev"
       variables:
         SSH_CONNECTION: $SSH_CONNECTION_DEV
+      when: always
 
 update_all:
   stage: update_all
