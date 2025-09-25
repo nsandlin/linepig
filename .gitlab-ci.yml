@@ -30,4 +30,4 @@ update_all:
     - chmod 644 .ssh/id_ed25519.pub
     - echo $SSH_CONNECTION
     # pull latest from github
-    - ssh $SSH_CONNECTION "cd /var/www/linepig; sudo git pull; cd laravel; sudo php artisan config:clear; sudo php artisan config:cache; sudo chown -R apache:apache /var/www/linepig;"
+    - ssh $SSH_CONNECTION "cd /var/www/linepig; sudo git pull; cd laravel; sudo php artisan optimize:clear; sudo chown -R apache:apache /var/www/linepig;"
