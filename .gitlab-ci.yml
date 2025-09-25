@@ -1,6 +1,22 @@
 stages:
   - update_all
 
+variables:
+  SSH_CONNECTION:
+    value: $SSH_CONNECTION_DEV
+    options:
+      - $SSH_CONNECTION_PROD
+      - $SSH_CONNECTION_DEV
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      variables:
+        SSH_CONNECTION: $SSH_CONNECTION_PROD
+    - if: $CI_COMMIT_BRANCH == "dev"
+      variables:
+        SSH_CONNECTION: $SSH_CONNECTION_DEV
+
 update_all:
   stage: update_all
   variables:
@@ -12,4 +28,4 @@ update_all:
     - chmod 644 .ssh/id_ed25519.pub
     - echo $SSH_CONNECTION
     # pull latest from github
-    - ssh $SSH_CONNECTION "cd /var/www/linepig; git pull; cd laravel; php artisan config:cache; php artisan config:clear;"
+    - ssh $SSH_CONNECTION "cd /var/www/linepig; sudo git pull; cd laravel; sudo php artisan config:clear; sudo php artisan config:cache; sudo chown -R apache:apache /var/www/linepig;"
